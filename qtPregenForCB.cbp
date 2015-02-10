@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="qtPregenForCB-0.2.2" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="default">
+				<Option output="QtPregen" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option host_application="D:/bin/dev/c++/CodeBlocks/codeblocks.exe" />
+				<Option run_host_application_in_terminal="0" />
+				<Compiler>
+					<Add option="-pipe" />
+					<Add option="-mthreads" />
+					<Add option="-fmessage-length=0" />
+					<Add option="-fexceptions" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-DBUILDING_PLUGIN" />
+					<Add option="-DHAVE_W32API_H" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DcbDEBUG" />
+					<Add option="-DCB_PRECOMP" />
+					<Add option="-DWX_PRECOMP" />
+					<Add option="-DwxUSE_UNICODE" />
+					<Add directory="src" />
+					<Add directory="$CB" />
+					<Add directory="$CB/sdk" />
+					<Add directory="$CB/include" />
+					<Add directory="$CB/plugins" />
+					<Add directory="$CB/include/wxscintilla/include" />
+					<Add directory="$CB/sdk/wxscintilla/include" />
+					<Add directory="$(#wx.include)" />
+					<Add directory="$(#wx.lib)/gcc_dll/mswu" />
+					<Add directory="$(#wx)/contrib/include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx.include)" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="codeblocks" />
+					<Add library="wxmsw28u" />
+					<Add directory="$CB/devel" />
+					<Add directory="$CB/devel/share/CodeBlocks/plugins/" />
+					<Add directory="$(#wx.lib)/gcc_dll" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="zip -j9 QtPregen.zip manifest.xml" />
+					<Add after="zip -j9 QtPregen.cbplugin QtPregen.dll QtPregen.zip" />
+				</ExtraCommands>
+				<Environment>
+					<Variable name="CB" value="$(#cb10091)" />
+				</Environment>
+			</Target>
+			<Target title="cbqt4">
+				<Option type="4" />
+				<Option compiler="null" />
+			</Target>
+			<Target title="cbqt5">
+				<Option type="4" />
+				<Option compiler="null" />
+			</Target>
+			<Environment>
+				<Variable name="WX_CFG=" value="" />
+				<Variable name="WX_SUFFIX" value="u" />
+			</Environment>
+		</Build>
+		<Linker>
+			<Add option="-s" />
+			<Add library="codeblocks" />
+			<Add library="wxmsw28$(WX_SUFFIX)" />
+			<Add library="wxmsw28u_gcc_cb" />
+			<Add directory="$CB/devel" />
+			<Add directory="$CB/lib" />
+			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+		</Linker>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt4/files/Qtest.cpp">
+			<Option target="cbqt4" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt4/files/Qtest.h">
+			<Option target="cbqt4" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt4/files/main.cpp">
+			<Option target="cbqt4" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt4/logo.png">
+			<Option target="cbqt4" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt4/wizard.png">
+			<Option target="cbqt4" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt4/wizard.script">
+			<Option target="cbqt4" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/Qtest.cpp">
+			<Option target="cbqt5" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/Qtest.h">
+			<Option target="cbqt5" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/main.cpp">
+			<Option target="cbqt5" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt5/logo.png">
+			<Option target="cbqt5" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt5/wizard.png">
+			<Option target="cbqt5" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt5/wizard.script">
+			<Option target="cbqt5" />
+		</Unit>
+		<Unit filename="manifest.xml">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/QtPregen.cpp">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/QtPregen.h">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/print.h">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/qtPre.cpp">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/qtPre.h">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/qtPrebuild.cpp">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/qtPrebuild.h">
+			<Option target="default" />
+		</Unit>
+		<Extensions>
+			<envvars set="default" />
+			<code_completion>
+				<search_path add="$(#qt4.include)" />
+				<search_path add="$(#qt4.include)/QtCore" />
+				<search_path add="$(#qt4.include)/QtGui" />
+				<search_path add="$(#CB.include)" />
+				<search_path add="$(#WX.include)" />
+			</code_completion>
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
