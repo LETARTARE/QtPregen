@@ -1,0 +1,73 @@
+Index: compilergcc/compilergcc.cpp
+===================================================================
+--- compilergcc/compilergcc.cpp	(révision 10035)
++++ compilergcc/compilergcc.cpp	(copie de travail)
+@@ -313,7 +313,8 @@
+     m_RunProjectPostBuild(false),
+     m_IsWorkspaceOperation(false),
+     m_IsCompileFileRequest(false),
+-    m_LogBuildProgressPercentage(false)
++    m_LogBuildProgressPercentage(false),
++    m_IdwxEvent(0)
+ {
+     if (!Manager::LoadResource(_T("compiler.zip")))
+         NotifyMissingFile(_T("compiler.zip"));
+@@ -628,6 +629,7 @@
+ void CompilerGCC::Dispatcher(wxCommandEvent& event)
+ {
+     int eventId = event.GetId();
++    m_IdwxEvent = eventId;
+ 
+ //    Manager::Get()->GetMessageManager()->Log(wxT("Dispatcher")));
+ 
+@@ -1554,7 +1556,7 @@
+ {
+     if (m_CommandQueue.GetCount() == 0)
+     {
+-        CodeBlocksEvent evt(cbEVT_COMPILER_STARTED, 0, m_pProject, 0, this);
++        CodeBlocksEvent evt(cbEVT_COMPILER_STARTED,  m_IdwxEvent, m_pProject, 0, this);
+         Manager::Get()->ProcessEvent(evt);
+ 
+         if (clearLog)
+@@ -1572,7 +1574,7 @@
+ {
+     if (m_CommandQueue.GetCount() == 0)
+     {
+-        CodeBlocksEvent evt(cbEVT_CLEAN_PROJECT_STARTED, 0, m_pProject, 0, this);
++        CodeBlocksEvent evt(cbEVT_CLEAN_PROJECT_STARTED,  m_IdwxEvent, m_pProject, 0, this);
+         evt.SetBuildTargetName(target);
+         Manager::Get()->ProcessEvent(evt);
+     }
+@@ -1583,7 +1585,7 @@
+ {
+     if (m_CommandQueue.GetCount() == 0)
+     {
+-        CodeBlocksEvent evt(cbEVT_CLEAN_WORKSPACE_STARTED, 0, 0, 0, this);
++        CodeBlocksEvent evt(cbEVT_CLEAN_WORKSPACE_STARTED,  m_IdwxEvent, 0, 0, this);
+         Manager::Get()->ProcessEvent(evt);
+     }
+     Manager::Yield();
+@@ -3838,7 +3840,7 @@
+         if (manager->GetIsRunning() == this)
+             manager->SetIsRunning(NULL);
+ 
+-        CodeBlocksEvent evt(cbEVT_COMPILER_FINISHED, 0, m_pProject, 0, this);
++        CodeBlocksEvent evt(cbEVT_COMPILER_FINISHED, m_IdwxEvent, m_pProject, 0, this);
+         evt.SetInt(m_LastExitCode);
+         Manager::Get()->ProcessEvent(evt);
+         m_LastExitCode = 0;
+Index: compilergcc/compilergcc.h
+===================================================================
+--- compilergcc/compilergcc.h	(révision 10035)
++++ compilergcc/compilergcc.h	(copie de travail)
+@@ -322,6 +322,10 @@
+         size_t m_CurrentProgress;
+         bool   m_LogBuildProgressPercentage;
+ 
++     private :
++        // id wxCommandEvent
++        int m_IdwxEvent;
++
+         DECLARE_EVENT_TABLE()
+ };
+ 
