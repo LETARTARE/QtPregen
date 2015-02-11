@@ -29,7 +29,7 @@ Plugin to compile QT applications with 'Code::Blocks'
     4- detects resource files '*.qrc' to generate files
          'qrc_filename.cpp'
 
-    - for now does not recognize in the '*.h' -> 'Q_DECLARE_INTERFACE (...)'
+    - for now does not recognize in the '*.h' -> 'Q_INTERFACES (...)'
 
 
 3- 'QtPregenForCB-x.y.z' contains :
