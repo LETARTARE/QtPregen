@@ -1,6 +1,8 @@
 # QtPregenForCB
 Plugin to compile QT applications with 'Code::Blocks'
 
+February 12, 2015 -> the patch is in the svn 10115
+
 1- Overview
 
     It is a plugin to compile C++ Qt4 and Qt5 applications using 'Code::Blocks',
@@ -29,7 +31,7 @@ Plugin to compile QT applications with 'Code::Blocks'
     4- detects resource files '*.qrc' to generate files
          'qrc_filename.cpp'
 
-    - for now does not recognize in the '*.h' -> 'Q_INTERFACES (...)'
+    - for now does not recognize in the '*.h' -> 'Q_DECLARE_INTERFACE (...)'
 
 
 3- 'QtPregenForCB-x.y.z' contains :
