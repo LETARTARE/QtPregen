@@ -1,8 +1,6 @@
 # QtPregenForCB
 Plugin to compile QT applications with 'Code::Blocks'
 
-February 12, 2015 -> the patch is in the svn 10115
-
 1- Overview
 
     It is a plugin to compile C++ Qt4 and Qt5 applications using 'Code::Blocks',
