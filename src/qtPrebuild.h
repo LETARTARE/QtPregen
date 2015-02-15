@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      qtPrebuild.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.2.2
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.2.4
  * Author:    LETARTARE
- * Created:   2015-02-10
+ * Created:   2015-02-15
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -116,7 +116,7 @@ class qtPrebuild  : public qtPre
 		 */
 		bool findTargetQtexe(cbProject * parentbuildtarget) ;
 
-        /**  Saving 'Fileswithstrings'table
+        /**  Saving 'm_Fileswithstrings'table
          *	 @return true it's correct
          */
 		bool SaveFileswithstrings();
@@ -251,10 +251,11 @@ class qtPrebuild  : public qtPre
 
         /** Execute commands 'moc', 'uic', 'rcc'
          *	 @param qexe  : executable name
-         *	 @param index : position creator file inside 'Filecreator'
+         *	 @param index : position creator file inside 'm_Filecreator'
          *   @return 'true' if file created
          */
-		bool createComplement(const wxString&  qexe,const uint16_t index) ;
+		//bool createComplement(const wxString&  qexe,const uint16_t index) ;
+		wxString createComplement(const wxString&  qexe,const uint16_t index) ;
 
 		/** Retrieve path include table for executable
 		 * @return string path include
@@ -288,23 +289,23 @@ class qtPrebuild  : public qtPre
 
 		/** Indicate if it's possible to compare date
 		 */
-		bool Dexeishere,
+		bool m_Dexeishere,
 		/** Indicate if identical dates
 		 */
-			Identical;
+			m_Identical;
 
 		/** String with "__DEVOID__"
 		 */
-		wxString Devoid,
+		wxString m_Devoid,
 		/** Contains all defines Qt for executables
 		 */
-			DefinesQt,
+			m_DefinesQt,
 		/** Contains all path include Qt for executables
 		 */
-			IncPathQt,
+			m_IncPathQt,
 		/** Contains active target name
 		 */
-			Nameactivetarget;
+			m_Nameactivetarget;
 
 };
 

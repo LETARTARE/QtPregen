@@ -1,8 +1,8 @@
 /*************************************************************
  * Name:      QtPregen.cpp
- * Purpose:   Code::Blocks plugin  'qtPregenForCB.cbp'   0.2.2
+ * Purpose:   Code::Blocks plugin  'qtPregenForCB.cbp'   0.2.4
  * Author:    LETARTARE
- * Created:   2015-02-10
+ * Created:   2015-02-15
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
@@ -26,11 +26,11 @@ namespace
 ///	Load ressource QtPregen.zip
 ///
 QtPregen::QtPregen()
-	: project(nullptr), prebuild(nullptr),
-	buildAllOk(false) , cleanAllOk(false),
-	IdBuild(0), IdCompile(0), IdRun(0), IdBuildRun(0), IdRebuild(0), IdClean(0),
-	IdpBuild(0), IdpRebuild(0), IdpClean(0),
-	IdfBuild(0), IdfClean(0)
+	: m_project(nullptr), m_prebuild(nullptr),
+	m_buildAllOk(false) , m_cleanAllOk(false),
+	m_IdBuild(0), m_IdCompile(0), m_IdRun(0), m_IdBuildRun(0), m_IdRebuild(0), m_IdClean(0),
+	m_IdpBuild(0), m_IdpRebuild(0), m_IdpClean(0),
+	m_IdfBuild(0), m_IdfClean(0)
 {
 	if(!Manager::LoadResource(_T("QtPregen.zip")))
 		NotifyMissingFile(_T("QtPregen.zip"));
@@ -41,15 +41,19 @@ QtPregen::QtPregen()
 void QtPregen::OnAttach()
 {
 // handlers event
-	// handle build start
+	//1- handle project activate
+	cbEventFunctor<QtPregen, CodeBlocksEvent>* functorActivate =
+		new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnActivate);
+	Manager::Get()->RegisterEventSink(cbEVT_PROJECT_ACTIVATE, functorActivate);
+	//2- handle build start
 	cbEventFunctor<QtPregen, CodeBlocksEvent>* functorBuild =
 		new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnPrebuild);
 	Manager::Get()->RegisterEventSink(cbEVT_COMPILER_STARTED, functorBuild);
 
 // construct the builder
-	// construct new 'prebuild'
-	project = Manager::Get()->GetProjectManager()->GetActiveProject();
-	prebuild = new qtPrebuild(project);
+	// construct new 'm_prebuild'
+	m_project = Manager::Get()->GetProjectManager()->GetActiveProject();
+	m_prebuild = new qtPrebuild(m_project);
 }
 ///-----------------------------------------------------------------------------
 ///	Delete the pre-builder and do de-initialization for plugin
@@ -57,9 +61,9 @@ void QtPregen::OnAttach()
 void QtPregen::OnRelease(bool appShutDown)
 {
 // delete builder
-	if (prebuild)  {
-		delete prebuild;
-		prebuild = nullptr;
+	if (m_prebuild)  {
+		delete m_prebuild;
+		m_prebuild = nullptr;
 	}
 // do de-initialization for your plugin
     // if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
@@ -79,12 +83,12 @@ void QtPregen::BuildMenu(wxMenuBar* menuBar)
 	int pos = menuBar->FindMenu(_("Build"));
 	if (pos !=-1) {
 		wxMenu * builder = menuBar->GetMenu(pos);
-		IdBuild 	= builder->FindItem(_("Build"));
-		IdCompile 	= builder->FindItem(_("Compile current file"));
-		IdRun 		= builder->FindItem(_("Run"));
-		IdBuildRun	= builder->FindItem(_("Build and run"));
-		IdRebuild 	= builder->FindItem(_("Rebuild"));
-		IdClean 	= builder->FindItem(_("Clean"));
+		m_IdBuild 		= builder->FindItem(_("Build"));
+		m_IdCompile 	= builder->FindItem(_("Compile current file"));
+		m_IdRun 		= builder->FindItem(_("Run"));
+		m_IdBuildRun	= builder->FindItem(_("Build and run"));
+		m_IdRebuild 	= builder->FindItem(_("Rebuild"));
+		m_IdClean 		= builder->FindItem(_("Clean"));
 	}
 }
 ///-----------------------------------------------------------------------------
@@ -95,38 +99,38 @@ void QtPregen::BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTr
 	if (!IsAttached())
         return;
 
-// we 're only interested in project manager's menus
+// we 're only interested in m_project manager's menus
     if (!menu || type != mtProjectManager)
         return;
 
 // right click on item menu ...else -> 0
     if (data) {
     	FileTreeData::FileTreeDataKind typedata  = data->GetKind();
-    	// ... click project
+    	// ... click m_project
 		bool preproject = typedata == FileTreeData::ftdkProject  ;
 		// ... click file
 		bool prefile 	= typedata == FileTreeData::ftdkFile ;
 
 		if (preproject)  {
-			// popup menu on a project
-			IdpClean  	= menu->FindItem(_("Clean"));
-			IdpBuild  	= menu->FindItem(_("Build"));
-			IdpRebuild  = menu->FindItem(_("Rebuild"));
+			// popup menu on a m_project
+			m_IdpClean  	= menu->FindItem(_("Clean"));
+			m_IdpBuild  	= menu->FindItem(_("Build"));
+			m_IdpRebuild  = menu->FindItem(_("Rebuild"));
 		}
 		else
 		if (prefile) {
 			// popup menu on a file
-			IdfBuild  	= menu->FindItem(_("Build file"));
-			IdfClean  	= menu->FindItem(_("Clean file"));
+			m_IdfBuild  	= menu->FindItem(_("Build file"));
+			m_IdfClean  	= menu->FindItem(_("Clean file"));
 		}
 
-// it's active project
+// it's active m_project
 		wxString nameprjact = Manager::Get()->GetProjectManager()->GetActiveProject()->GetTitle() ;
 		wxString nameprj = data->GetProject()->GetTitle() ;
 		if ( nameprj.Matches(nameprjact)  )  {
 			if (preproject) {
 			// TODO
-			// test if qt project ??
+			// test if qt m_project ??
 			}
 			else
 			if (prefile) {
@@ -135,6 +139,33 @@ void QtPregen::BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTr
 			}
 		}
     }
+}
+///-----------------------------------------------------------------------------
+/// Activate new m_project
+///
+/// called by :
+///
+/// calls to :
+///		1. detectQt(prj):1,
+void QtPregen::OnActivate(CodeBlocksEvent& event)
+{
+// missing builder 'm_prebuild'!
+	if (!m_prebuild)  return;
+
+// the active project
+	cbProject *prj = event.GetProject();
+	// no m_project !!
+	if(!prj)  {
+		Mes = _T("QtPregen -> no project supplied");
+		printErr(Mes);
+		return;
+	}
+// detect Qt project
+	bool valid = m_prebuild->detectQt(prj);
+	if (valid) {
+		Mes = Quote + _("");
+		printWarn(Mes);
+	}
 }
 ///-----------------------------------------------------------------------------
 /// Build (or Clean) all complement files for Qt
@@ -147,7 +178,7 @@ void QtPregen::BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTr
 ///		-# 'Build and Run'
 ///		-# 'Build->Rebuild'
 ///		-# 'Build->Clean'
-///	- project popup
+///	- m_project popup
 ///		1. 'Build'
 ///		2. 'ReBuild'
 ///		3. 'Clean'
@@ -156,57 +187,57 @@ void QtPregen::BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTr
 ///		2. 'Clean file'
 ///
 ///calls to :
-///	- prebuild->
+///	- m_prebuild->
 ///		1. detectQt(prj):1,
 ///		2. cleanCreated(prj):1,
 ///
 void QtPregen::OnPrebuild(CodeBlocksEvent& event)
 {
-// missing builder	'prebuild' !
-	if (!prebuild)  return;
-// the active project
+// missing builder	'm_prebuild' !
+	if (!m_prebuild)  return;
+// the active m_project
 	cbProject *prj = event.GetProject();
-	// no project !!
+	// no m_project !!
 	if(!prj)  {
-		Mes = _T("QtPregen -> no project supplied");
+		Mes = _T("QtPregen -> no m_project supplied");
 		printErr(Mes);
 		return;
 	}
-// detect Qt project
-	bool valid = prebuild->detectQt(prj);
-	// not Qt project
+// detect Qt m_project
+	bool valid = m_prebuild->detectQt(prj);
+	// not Qt m_project
 	if (! valid) return;
 
 // test patch C::B
 	int eventId = event.GetId();
     if (eventId <= 0) {
 		Mes = _T("The fix for 'Code::Blocks' are not applied !!");
-		Mes += Lf + Quote + prebuild->namePlugin() + Quote + _(" CAN NOT CONTINUE !") ;
+		Mes += Lf + Quote + m_prebuild->namePlugin() + Quote + _(" CAN NOT CONTINUE !") ;
 		cbMessageBox(Mes, _("Used fix for 'Code::Blocks' !!"), wxICON_WARNING ) ;
 		return;
 	}
 
-// new project 	?
-	if (prj != project) {
-		buildAllOk = false;
-		cleanAllOk = false;
+// new m_project 	?
+	if (prj != m_project) {
+		m_buildAllOk = false;
+		m_cleanAllOk = false;
 	}
 /*
-Mes =  _T("buildAllOk = ") ;
-Mes += buildAllOk ? _T("true") : _T("false") ;
+Mes =  _T("m_buildAllOk = ") ;
+Mes += m_buildAllOk ? _T("true") : _T("false") ;
 Mes += Lf ;
-Mes += _T("cleanAllOk = ") ;
-Mes += cleanAllOk ? _T("true") : _T("false")   ;
+Mes += _T("m_cleanAllOk = ") ;
+Mes += m_cleanAllOk ? _T("true") : _T("false")   ;
 printErr(Mes);
 */
 
 // choice 'clean' or 'compilefile' or 'build'
-    bool clean = eventId == IdClean || eventId == IdpClean || eventId == IdfClean;
-    bool compilefile = eventId == IdCompile || eventId == IdfBuild ;
-    bool build = eventId == IdBuild || eventId == IdRebuild ||
-				 eventId == IdRun || eventId == IdBuildRun ||
-				 eventId == IdpBuild || eventId == IdpRebuild ||
-				 eventId == IdfBuild ;
+    bool clean = eventId == m_IdClean || eventId == m_IdpClean || eventId == m_IdfClean;
+    bool compilefile = eventId == m_IdCompile || eventId == m_IdfBuild ;
+    bool build = eventId == m_IdBuild || eventId == m_IdRebuild ||
+				 eventId == m_IdRun || eventId == m_IdBuildRun ||
+				 eventId == m_IdpBuild || eventId == m_IdpRebuild ||
+				 eventId == m_IdfBuild ;
 
 
 	wxString mesid ;
@@ -215,18 +246,18 @@ printErr(Mes);
 ///1- Delete all files complements
 ///********************************
 	if (clean) {
-		//if (cleanAllOk) return;
+		//if (m_cleanAllOk) return;
 
 	// begin preClean
 		Mes = _T("QtPregen -> begin pre-Clean...");
 		printWarn(Mes);
     // preCLean active target
-		cleanAllOk = prebuild->cleanCreated(prj);
-		if (!cleanAllOk) {
+		m_cleanAllOk = m_prebuild->cleanCreated(prj);
+		if (!m_cleanAllOk) {
 			Mes = _T("Error pre-Clean !!!");
 			printErr(Mes);
 		}
-		buildAllOk = false;
+		m_buildAllOk = false;
 	// end preClean
 		Mes = _T("QtPregen -> ... end pre-Clean");
 		printWarn(Mes);
@@ -278,31 +309,31 @@ printErr(Mes);
 ///5- Build all complement files and Run
 ///6- Rebuild all complement files
 ///********************************
-		bool allBuild = eventId == IdRebuild || eventId == IdpRebuild ;
-		//if (! allBuild && buildAllOk) return;
+		bool allBuild = eventId == m_IdRebuild || eventId == m_IdpRebuild ;
+		//if (! allBuild && m_buildAllOk) return;
 	// begin preBuild
 		Mes = _T("QtPregen -> begin pre-Build...");
 		printWarn(Mes);
     // preBuild
-		buildAllOk = prebuild->buildQt(prj, allBuild);
-		if (!buildAllOk) {
+		m_buildAllOk = m_prebuild->buildQt(prj, allBuild);
+		if (!m_buildAllOk) {
 			Mes = _T("Error pre-Rebuild !!!");
 			printErr(Mes);
 		}
-		cleanAllOk = false;
+		m_cleanAllOk = false;
 	// end preBuild
 		Mes = _T("QtPregen -> ... end pre-Build");
 		printWarn(Mes);
 	}
     printLn;
-    /// memorize last project
-	project = prj;
+    /// memorize last m_project
+	m_project = prj;
 /*
-	Mes =  _T("buildAllOk = ") ;
-	Mes += buildAllOk ? _T("true") : _T("false") ;
+	Mes =  _T("m_buildAllOk = ") ;
+	Mes += m_buildAllOk ? _T("true") : _T("false") ;
 	Mes += Lf ;
-	Mes +=_T("cleanAllOk = ") ;
-	Mes += cleanAllOk ? _T("true") : _T("false")   ;
+	Mes +=_T("m_cleanAllOk = ") ;
+	Mes += m_cleanAllOk ? _T("true") : _T("false")   ;
 	printErr(Mes);
 */
 }

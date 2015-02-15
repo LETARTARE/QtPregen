@@ -1,7 +1,6 @@
 var searchData=
 [
   ['q_5fobject',['q_object',['../classqt_prebuild.html#a1cc6a0189a89ea602e63228a6405b803',1,'qtPrebuild']]],
-  ['qrc',['Qrc',['../classqt_pre.html#ae0c50cd81505983e9684649a04600dbf',1,'qtPre']]],
   ['qt_5ffind',['qt_find',['../classqt_prebuild.html#aba68fd62f5c663be74622e6d964eea7d',1,'qtPrebuild']]],
   ['qtpre',['qtPre',['../classqt_pre.html',1,'qtPre'],['../classqt_pre.html#ac9e59707d7e97095ef33927fdc0d3662',1,'qtPre::qtPre()']]],
   ['qtpre_2ecpp',['qtPre.cpp',['../qt_pre_8cpp.html',1,'']]],

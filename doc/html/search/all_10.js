@@ -6,6 +6,5 @@ var searchData=
   ['sepf',['Sepf',['../print_8h.html#ad0bcbbc3696dd34915995ec07dc0a165',1,'print.h']]],
   ['setversion',['setVersion',['../classqt_pre.html#a7fae416e3b1df3b14b31da68b634be11',1,'qtPre']]],
   ['sizesep',['Sizesep',['../print_8h.html#aa09b20e120a9038a9adcbe7eebfa9a35',1,'Sizesep():&#160;print.h'],['../qt_pre_8cpp.html#aa09b20e120a9038a9adcbe7eebfa9a35',1,'Sizesep():&#160;qtPre.cpp']]],
-  ['slash',['Slash',['../print_8h.html#a30ed96a93c11a71c1933ecf7d1f8091b',1,'print.h']]],
-  ['start',['Start',['../classqt_pre.html#acc70cd62bcf561b1204121b438bc1a3f',1,'qtPre']]]
+  ['slash',['Slash',['../print_8h.html#a30ed96a93c11a71c1933ecf7d1f8091b',1,'print.h']]]
 ];

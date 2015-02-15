@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      QtPregen.h
- * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.2.2
+ * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.2.4
  * Author:    LETARTARE
- * Created:   2015-02-09
+ * Created:   2015-02-15
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -134,6 +134,12 @@ class QtPregen : public cbPlugin
       */
     virtual void OnRelease(bool appShutDown);
 
+    /** This method called by project activate allows detect project using the
+      * Qt libraries
+      * @param event Contains the event which call this method
+      */
+    void OnActivate(CodeBlocksEvent& event);
+
     /** This method called by 'Build' allows pre-build all the additional
       * files required to compile a project using the Qt libraries
       * @param event Contains the event which call this method
@@ -143,25 +149,25 @@ class QtPregen : public cbPlugin
   private:
     /** project
       */
-    cbProject* project;
+    cbProject* m_project;
     /** pre-Builder for QT
     */
-    qtPrebuild * prebuild;
+    qtPrebuild * m_prebuild;
     /** Indicates that everything is properly pre-built
     */
-    bool buildAllOk;
+    bool m_buildAllOk;
     /** Indicates that everything is properly pre-clean
     */
-    bool cleanAllOk;
+    bool m_cleanAllOk;
     /**  Id menus
     */
-    int16_t IdBuild, IdCompile, IdRun, IdBuildRun, IdRebuild, IdClean;
+    int16_t m_IdBuild, m_IdCompile, m_IdRun, m_IdBuildRun, m_IdRebuild, m_IdClean;
     /** Id popup on project
     */
-    int16_t IdpBuild, IdpRebuild, IdpClean;
+    int16_t m_IdpBuild, m_IdpRebuild, m_IdpClean;
     /** Id popup on file
     */
-    int16_t IdfBuild, IdfClean ;
+    int16_t m_IdfBuild, m_IdfClean ;
     /** Global used to record different messages for the construction report
     */
     wxString Mes;

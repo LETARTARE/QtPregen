@@ -1,13 +1,13 @@
 /*************************************************************
  * Name:      qtPre.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.2.2
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.2.4
  * Author:    LETARTARE
- * Created:   2015-02-10
+ * Created:   2015-02-15
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
-#define VERSION_QTP _T("0.2.2")
+#define VERSION_QTP _T("0.2.4")
 
 #ifndef _QTPRE_H_
 #define _QTPRE_H_
@@ -50,88 +50,85 @@ class qtPre
 	protected:
 		/** name of plugin
 		 */
-		const wxString Thename;
+		const wxString m_Thename;
 		/** platforms Windows
 		 */
-		bool Win,
+		bool m_Win,
 		/** platforms Linux
 		 */
-			 Linux,
+			 m_Linux,
 		/** platforms Mac
 		 */
-			 Mac;
+			 m_Mac;
 		/** the project
 		 */
-		cbProject * Project	;
+		cbProject * m_Project	;
 		/**  project directory
 		 */
-		wxString  DirProject,
+		wxString  m_DirProject,
 		/**  generation directory
 		 */
-				  Dirgen;
+				  m_Dirgen;
 		/**  project name,
 		 */
-		wxString Nameproject,
+		wxString m_Nameproject,
 		/**  active target name
 		 */
-				Nameactivetarget;
+				m_Nameactivetarget;
 		/**  numbers files projects
 		 */
-		uint16_t Nfilescreated;
+		uint16_t m_Nfilescreated;
 		/** executable name files Qt : 'moc'
 		 */
-		wxString Mexe,
+		wxString m_Mexe,
 		/** executable name files Qt : 'uic'
 		 */
-				Uexe,
+				m_Uexe,
 		/** executable name files Qt : 'rcc'
 		 */
-				Rexe,
+				m_Rexe,
 		/** executable name files Qt : 'lrelease'
 		 */
-				Lexe;
+				m_Lexe;
 		/** files prefix for 'moc'
 		 */
-		wxString Moc,
+		wxString m_Moc,
 		/** files prefix for 'uic'
 		 */
-				 Ui,
+				 m_Ui,
 		/** files prefix for 'rcc'
 		 */
-				 Qrc,
+				 m_Qrc,
 		/** files extension for 'lrelease'
 		 */
-				 Lm;
+				 m_Lm;
 		/**  managers
 		 */
-		MacrosManager  * Mam;
+		MacrosManager  * m_Mam;
 
 		/** table contains libray name Qt
 		 */
-		wxArrayString  TablibQt ;
+		wxArrayString  m_TablibQt ;
 		/** table contains report build
 		 */
-		wxArrayString Fileswithstrings ;
+		wxArrayString m_Fileswithstrings ;
 	/// the tables
 		wxArrayString
 			/**	 files registered in the project
 			 */
-			Registered,
+			m_Registered,
 			/** files to be created in the project
 			 */
-			Filestocreate,
+			m_Filestocreate,
 			/** files created list
 			 */
-			Createdfile,
+			m_Createdfile,
 			/** creators files
 			 */
-			Filecreator,
-			/** files index to project
-			 */
-			Indexproject,
+			m_Filecreator,
 			/** file was already created
 			 */
-			Filewascreated
+			m_Filewascreated
 					;
 		/**  messages to console
 		 */
@@ -139,12 +136,12 @@ class qtPre
 
 		/**  calculate duration  mS
 		 */
-		clock_t Start;
+		clock_t m_Start;
 
 	private:
 
         /**  Search Qt libraries in project, targets
-         * @param container: 'cbProject * Project' or 'ProjectBuildTarget * buildtarget' both inherited of  'CompileTargetBase'
+         * @param container: 'cbProject * m_Project' or 'ProjectBuildTarget * buildtarget' both inherited of  'CompileTargetBase'
 		 * @return true if finded
          */
 		bool hasLibQt(CompileTargetBase * container) ;

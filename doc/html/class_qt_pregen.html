@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">qtPregenForCB
-   &#160;<span id="projectnumber">0.2.2</span>
+   &#160;<span id="projectnumber">0.2.4</span>
    </div>
   </td>
  </tr>
@@ -119,7 +119,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a06a7bb63d07b66af7cbdb07fc241de39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ad10cfc9de93782f102ca4fc3e50bba"><td class="memItemLeft" align="right" valign="top">virtual cbConfigurationPanel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a1ad10cfc9de93782f102ca4fc3e50bba">GetConfigurationPanel</a> (wxWindow *parent)</td></tr>
 <tr class="separator:a1ad10cfc9de93782f102ca4fc3e50bba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae881308d68630a064a76668ea420b40b"><td class="memItemLeft" align="right" valign="top">virtual cbConfigurationPanel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#ae881308d68630a064a76668ea420b40b">GetProjectConfigurationPanel</a> (wxWindow *parent, cbProject *<a class="el" href="class_qt_pregen.html#adc567fbd4004671c6639d3a0e721f83c">project</a>)</td></tr>
+<tr class="memitem:ae881308d68630a064a76668ea420b40b"><td class="memItemLeft" align="right" valign="top">virtual cbConfigurationPanel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#ae881308d68630a064a76668ea420b40b">GetProjectConfigurationPanel</a> (wxWindow *parent, cbProject *project)</td></tr>
 <tr class="separator:ae881308d68630a064a76668ea420b40b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a291b15ae1649ab4c88e6e116beeb4bbd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a291b15ae1649ab4c88e6e116beeb4bbd">BuildMenu</a> (wxMenuBar *menuBar)</td></tr>
 <tr class="separator:a291b15ae1649ab4c88e6e116beeb4bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,41 +137,43 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:aacfd896f531274f092bd180ce4e8433a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab89031bb695f6ce2922694c677093ed"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#aab89031bb695f6ce2922694c677093ed">OnRelease</a> (bool appShutDown)</td></tr>
 <tr class="separator:aab89031bb695f6ce2922694c677093ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea23437befe36eb9978b2e5da822aa5f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#aea23437befe36eb9978b2e5da822aa5f">OnActivate</a> (CodeBlocksEvent &amp;event)</td></tr>
+<tr class="separator:aea23437befe36eb9978b2e5da822aa5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af31734ce2f025acc1c3d0a54de38d604"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#af31734ce2f025acc1c3d0a54de38d604">OnPrebuild</a> (CodeBlocksEvent &amp;event)</td></tr>
 <tr class="separator:af31734ce2f025acc1c3d0a54de38d604"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:adc567fbd4004671c6639d3a0e721f83c"><td class="memItemLeft" align="right" valign="top">cbProject *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#adc567fbd4004671c6639d3a0e721f83c">project</a></td></tr>
-<tr class="separator:adc567fbd4004671c6639d3a0e721f83c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f66e83d20d587b5810f5a6e07c18c10"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classqt_prebuild.html">qtPrebuild</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a8f66e83d20d587b5810f5a6e07c18c10">prebuild</a></td></tr>
-<tr class="separator:a8f66e83d20d587b5810f5a6e07c18c10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5e0fc0987eaa9499e2421ff5035009d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#aa5e0fc0987eaa9499e2421ff5035009d">buildAllOk</a></td></tr>
-<tr class="separator:aa5e0fc0987eaa9499e2421ff5035009d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3e022915639f7b4f8e8e320a328810b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#aa3e022915639f7b4f8e8e320a328810b">cleanAllOk</a></td></tr>
-<tr class="separator:aa3e022915639f7b4f8e8e320a328810b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d1b323350a92c59c3ee35777fa3f1e6"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a9d1b323350a92c59c3ee35777fa3f1e6">IdBuild</a></td></tr>
-<tr class="separator:a9d1b323350a92c59c3ee35777fa3f1e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d6ea2f3c91e6483403be3ec58cec4b6"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a8d6ea2f3c91e6483403be3ec58cec4b6">IdCompile</a></td></tr>
-<tr class="separator:a8d6ea2f3c91e6483403be3ec58cec4b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac389d95ed862521a4ca8a7236843aa9d"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#ac389d95ed862521a4ca8a7236843aa9d">IdRun</a></td></tr>
-<tr class="separator:ac389d95ed862521a4ca8a7236843aa9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94bc325e0a75f92baaa50e33163aa9e8"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a94bc325e0a75f92baaa50e33163aa9e8">IdBuildRun</a></td></tr>
-<tr class="separator:a94bc325e0a75f92baaa50e33163aa9e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa61372de6d689bd4d15debfa44c9ebfb"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#aa61372de6d689bd4d15debfa44c9ebfb">IdRebuild</a></td></tr>
-<tr class="separator:aa61372de6d689bd4d15debfa44c9ebfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae04e69af28a056a57317a1a14a6a171e"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#ae04e69af28a056a57317a1a14a6a171e">IdClean</a></td></tr>
-<tr class="separator:ae04e69af28a056a57317a1a14a6a171e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a013b7888698b8f843c17bb831a9eeff1"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a013b7888698b8f843c17bb831a9eeff1">IdpBuild</a></td></tr>
-<tr class="separator:a013b7888698b8f843c17bb831a9eeff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc150c5c509dd3c7c10366055a540c0e"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#acc150c5c509dd3c7c10366055a540c0e">IdpRebuild</a></td></tr>
-<tr class="separator:acc150c5c509dd3c7c10366055a540c0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23c9069bdfc399e6a4296b814a4d977b"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a23c9069bdfc399e6a4296b814a4d977b">IdpClean</a></td></tr>
-<tr class="separator:a23c9069bdfc399e6a4296b814a4d977b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2dffca0521c24b2e41e68aa76782d31"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#aa2dffca0521c24b2e41e68aa76782d31">IdfBuild</a></td></tr>
-<tr class="separator:aa2dffca0521c24b2e41e68aa76782d31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38a21e820cca68e147e55890f6104326"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a38a21e820cca68e147e55890f6104326">IdfClean</a></td></tr>
-<tr class="separator:a38a21e820cca68e147e55890f6104326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ecd402843d4d30fce8241f2a989822e"><td class="memItemLeft" align="right" valign="top">cbProject *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a2ecd402843d4d30fce8241f2a989822e">m_project</a></td></tr>
+<tr class="separator:a2ecd402843d4d30fce8241f2a989822e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7959b2f3514ace72dd419450f2903a48"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classqt_prebuild.html">qtPrebuild</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a7959b2f3514ace72dd419450f2903a48">m_prebuild</a></td></tr>
+<tr class="separator:a7959b2f3514ace72dd419450f2903a48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea21a52141ce21b1ba6e06e77746be83"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#aea21a52141ce21b1ba6e06e77746be83">m_buildAllOk</a></td></tr>
+<tr class="separator:aea21a52141ce21b1ba6e06e77746be83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3412c06d77b0bfc53249d45b0a7b3c9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#ae3412c06d77b0bfc53249d45b0a7b3c9">m_cleanAllOk</a></td></tr>
+<tr class="separator:ae3412c06d77b0bfc53249d45b0a7b3c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a233aed9e767fc14362c2b47620df54af"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a233aed9e767fc14362c2b47620df54af">m_IdBuild</a></td></tr>
+<tr class="separator:a233aed9e767fc14362c2b47620df54af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e5cfaf9a1e53d6fc4f1ed88d8463469"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a0e5cfaf9a1e53d6fc4f1ed88d8463469">m_IdCompile</a></td></tr>
+<tr class="separator:a0e5cfaf9a1e53d6fc4f1ed88d8463469"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2145f1cdcc56bf44e0df103f2a7e13b6"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a2145f1cdcc56bf44e0df103f2a7e13b6">m_IdRun</a></td></tr>
+<tr class="separator:a2145f1cdcc56bf44e0df103f2a7e13b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac304f7d7d8da1661396b29f6995d9ea3"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#ac304f7d7d8da1661396b29f6995d9ea3">m_IdBuildRun</a></td></tr>
+<tr class="separator:ac304f7d7d8da1661396b29f6995d9ea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2229105f6ed5ae1f59c9fa40d0d35173"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a2229105f6ed5ae1f59c9fa40d0d35173">m_IdRebuild</a></td></tr>
+<tr class="separator:a2229105f6ed5ae1f59c9fa40d0d35173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ed7f62946a52fda1c3739bf3c921a1e"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a2ed7f62946a52fda1c3739bf3c921a1e">m_IdClean</a></td></tr>
+<tr class="separator:a2ed7f62946a52fda1c3739bf3c921a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fffa30acfb295a4d7039b4a324c2865"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a3fffa30acfb295a4d7039b4a324c2865">m_IdpBuild</a></td></tr>
+<tr class="separator:a3fffa30acfb295a4d7039b4a324c2865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69a89292aa50435f057ea662c4626e02"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a69a89292aa50435f057ea662c4626e02">m_IdpRebuild</a></td></tr>
+<tr class="separator:a69a89292aa50435f057ea662c4626e02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01f373af26aec30f00c083eb69ba9859"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a01f373af26aec30f00c083eb69ba9859">m_IdpClean</a></td></tr>
+<tr class="separator:a01f373af26aec30f00c083eb69ba9859"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b11e3e2643da7e0b5c4d58f6fe7ab98"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a8b11e3e2643da7e0b5c4d58f6fe7ab98">m_IdfBuild</a></td></tr>
+<tr class="separator:a8b11e3e2643da7e0b5c4d58f6fe7ab98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc439c426fa58bebc07777d138a0dde6"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#abc439c426fa58bebc07777d138a0dde6">m_IdfClean</a></td></tr>
+<tr class="separator:abc439c426fa58bebc07777d138a0dde6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fc62bc186f5ab2a5eeb1be66269866e"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a4fc62bc186f5ab2a5eeb1be66269866e">Mes</a></td></tr>
 <tr class="separator:a4fc62bc186f5ab2a5eeb1be66269866e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -508,6 +510,42 @@ It is a pure virtual method that needs to be implemented by all plugins. If the 
 
 </div>
 </div>
+<a class="anchor" id="aea23437befe36eb9978b2e5da822aa5f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QtPregen::OnActivate </td>
+          <td>(</td>
+          <td class="paramtype">CodeBlocksEvent &amp;&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method called by project activate allows detect project using the Qt libraries </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>Contains the event which call this method</td></tr>
+  </table>
+  </dd>
+</dl>
+<hr/>
+<p> Activate new m_project</p>
+<p>called by :</p>
+<p>calls to :</p><ol type="1">
+<li>detectQt(prj):1, </li>
+</ol>
+
+</div>
+</div>
 <a class="anchor" id="aacfd896f531274f092bd180ce4e8433a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -575,7 +613,7 @@ Think of this method as the actual constructor...</p>
 <li>'Build-&gt;Clean'</li>
 </ol>
 </li>
-<li>project popup<ol type="1">
+<li>m_project popup<ol type="1">
 <li>'Build'</li>
 <li>'ReBuild'</li>
 <li>'Clean'</li>
@@ -588,13 +626,13 @@ Think of this method as the actual constructor...</p>
 </li>
 </ul>
 <p>calls to :</p><ul>
-<li>prebuild-&gt;<ol type="1">
+<li>m_prebuild-&gt;<ol type="1">
 <li>detectQt(prj):1,</li>
 <li>cleanCreated(prj):1, </li>
 </ol>
 </li>
 </ul>
-<p>memorize last project </p>
+<p>memorize last m_project </p>
 
 </div>
 </div>
@@ -632,7 +670,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="aa5e0fc0987eaa9499e2421ff5035009d"></a>
+<a class="anchor" id="aea21a52141ce21b1ba6e06e77746be83"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -640,7 +678,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool QtPregen::buildAllOk</td>
+          <td class="memname">bool QtPregen::m_buildAllOk</td>
         </tr>
       </table>
   </td>
@@ -653,7 +691,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="aa3e022915639f7b4f8e8e320a328810b"></a>
+<a class="anchor" id="ae3412c06d77b0bfc53249d45b0a7b3c9"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -661,7 +699,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool QtPregen::cleanAllOk</td>
+          <td class="memname">bool QtPregen::m_cleanAllOk</td>
         </tr>
       </table>
   </td>
@@ -674,7 +712,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="a9d1b323350a92c59c3ee35777fa3f1e6"></a>
+<a class="anchor" id="a233aed9e767fc14362c2b47620df54af"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -682,7 +720,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdBuild</td>
+          <td class="memname">int16_t QtPregen::m_IdBuild</td>
         </tr>
       </table>
   </td>
@@ -695,7 +733,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="a94bc325e0a75f92baaa50e33163aa9e8"></a>
+<a class="anchor" id="ac304f7d7d8da1661396b29f6995d9ea3"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -703,7 +741,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdBuildRun</td>
+          <td class="memname">int16_t QtPregen::m_IdBuildRun</td>
         </tr>
       </table>
   </td>
@@ -715,7 +753,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="ae04e69af28a056a57317a1a14a6a171e"></a>
+<a class="anchor" id="a2ed7f62946a52fda1c3739bf3c921a1e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -723,7 +761,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdClean</td>
+          <td class="memname">int16_t QtPregen::m_IdClean</td>
         </tr>
       </table>
   </td>
@@ -735,7 +773,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="a8d6ea2f3c91e6483403be3ec58cec4b6"></a>
+<a class="anchor" id="a0e5cfaf9a1e53d6fc4f1ed88d8463469"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -743,7 +781,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdCompile</td>
+          <td class="memname">int16_t QtPregen::m_IdCompile</td>
         </tr>
       </table>
   </td>
@@ -755,7 +793,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="aa2dffca0521c24b2e41e68aa76782d31"></a>
+<a class="anchor" id="a8b11e3e2643da7e0b5c4d58f6fe7ab98"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -763,7 +801,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdfBuild</td>
+          <td class="memname">int16_t QtPregen::m_IdfBuild</td>
         </tr>
       </table>
   </td>
@@ -776,7 +814,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="a38a21e820cca68e147e55890f6104326"></a>
+<a class="anchor" id="abc439c426fa58bebc07777d138a0dde6"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -784,7 +822,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdfClean</td>
+          <td class="memname">int16_t QtPregen::m_IdfClean</td>
         </tr>
       </table>
   </td>
@@ -796,7 +834,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="a013b7888698b8f843c17bb831a9eeff1"></a>
+<a class="anchor" id="a3fffa30acfb295a4d7039b4a324c2865"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -804,7 +842,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdpBuild</td>
+          <td class="memname">int16_t QtPregen::m_IdpBuild</td>
         </tr>
       </table>
   </td>
@@ -817,7 +855,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="a23c9069bdfc399e6a4296b814a4d977b"></a>
+<a class="anchor" id="a01f373af26aec30f00c083eb69ba9859"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -825,7 +863,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdpClean</td>
+          <td class="memname">int16_t QtPregen::m_IdpClean</td>
         </tr>
       </table>
   </td>
@@ -837,7 +875,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="acc150c5c509dd3c7c10366055a540c0e"></a>
+<a class="anchor" id="a69a89292aa50435f057ea662c4626e02"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -845,7 +883,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdpRebuild</td>
+          <td class="memname">int16_t QtPregen::m_IdpRebuild</td>
         </tr>
       </table>
   </td>
@@ -857,7 +895,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="aa61372de6d689bd4d15debfa44c9ebfb"></a>
+<a class="anchor" id="a2229105f6ed5ae1f59c9fa40d0d35173"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -865,7 +903,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdRebuild</td>
+          <td class="memname">int16_t QtPregen::m_IdRebuild</td>
         </tr>
       </table>
   </td>
@@ -877,7 +915,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="ac389d95ed862521a4ca8a7236843aa9d"></a>
+<a class="anchor" id="a2145f1cdcc56bf44e0df103f2a7e13b6"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -885,7 +923,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t QtPregen::IdRun</td>
+          <td class="memname">int16_t QtPregen::m_IdRun</td>
         </tr>
       </table>
   </td>
@@ -894,6 +932,48 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a7959b2f3514ace72dd419450f2903a48"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classqt_prebuild.html">qtPrebuild</a>* QtPregen::m_prebuild</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>pre-Builder for QT </p>
+
+</div>
+</div>
+<a class="anchor" id="a2ecd402843d4d30fce8241f2a989822e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">cbProject* QtPregen::m_project</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>project </p>
 
 </div>
 </div>
@@ -918,48 +998,6 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 
 </div>
 </div>
-<a class="anchor" id="a8f66e83d20d587b5810f5a6e07c18c10"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classqt_prebuild.html">qtPrebuild</a>* QtPregen::prebuild</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>pre-Builder for QT </p>
-
-</div>
-</div>
-<a class="anchor" id="adc567fbd4004671c6639d3a0e721f83c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">cbProject* QtPregen::project</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>project </p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/<a class="el" href="_qt_pregen_8h_source.html">QtPregen.h</a></li>
 <li>src/<a class="el" href="_qt_pregen_8cpp.html">QtPregen.cpp</a></li>
@@ -967,7 +1005,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 10 2015 17:10:26 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Feb 15 2015 10:33:10 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>
