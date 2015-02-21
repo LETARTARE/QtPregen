@@ -1,13 +1,13 @@
 /*************************************************************
  * Name:      qtPre.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.2.4
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.4.2
  * Author:    LETARTARE
- * Created:   2015-02-15
+ * Created:   2015-02-20
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
-#define VERSION_QTP _T("0.2.4")
+#define VERSION_QTP _T("0.4.2")
 
 #ifndef _QTPRE_H_
 #define _QTPRE_H_
@@ -20,7 +20,8 @@ class CompileTargetBase;
 class ProjectBuildTarget;
 class MacrosManager;
 class ProjectFile;
-//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
 /**	@brief The class that is used to detect Qt libraries
  *
  */
@@ -43,9 +44,18 @@ class qtPre
 		/** Detects if the current project uses Qt libraries,
 		 * refuses QT projects using a 'makefile'
          * @param prj : the active project.
+         * @param report : display report if true.
          * @return true : if used
          */
-		bool detectQt(cbProject * prj);
+		bool detectQt(cbProject * prj, bool report= false);
+
+	protected :
+
+		/** Gibe an array from another
+         *	@param strarray : array name
+         *	@return a copy, not an adress
+         */
+		wxArrayString copyArray (const wxArrayString& strarray)  ;
 
 	protected:
 		/** name of plugin
@@ -62,22 +72,22 @@ class qtPre
 			 m_Mac;
 		/** the project
 		 */
-		cbProject * m_Project	;
+		cbProject * m_project	;
 		/**  project directory
 		 */
-		wxString  m_DirProject,
+		wxString  m_dirproject,
 		/**  generation directory
 		 */
-				  m_Dirgen;
+				  m_dirgen;
 		/**  project name,
 		 */
-		wxString m_Nameproject,
+		wxString m_nameproject,
 		/**  active target name
 		 */
-				m_Nameactivetarget;
+				m_nameactiveproject;
 		/**  numbers files projects
 		 */
-		uint16_t m_Nfilescreated;
+		uint16_t m_nfilescreated;
 		/** executable name files Qt : 'moc'
 		 */
 		wxString m_Mexe,
@@ -95,16 +105,17 @@ class qtPre
 		wxString m_Moc,
 		/** files prefix for 'uic'
 		 */
-				 m_Ui,
+				 m_UI,
 		/** files prefix for 'rcc'
 		 */
 				 m_Qrc,
 		/** files extension for 'lrelease'
 		 */
 				 m_Lm;
-		/**  managers
+
+		/**  macros manager
 		 */
-		MacrosManager  * m_Mam;
+		MacrosManager  * m_mam;
 
 		/** table contains libray name Qt
 		 */
@@ -130,18 +141,23 @@ class qtPre
 			 */
 			m_Filewascreated
 					;
+
 		/**  messages to console
 		 */
 		wxString Mes;
 
 		/**  calculate duration  mS
 		 */
-		clock_t m_Start;
+		clock_t m_start;
+
+		/** Authorizes the editor output
+		 */
+		bool m_Savereport;
 
 	private:
 
         /**  Search Qt libraries in project, targets
-         * @param container: 'cbProject * m_Project' or 'ProjectBuildTarget * buildtarget' both inherited of  'CompileTargetBase'
+         * @param container: 'cbProject * Project' or 'ProjectBuildTarget * buildtarget' both inherited of  'CompileTargetBase'
 		 * @return true if finded
          */
 		bool hasLibQt(CompileTargetBase * container) ;
@@ -152,8 +168,10 @@ class qtPre
 
 		/** Set version to 'manifest.xml'
 		 * @param ver version du SDK ex: "1.19.0" for Code::Blocks 13.12
-		*/
+		 */
 		void setVersion(const wxString& ver);
+
+
 };
 
 #endif // _QTPRE_H_

@@ -1,0 +1,239 @@
+Index: include/sdk_events.h
+===================================================================
+--- include/sdk_events.h	(révision 10118)
++++ include/sdk_events.h	(copie de travail)
+@@ -419,6 +419,13 @@
+ extern EVTIMPORT const wxEventType cbEVT_COMPILER_SETTINGS_CHANGED;
+ #define EVT_COMPILER_SETTINGS_CHANGED(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_COMPILER_SETTINGS_CHANGED, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
+ 
++/// LETARTARE
++// pre-compiler-related events (compiler plugins usually fire them)
++extern EVTIMPORT const wxEventType cbEVT_PRECOMPILER_STARTED;
++#define EVT_PRECOMPILER_STARTED(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_PRECOMPILER_STARTED, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
++extern EVTIMPORT const wxEventType cbEVT_PRECOMPILE_FILE;
++#define EVT_PRECOMPILE_FILE(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_PRECOMPILE_FILE, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
++
+ // request app to compile a single file
+ extern EVTIMPORT const wxEventType cbEVT_COMPILE_FILE_REQUEST;
+ #define EVT_COMPILE_FILE_REQUEST(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_COMPILE_FILE_REQUEST, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
+Index: plugins/compilergcc/compilergcc.cpp
+===================================================================
+--- plugins/compilergcc/compilergcc.cpp	(révision 10118)
++++ plugins/compilergcc/compilergcc.cpp	(copie de travail)
+@@ -311,6 +311,8 @@
+     m_LastBuildStep(true),
+     m_RunTargetPostBuild(false),
+     m_RunProjectPostBuild(false),
++/// LETARTARE
++    m_Workspace(false),
+     m_IsWorkspaceOperation(false),
+     m_IsCompileFileRequest(false),
+     m_LogBuildProgressPercentage(false)
+@@ -352,6 +354,8 @@
+     m_Clean = false;
+     m_Build = false;
+     m_LastBuildStep = true;
++/// LETARTARE
++    m_Workspace = false;
+     m_IsWorkspaceOperation = false;
+     m_IsCompileFileRequest = false;
+ 
+@@ -1040,7 +1044,13 @@
+ 
+     wxString fname = file.GetFullPath();
+     if (!fname.IsEmpty())
+-        CompileFile( UnixFilename(fname) );
++/// LETARTARE
++    {
++        wxString filename = UnixFilename(fname);
++        DoPreCompile(filename);
++        CompileFile(filename);
++    }
++/// <---
+ }
+ 
+ wxString CompilerGCC::ProjectMakefile()
+@@ -2095,6 +2105,8 @@
+     m_pLastBuildingTarget  = 0;
+     m_BuildingTargetName   = target;
+     m_CommandQueue.Clear();
++/// LETARTARE
++    m_Workspace = job == bjWorkspace;
+ }
+ 
+ void CompilerGCC::ResetBuildState()
+@@ -2133,6 +2145,9 @@
+     {
+         case bsNone:             return _T("bsNone");
+         case bsProjectPreBuild:  return _T("bsProjectPreBuild");
++/// LETARTARE
++        case bsTargetPreGen:     return _T("bsTargetPreGen");
++/// <--
+         case bsTargetPreBuild:   return _T("bsTargetPreBuild");
+         case bsTargetClean:      return _T("bsTargetClean");
+         case bsTargetBuild:      return _T("bsTargetBuild");
+@@ -2154,12 +2169,17 @@
+     {
+         case bsProjectPreBuild:
+         {
++            return bsTargetPreGen;
++        }
++/// LETARTARE
++        case bsTargetPreGen:
++        {
+             if (clean && !build)
+                 return bsTargetClean;
+ 
+             return bsTargetPreBuild;
+         }
+-
++/// <--
+         case bsTargetPreBuild:
+         {
+             if      (clean)
+@@ -2200,7 +2220,7 @@
+                     if (clean && !build)
+                         return bsTargetClean;
+ 
+-                    return bsTargetPreBuild;
++                    return bsTargetPreGen;
+                 }
+                 // switch project
+                 // don't run postbuild step, if we only clean the project
+@@ -2222,13 +2242,13 @@
+             if (m_pBuildingProject)
+                 m_pBuildingProject->SetCurrentlyCompilingTarget(0);
+             m_NextBuildState = bsProjectPreBuild;
+-            // DoBuild runs ProjectPreBuild, next step has to be TargetClean or TargetPreBuild
++            // DoBuild runs ProjectPreBuild, next step has to be TargetClean or TargetPreGen
+             if (DoBuild(clean, build) >= 0)
+             {
+                 if (clean && !build)
+                     return bsTargetClean;
+ 
+-                return bsTargetPreBuild;
++                return bsTargetPreGen;
+             }
+             else
+                 return bsNone;
+@@ -2291,7 +2311,13 @@
+                 cmds = dc.GetPreBuildCommands(0);
+             break;
+         }
+-
++/// LETARTARE
++        case bsTargetPreGen :
++        {
++            DoPreGen();
++            break;
++        }
++/// <--
+         case bsTargetPreBuild:
+         {
+             // check if it should build with "All"
+@@ -2762,7 +2788,6 @@
+         return -1;
+ 
+     InitBuildState(bjWorkspace, realTarget);
+-
+     DoBuild(clean,build);
+     m_IsWorkspaceOperation = false;
+ 
+@@ -3870,3 +3895,30 @@
+     return wxString::Format(_("%d minute(s), %d second(s)"), mins, secs);
+ #endif // NO_TRANSLATION
+ }
++/// LETARTARE
++void CompilerGCC::DoPreGen()
++{
++    if (m_CommandQueue.GetCount() == 0)
++    {
++        // project/target pairs
++        CodeBlocksEvent evt(cbEVT_PRECOMPILER_STARTED, 0, m_pBuildingProject, 0, this);
++        evt.SetBuildTargetName(m_BuildingTargetName);
++        // orders
++        struct s_rebuild { bool  workspace, clean, build; } ;
++        s_rebuild reBuild = {m_Workspace, m_Clean, m_Build};
++        evt.SetClientData(&reBuild);
++        Manager::Get()->ProcessEvent(evt);
++    }
++    Manager::Yield();
++}
++void CompilerGCC::DoPreCompile(const wxString& file)
++{
++    if (m_CommandQueue.GetCount() == 0)
++    {
++        CodeBlocksEvent evt(cbEVT_PRECOMPILE_FILE, 0, m_pProject, 0, this);
++        evt.SetString(file);
++        Manager::Get()->ProcessEvent(evt);
++    }
++    Manager::Yield();
++}
++/// <--
+Index: plugins/compilergcc/compilergcc.h
+===================================================================
+--- plugins/compilergcc/compilergcc.h	(révision 10118)
++++ plugins/compilergcc/compilergcc.h	(copie de travail)
+@@ -54,6 +54,9 @@
+ {
+     bsNone = 0,
+     bsProjectPreBuild,
++/// LETARTARE
++    bsTargetPreGen,
++/// <--
+     bsTargetClean,
+     bsTargetPreBuild,
+     bsTargetBuild,
+@@ -181,6 +184,10 @@
+         void SaveOptions();
+         void LoadOptions();
+         void DoRegisterCompilers();
++/// LETARTARE
++        void DoPreGen();
++        void DoPreCompile(const wxString& file);
++/// <--
+         void DoPrepareQueue(bool clearLog);
+         void NotifyCleanProject(const wxString& target);
+         void NotifyCleanWorkspace();
+@@ -308,7 +315,9 @@
+         // to decide if post-build steps should run
+         bool m_RunTargetPostBuild;
+         bool m_RunProjectPostBuild;
+-
++/// LETARTARE
++        bool m_Workspace; // true if Build, Rebuild, Clen workspace
++/// <--
+         bool m_IsWorkspaceOperation; // true for workspace commands
+         bool m_IsCompileFileRequest; // true for plugin compile file requests
+ 
+Index: sdk/manager.cpp
+===================================================================
+--- sdk/manager.cpp	(révision 10118)
++++ sdk/manager.cpp	(copie de travail)
+@@ -104,6 +104,10 @@
+     else if(type==cbEVT_THREADTASK_ALLDONE) name = _T("cbEVT_THREADTASK_ALLDONE");
+     else if(type==cbEVT_MENUBAR_CREATE_BEGIN) name = _T("cbEVT_MENUBAR_CREATE_BEGIN");
+     else if(type==cbEVT_MENUBAR_CREATE_END) name = _T("cbEVT_MENUBAR_CREATE_END");
++/// LETARTARE
++    else if(type==cbEVT_PRECOMPILER_STARTED) name = _T("cbEVT_PRECOMPILER_STARTED");
++    else if(type==cbEVT_PRECOMPILE_FILE) name = _T("cbEVT_PRECOMPILE_FILE");
++/// <--
+     else if(type==cbEVT_COMPILER_STARTED) name = _T("cbEVT_COMPILER_STARTED");
+     else if(type==cbEVT_COMPILER_FINISHED) name = _T("cbEVT_COMPILER_FINISHED");
+     else if(type==cbEVT_COMPILER_SET_BUILD_OPTIONS) name = _T("cbEVT_COMPILER_SET_BUILD_OPTIONS");
+Index: sdk/sdk_events.cpp
+===================================================================
+--- sdk/sdk_events.cpp	(révision 10118)
++++ sdk/sdk_events.cpp	(copie de travail)
+@@ -149,6 +149,11 @@
+ const wxEventType cbEVT_CLEAN_PROJECT_STARTED = wxNewEventType();
+ const wxEventType cbEVT_CLEAN_WORKSPACE_STARTED = wxNewEventType();
+ const wxEventType cbEVT_COMPILER_SETTINGS_CHANGED = wxNewEventType();
++/// LETARTARE
++// precompiler-related events
++const wxEventType cbEVT_PRECOMPILER_STARTED = wxNewEventType();
++const wxEventType cbEVT_PRECOMPILE_FILE = wxNewEventType();
++
+ // request app to compile a single file
+ const wxEventType cbEVT_COMPILE_FILE_REQUEST = wxNewEventType();
+ // debugger-related events

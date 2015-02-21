@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">qtPregenForCB
-   &#160;<span id="projectnumber">0.2.4</span>
+   &#160;<span id="projectnumber">0.4.2</span>
    </div>
   </td>
  </tr>
@@ -84,6 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classqt_pre-members.html">List of all members</a>  </div>
@@ -102,7 +103,7 @@ Inheritance diagram for qtPre:</div>
  <div class="center">
   <img src="classqt_pre.png" usemap="#qtPre_map" alt=""/>
   <map id="qtPre_map" name="qtPre_map">
-<area href="classqt_prebuild.html" title="The class is used to pre-Build (or Clean) additional files Qt. " alt="qtPrebuild" shape="rect" coords="0,56,68,80"/>
+<area href="classqt_prebuild.html" title="The class is used to pre-Build additional Qt files. " alt="qtPrebuild" shape="rect" coords="0,56,68,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -114,8 +115,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2caa1153b0347d16a77b1b09a4649991"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d5d6728c963da35fbd82ce36b9e9210"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a3d5d6728c963da35fbd82ce36b9e9210">namePlugin</a> ()</td></tr>
 <tr class="separator:a3d5d6728c963da35fbd82ce36b9e9210"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48dae0063ec3d9a3163b75305c3a3ce3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a48dae0063ec3d9a3163b75305c3a3ce3">detectQt</a> (cbProject *prj)</td></tr>
-<tr class="separator:a48dae0063ec3d9a3163b75305c3a3ce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cf253174787aa571e6735f050f8268b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a1cf253174787aa571e6735f050f8268b">detectQt</a> (cbProject *prj, bool report=false)</td></tr>
+<tr class="separator:a1cf253174787aa571e6735f050f8268b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a4b2acfe1f32fd66a63cdb535c1581226"><td class="memItemLeft" align="right" valign="top">wxArrayString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a4b2acfe1f32fd66a63cdb535c1581226">copyArray</a> (const wxArrayString &amp;strarray)</td></tr>
+<tr class="separator:a4b2acfe1f32fd66a63cdb535c1581226"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -127,18 +133,18 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:acccc865dde8dea6e9417d978d87654ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f0f2ad18edb9f6f7a78294c32ca1277"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a0f0f2ad18edb9f6f7a78294c32ca1277">m_Mac</a></td></tr>
 <tr class="separator:a0f0f2ad18edb9f6f7a78294c32ca1277"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bb5edf17bc43d7bf11deb1282d9b6d7"><td class="memItemLeft" align="right" valign="top">cbProject *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a4bb5edf17bc43d7bf11deb1282d9b6d7">m_Project</a></td></tr>
-<tr class="separator:a4bb5edf17bc43d7bf11deb1282d9b6d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5129606d2a8c8104315f40df7339685f"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a5129606d2a8c8104315f40df7339685f">m_DirProject</a></td></tr>
-<tr class="separator:a5129606d2a8c8104315f40df7339685f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab078373405c5703fd480b1ba242a8b0"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#aab078373405c5703fd480b1ba242a8b0">m_Dirgen</a></td></tr>
-<tr class="separator:aab078373405c5703fd480b1ba242a8b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4aa9d58b5073e4c373a5d7e7ebc3d17d"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a4aa9d58b5073e4c373a5d7e7ebc3d17d">m_Nameproject</a></td></tr>
-<tr class="separator:a4aa9d58b5073e4c373a5d7e7ebc3d17d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3d44c97470d1c1d85c785da3c6dca0d"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#ae3d44c97470d1c1d85c785da3c6dca0d">m_Nameactivetarget</a></td></tr>
-<tr class="separator:ae3d44c97470d1c1d85c785da3c6dca0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8601ef98453d041c0f4b803c0bf1658"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#ae8601ef98453d041c0f4b803c0bf1658">m_Nfilescreated</a></td></tr>
-<tr class="separator:ae8601ef98453d041c0f4b803c0bf1658"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0253b84044b88a248cbde9f64552c76d"><td class="memItemLeft" align="right" valign="top">cbProject *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a0253b84044b88a248cbde9f64552c76d">m_project</a></td></tr>
+<tr class="separator:a0253b84044b88a248cbde9f64552c76d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12984f03edaa260f79b195a03207e920"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a12984f03edaa260f79b195a03207e920">m_dirproject</a></td></tr>
+<tr class="separator:a12984f03edaa260f79b195a03207e920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72d7c7d224a5a20b45c4c3460a850fdf"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a72d7c7d224a5a20b45c4c3460a850fdf">m_dirgen</a></td></tr>
+<tr class="separator:a72d7c7d224a5a20b45c4c3460a850fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4ed1e88bc667ecf97fc9b1e70a7836d"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#ad4ed1e88bc667ecf97fc9b1e70a7836d">m_nameproject</a></td></tr>
+<tr class="separator:ad4ed1e88bc667ecf97fc9b1e70a7836d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af680f5c2ac56594ac243d99b3bf24239"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#af680f5c2ac56594ac243d99b3bf24239">m_nameactiveproject</a></td></tr>
+<tr class="separator:af680f5c2ac56594ac243d99b3bf24239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7e6db7912a22e451e60628c03bd3cac"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#ab7e6db7912a22e451e60628c03bd3cac">m_nfilescreated</a></td></tr>
+<tr class="separator:ab7e6db7912a22e451e60628c03bd3cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0fae808cdb8f5dfc1d4104605652eee"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#ab0fae808cdb8f5dfc1d4104605652eee">m_Mexe</a></td></tr>
 <tr class="separator:ab0fae808cdb8f5dfc1d4104605652eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10924bae71abc59591e13470bdd4713b"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a10924bae71abc59591e13470bdd4713b">m_Uexe</a></td></tr>
@@ -149,14 +155,14 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ada62158d40611b6e3e41b79a53c4768b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a347125fdfc01c11bc916661bcdb08efe"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a347125fdfc01c11bc916661bcdb08efe">m_Moc</a></td></tr>
 <tr class="separator:a347125fdfc01c11bc916661bcdb08efe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf61f6136331de5a580f86787c736c45"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#adf61f6136331de5a580f86787c736c45">m_Ui</a></td></tr>
-<tr class="separator:adf61f6136331de5a580f86787c736c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bc427f6417a1629176f21d136895790"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a8bc427f6417a1629176f21d136895790">m_UI</a></td></tr>
+<tr class="separator:a8bc427f6417a1629176f21d136895790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68af34a2dfc8001e4f9b8d3066184442"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a68af34a2dfc8001e4f9b8d3066184442">m_Qrc</a></td></tr>
 <tr class="separator:a68af34a2dfc8001e4f9b8d3066184442"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9612345837a014116437aaf20f703ba2"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a9612345837a014116437aaf20f703ba2">m_Lm</a></td></tr>
 <tr class="separator:a9612345837a014116437aaf20f703ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c377ebe131e253e3822d93f1197b950"><td class="memItemLeft" align="right" valign="top">MacrosManager *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a8c377ebe131e253e3822d93f1197b950">m_Mam</a></td></tr>
-<tr class="separator:a8c377ebe131e253e3822d93f1197b950"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac881f48b0e154887c74f16d18d10fbeb"><td class="memItemLeft" align="right" valign="top">MacrosManager *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#ac881f48b0e154887c74f16d18d10fbeb">m_mam</a></td></tr>
+<tr class="separator:ac881f48b0e154887c74f16d18d10fbeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56f6e89009e6185d07da34c7aeb7db25"><td class="memItemLeft" align="right" valign="top">wxArrayString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a56f6e89009e6185d07da34c7aeb7db25">m_TablibQt</a></td></tr>
 <tr class="separator:a56f6e89009e6185d07da34c7aeb7db25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab14b11063a83140c3afcc26f6f225f03"><td class="memItemLeft" align="right" valign="top">wxArrayString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#ab14b11063a83140c3afcc26f6f225f03">m_Fileswithstrings</a></td></tr>
@@ -174,8 +180,10 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a449c9d83a68ec51c2a631c1d7acff8c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabadae252f6453082de4ea78d3b9dedf"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#aabadae252f6453082de4ea78d3b9dedf">Mes</a></td></tr>
 <tr class="separator:aabadae252f6453082de4ea78d3b9dedf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05ecb3e027ad47c133e89446aa2fa161"><td class="memItemLeft" align="right" valign="top">clock_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a05ecb3e027ad47c133e89446aa2fa161">m_Start</a></td></tr>
-<tr class="separator:a05ecb3e027ad47c133e89446aa2fa161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af831f91871939c2ecd509c46a293ab1e"><td class="memItemLeft" align="right" valign="top">clock_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#af831f91871939c2ecd509c46a293ab1e">m_start</a></td></tr>
+<tr class="separator:af831f91871939c2ecd509c46a293ab1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af343e0d191b9ff27b46ba01c77316a80"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#af343e0d191b9ff27b46ba01c77316a80">m_Savereport</a></td></tr>
+<tr class="separator:af343e0d191b9ff27b46ba01c77316a80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -242,7 +250,44 @@ Private Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a48dae0063ec3d9a3163b75305c3a3ce3"></a>
+<a class="anchor" id="a4b2acfe1f32fd66a63cdb535c1581226"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">wxArrayString qtPre::copyArray </td>
+          <td>(</td>
+          <td class="paramtype">const wxArrayString &amp;&#160;</td>
+          <td class="paramname"><em>strarray</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gibe an array from another </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strarray</td><td>: array name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a copy, not an adress</dd></dl>
+<hr/>
+<p> For replace 'Targetsfile = prjfile.buildTargets' copy a 'wxArrayString' to an another</p>
+<p>called by :</p><ol type="1">
+<li>findwasCreated():1,</li>
+<li>filesTocreate(bool):1, </li>
+</ol>
+
+</div>
+</div>
+<a class="anchor" id="a1cf253174787aa571e6735f050f8268b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -250,25 +295,36 @@ Private Member Functions</h2></td></tr>
           <td class="memname">bool qtPre::detectQt </td>
           <td>(</td>
           <td class="paramtype">cbProject *&#160;</td>
-          <td class="paramname"><em>prj</em></td><td>)</td>
+          <td class="paramname"><em>prj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>report</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Detects if the current project uses Qt libraries, refuses QT projects using a 'makefile' </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">prj</td><td>: the active project. </td></tr>
+    <tr><td class="paramname">report</td><td>: display report if true. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true : if used</dd></dl>
 <hr/>
-<p> Detection of a 'Qt' m_Project : it contains at least one target Qt</p>
+<p> Detection of a 'Qt' Project : it contains at least one target Qt</p>
 <p>called by :</p><ol type="1">
-<li><a class="el" href="class_qt_pregen.html#af31734ce2f025acc1c3d0a54de38d604">QtPregen::OnPrebuild(CodeBlocksEvent&amp; event)</a>:1,</li>
+<li>QtPregen::OnPrebuild(CodeBlocksEvent&amp; event):1,</li>
 </ol>
 <p>calls to :</p><ol type="1">
-<li>hasLibQt(m_Project):1+, </li>
+<li>hasLibQt(Project):1+, </li>
 </ol>
 
 </div>
@@ -296,7 +352,7 @@ Private Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Search Qt libraries in project, targets </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">container</td><td>'cbProject * m_Project' or 'ProjectBuildTarget * buildtarget' both inherited of 'CompileTargetBase' </td></tr>
+    <tr><td class="paramname">container</td><td>'cbProject * Project' or 'ProjectBuildTarget * buildtarget' both inherited of 'CompileTargetBase' </td></tr>
   </table>
   </dd>
 </dl>
@@ -324,7 +380,8 @@ Private Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Plugin name </p><dl class="section return"><dt>Returns</dt><dd>name</dd></dl>
 <hr/>
-<p> called by : <a class="el" href="class_qt_pregen.html#af31734ce2f025acc1c3d0a54de38d604">QtPregen::OnPrebuild(CodeBlocksEvent&amp; event)</a>:1, </p>
+<p> Give internal name</p>
+<p>called by : QtPregen::OnPrebuild(CodeBlocksEvent&amp; event):1, </p>
 
 </div>
 </div>
@@ -385,7 +442,8 @@ Private Member Functions</h2></td></tr>
   </dd>
 </dl>
 <hr/>
-<p> called by : none </p>
+<p> Set version</p>
+<p>called by : none </p>
 
 </div>
 </div>
@@ -411,7 +469,7 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aab078373405c5703fd480b1ba242a8b0"></a>
+<a class="anchor" id="a72d7c7d224a5a20b45c4c3460a850fdf"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -419,7 +477,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">wxString qtPre::m_Dirgen</td>
+          <td class="memname">wxString qtPre::m_dirgen</td>
         </tr>
       </table>
   </td>
@@ -432,7 +490,7 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5129606d2a8c8104315f40df7339685f"></a>
+<a class="anchor" id="a12984f03edaa260f79b195a03207e920"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -440,7 +498,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">wxString qtPre::m_DirProject</td>
+          <td class="memname">wxString qtPre::m_dirproject</td>
         </tr>
       </table>
   </td>
@@ -621,7 +679,7 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a8c377ebe131e253e3822d93f1197b950"></a>
+<a class="anchor" id="ac881f48b0e154887c74f16d18d10fbeb"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -629,7 +687,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">MacrosManager* qtPre::m_Mam</td>
+          <td class="memname">MacrosManager* qtPre::m_mam</td>
         </tr>
       </table>
   </td>
@@ -638,7 +696,7 @@ Private Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>managers </p>
+<p>macros manager </p>
 
 </div>
 </div>
@@ -684,7 +742,7 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae3d44c97470d1c1d85c785da3c6dca0d"></a>
+<a class="anchor" id="af680f5c2ac56594ac243d99b3bf24239"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -692,7 +750,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">wxString qtPre::m_Nameactivetarget</td>
+          <td class="memname">wxString qtPre::m_nameactiveproject</td>
         </tr>
       </table>
   </td>
@@ -705,7 +763,7 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4aa9d58b5073e4c373a5d7e7ebc3d17d"></a>
+<a class="anchor" id="ad4ed1e88bc667ecf97fc9b1e70a7836d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -713,7 +771,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">wxString qtPre::m_Nameproject</td>
+          <td class="memname">wxString qtPre::m_nameproject</td>
         </tr>
       </table>
   </td>
@@ -726,7 +784,7 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae8601ef98453d041c0f4b803c0bf1658"></a>
+<a class="anchor" id="ab7e6db7912a22e451e60628c03bd3cac"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -734,7 +792,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t qtPre::m_Nfilescreated</td>
+          <td class="memname">uint16_t qtPre::m_nfilescreated</td>
         </tr>
       </table>
   </td>
@@ -747,7 +805,7 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4bb5edf17bc43d7bf11deb1282d9b6d7"></a>
+<a class="anchor" id="a0253b84044b88a248cbde9f64552c76d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -755,7 +813,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">cbProject* qtPre::m_Project</td>
+          <td class="memname">cbProject* qtPre::m_project</td>
         </tr>
       </table>
   </td>
@@ -833,7 +891,7 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a05ecb3e027ad47c133e89446aa2fa161"></a>
+<a class="anchor" id="af343e0d191b9ff27b46ba01c77316a80"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -841,7 +899,28 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">clock_t qtPre::m_Start</td>
+          <td class="memname">bool qtPre::m_Savereport</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Authorizes the editor output </p>
+
+</div>
+</div>
+<a class="anchor" id="af831f91871939c2ecd509c46a293ab1e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">clock_t qtPre::m_start</td>
         </tr>
       </table>
   </td>
@@ -917,7 +996,7 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="adf61f6136331de5a580f86787c736c45"></a>
+<a class="anchor" id="a8bc427f6417a1629176f21d136895790"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -925,7 +1004,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">wxString qtPre::m_Ui</td>
+          <td class="memname">wxString qtPre::m_UI</td>
         </tr>
       </table>
   </td>
@@ -987,7 +1066,7 @@ Private Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 15 2015 10:33:10 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 21 2015 18:04:21 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

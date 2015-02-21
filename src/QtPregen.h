@@ -1,13 +1,11 @@
 /***************************************************************
  * Name:      QtPregen.h
- * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.2.4
+ * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.4.2
  * Author:    LETARTARE
- * Created:   2015-02-15
+ * Created:   2015-02-21
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
-
-//-------------------------------------------------
 #ifndef _QTPREGEN_H_
 #define _QTPREGEN_H_
 //-------------------------------------------------
@@ -22,7 +20,7 @@
 //-------------------------------------------------
 class qtPre;
 class qtPrebuild;
-
+//-------------------------------------------------
 /** @brief Qt plugin main class
  *
 */
@@ -73,7 +71,7 @@ class QtPregen : public cbPlugin
       * just do nothing ;)
       * @param menuBar the wxMenuBar to create items in
       */
-    virtual void BuildMenu(wxMenuBar* menuBar);
+    virtual void BuildMenu(wxMenuBar* menuBar) {};
 
     /** This method is called by Code::Blocks core modules (EditorManager,
       * ProjectManager etc) and is used by the plugin to add any menu
@@ -90,9 +88,9 @@ class QtPregen : public cbPlugin
       * @param menu pointer to the popup menu
       * @param data pointer to FileTreeData object (to access/modify the file tree)
       */
-    virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0);
+    virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0) {}
 
-    /** This method is called by Code::Blocks and is used by the plugin
+    /** This method is called by 'Code::Blocks' and is used by the plugin
       * to add any toolbar items it needs on Code::Blocks's toolbar.\n
       * It is a pure virtual method that needs to be implemented by all
       * plugins. If the plugin does not need to add items on the toolbar,
@@ -104,7 +102,7 @@ class QtPregen : public cbPlugin
 
      /** @brief Execute the plugin.
       *
-      * This is the only function needed by a cbToolPlugin.
+      * This is the only function needed by a 'cbToolPlugin'
       * This will be called when the user selects the plugin from the "Plugins"
       * menu.
       */
@@ -140,11 +138,17 @@ class QtPregen : public cbPlugin
       */
     void OnActivate(CodeBlocksEvent& event);
 
-    /** This method called by 'Build' allows pre-build all the additional
-      * files required to compile a project using the Qt libraries
+    /** This method called by 'cbEVT_PRECOMPILER_STARTED' allows pre-build all the
+      * additional files required to compile a project using the Qt libraries
       * @param event Contains the event which call this method
       */
-    void OnPrebuild(CodeBlocksEvent& event);
+    void OnPregen(CodeBlocksEvent& event);
+
+    /** This method called by 'cbEVT_PRECOMPILE_FILE' allows pre-compile one
+      * additional file required to compile a file using the Qt libraries
+      * @param event Contains the event which call this method
+      */
+    void OnPrecompile(CodeBlocksEvent& event);
 
   private:
     /** project
@@ -153,24 +157,11 @@ class QtPregen : public cbPlugin
     /** pre-Builder for QT
     */
     qtPrebuild * m_prebuild;
-    /** Indicates that everything is properly pre-built
-    */
-    bool m_buildAllOk;
-    /** Indicates that everything is properly pre-clean
-    */
-    bool m_cleanAllOk;
-    /**  Id menus
-    */
-    int16_t m_IdBuild, m_IdCompile, m_IdRun, m_IdBuildRun, m_IdRebuild, m_IdClean;
-    /** Id popup on project
-    */
-    int16_t m_IdpBuild, m_IdpRebuild, m_IdpClean;
-    /** Id popup on file
-    */
-    int16_t m_IdfBuild, m_IdfClean ;
     /** Global used to record different messages for the construction report
     */
     wxString Mes;
+
+ //DECLARE_EVENT_TABLE();
 };
 
 #endif // _CBQTPREGEN_H_

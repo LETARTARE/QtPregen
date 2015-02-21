@@ -1,18 +1,17 @@
 /***************************************************************
  * Name:      qtPrebuild.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.2.4
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.4.2
  * Author:    LETARTARE
- * Created:   2015-02-15
+ * Created:   2015-02-21
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
-
 #ifndef _QTPREBUILD_H
 #define _QTPREBUILD_H
 //------------------------------------------------------------------------------
 #include "qtpre.h"
 //------------------------------------------------------------------------------
-/**	@brief The class is used to pre-Build (or Clean) additional files Qt
+/**	@brief The class is used to pre-Build additional Qt files
  *
  */
 class qtPrebuild  : public qtPre
@@ -30,16 +29,18 @@ class qtPrebuild  : public qtPre
 
 		/** Built all files necessary complements
 		 * @param prj The active project.
+		 * @param workspace is true -> no report, no popup messages.
 		 * @param allbuild is true -> rebuild complement files.
 		 * @return	true if building is correct
 		 */
-		bool buildQt(cbProject * prj, bool allbuild);
+		bool buildQt(cbProject * prj, bool workspace, bool allbuild);
 
-		/** Delete all files complements
+		/** Built one file necessary complement
 		 * @param prj The active project.
-		 * @return	true if cleaning is correct
+		 * @param fcreator  creator file
+		 * @return	true if building is correct
 		 */
-		bool cleanCreated(cbProject * prj) ;
+		bool buildFileQt(cbProject * prj, const wxString& fcreator);
 
 	private:
 
@@ -51,18 +52,16 @@ class qtPrebuild  : public qtPre
          */
 		void endMesCreate();
 
-		/** Startup banner pre-cleaning
-         */
-		void beginMesClean();
-
-		/** Banner End pre-cleaning
-         */
-		void endMesClean();
-
 		/**	Search the eligible files (which requires additional files)
 		 * @return  the number of eligible files
          */
 		uint16_t findGoodfiles();
+
+		/**  Give if file  is elegible
+		 *	 @param file : file name
+		 *   @return true if it's
+		 */
+		bool isElegible(const wxString& file);
 
 		/**	Records in an internal table to build additional files
 		 * @return	the number of recorded files
@@ -119,7 +118,7 @@ class qtPrebuild  : public qtPre
         /**  Saving 'm_Fileswithstrings'table
          *	 @return true it's correct
          */
-		bool SaveFileswithstrings();
+		bool saveFileswithstrings();
 
 		/** Save messages array to file
 		 *
@@ -172,18 +171,6 @@ class qtPrebuild  : public qtPre
 		 *   @return true if it's
 		 */
 		bool isGoodTargetQt(const wxString& nametarget);
-
-        /** Gibe an array from another
-         *	@param strarray : array name
-         *	@return a copy, not an adress
-         */
-		wxArrayString copyArray (const wxArrayString& strarray)  ;
-
-		/**  Give if file  is elegible
-		 *	 @param file : file name
-		 *   @return true if it's
-		 */
-		bool isEligible(const wxString& file);
 
 		/** Search a macro inside file
 		 *	 @param filename : file name
@@ -241,7 +228,7 @@ class qtPrebuild  : public qtPre
 		 * 	@param  filetarget : file name target
 		 *  @return true if changing it's correct
 		 */
-		bool ModifyDate(const wxString& fileref, const wxString&  filetarget)  ;
+		bool ModifyDate(const wxString& fileref, const wxString& filetarget)  ;
 
 		/** Indicates whether a table is empty
 		 *  @param arraystr : a table
@@ -252,10 +239,18 @@ class qtPrebuild  : public qtPre
         /** Execute commands 'moc', 'uic', 'rcc'
          *	 @param qexe  : executable name
          *	 @param index : position creator file inside 'm_Filecreator'
-         *   @return 'true' if file created
+         *   @return  _("") if file created else error string
          */
-		//bool createComplement(const wxString&  qexe,const uint16_t index) ;
-		wxString createComplement(const wxString&  qexe,const uint16_t index) ;
+		wxString createComplement(const wxString& qexe, const uint16_t index) ;
+
+		/** Execute commands 'moc', 'uic', 'rcc'
+         *	 @param qexe : executable name
+         *	 @param fcreator : file name creator
+         *	 @param fout : file name to create
+         *   @return _("") if file created else error string
+         */
+		wxString createFileComplement(const wxString& qexe, const wxString& fcreator,
+									  const wxString& fout) ;
 
 		/** Retrieve path include table for executable
 		 * @return string path include
@@ -273,17 +268,6 @@ class qtPrebuild  : public qtPre
          *   @return  empty string if it's correct else error message
          */
 		wxString ExecuteAndGetOutputAndError(const wxString& command, bool prepend_error = true) ;
-
-		/**  Search the created files
-		 *   @return the number of files that have been created
-		 */
-		uint16_t findwasCreated();
-
-        /** 'file' was created ?
-         *   @param file : file name ->  moc_*.cxx, ui_*.h, qrc_*.cpp
-         *   @return true if was created
-         */
-		bool wasCreated(const wxString&  file) ;
 
 	private:
 
@@ -305,7 +289,7 @@ class qtPrebuild  : public qtPre
 			m_IncPathQt,
 		/** Contains active target name
 		 */
-			m_Nameactivetarget;
+			m_nameactiveproject;
 
 };
 

@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      qtPre.cpp
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'   0.2.4
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'   0.4.2
  * Author:    LETARTARE
- * Created:   2015-02-15
+ * Created:   2015-02-20
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -18,7 +18,7 @@
 #include <cbeditor.h>
 #include <wx/datetime.h>
 #include <projectfile.h>
-// not change !
+// not place change !
 #include "print.h"
 ///-----------------------------------------------------------------------------
 /// called by :
@@ -28,14 +28,14 @@ qtPre::qtPre(cbProject * prj )
 	: m_Thename(_T("QtPregenForCB_plugin")),
 	  m_Win(false), m_Linux(false), m_Mac(false),
 	  m_Mexe(_T("")), m_Uexe(_T("")), m_Rexe(_T("")), m_Lexe(_T("")),
-	  Mes(_T("")), m_Nameproject(_T("")),
-	  m_Mam(Manager::Get()->GetMacrosManager() ),
-	  m_Project(prj)
+	  Mes(_T("")), m_nameproject(_T("")),
+	  m_mam(Manager::Get()->GetMacrosManager() ),
+	  m_project(prj), m_Savereport(true)
 {
-	if (m_Project)
-		m_Nameproject = m_Project->GetTitle();
+	if (m_project)
+		m_nameproject = m_project->GetTitle();
 	else
-		m_Nameproject = wxEmptyString;
+		m_nameproject = wxEmptyString;
 
 #if   defined(__WXMSW__)
 	m_Win = true; m_Linux = m_Mac = false;
@@ -46,7 +46,7 @@ qtPre::qtPre(cbProject * prj )
 #endif
 	platForm();
 	//
-	m_Moc = _T("moc"); m_Ui = _T("ui"); m_Qrc = _T("qrc"); m_Lm = _T("qm") ;
+	m_Moc = _T("moc"); m_UI = _T("ui"); m_Qrc = _T("qrc"); m_Lm = _T("qm") ;
 }
 ///-----------------------------------------------------------------------------
 /// called by
@@ -55,10 +55,12 @@ qtPre::qtPre(cbProject * prj )
 qtPre::~qtPre()
 {
 }
-
 ///-----------------------------------------------------------------------------
-///  called by :
+/// Give internal name
+///
+/// called by :
 ///		QtPregen::OnPrebuild(CodeBlocksEvent& event):1,
+///
 wxString qtPre::namePlugin()
 {
 	return m_Thename;
@@ -126,6 +128,8 @@ void qtPre::platForm() {
 	}
 }
 ///-----------------------------------------------------------------------------
+///  Set version
+///
 ///  called by :
 /// 		none
 ///
@@ -133,30 +137,31 @@ void qtPre::setVersion(const wxString& ver)
 {   // TODO
 }
 ///-----------------------------------------------------------------------------
-/// Detection of a 'Qt' m_Project : it contains at least one target Qt
+/// Detection of a 'Qt' Project : it contains at least one target Qt
 ///
 /// called by  :
 ///	1. QtPregen::OnPrebuild(CodeBlocksEvent& event):1,
 ///
 /// calls to :
-/// 1. hasLibQt(m_Project):1+,
+/// 1. hasLibQt(Project):1+,
 ///
-bool qtPre::detectQt(cbProject * prj) {
-	m_Project = prj;
-	bool ok = m_Project != nullptr;
+bool qtPre::detectQt(cbProject * prj, bool report) {
+	m_project = prj;
+	bool ok = m_project != nullptr;
 	if (!ok)
 		return ok;
-
+// reports
+	m_Savereport = report;
 // project name
-	m_Nameproject = m_Project->GetTitle() ;
+	m_nameproject = m_project->GetTitle() ;
 // search project
-	ok = hasLibQt(m_Project) ;
+	ok = hasLibQt(m_project) ;
 	if (! ok) {
 		ProjectBuildTarget* buildtarget;
-		uint16_t nt = 0 , ntargets = m_Project->GetBuildTargetsCount() ;
+		uint16_t nt = 0 , ntargets = m_project->GetBuildTargetsCount() ;
 		while (nt < ntargets && ! ok ) {
 		// retrieve the target libraries  'ProjectBuildTarget* builstarget'
-			buildtarget = m_Project->GetBuildTarget(nt++) ;
+			buildtarget = m_project->GetBuildTarget(nt++) ;
 			if (!buildtarget)
 				continue ;
 // search target
@@ -168,9 +173,11 @@ bool qtPre::detectQt(cbProject * prj) {
 
 	bool valid = ok ;
 	if (valid)  {
-		wxString  title = m_Nameproject + _T(" uses Qt libraries !") ;
-		Mes = _("It will generate (remove) the complements files...") ;
-		InfoWindow::Display(title, Mes, 3000);
+		if (m_Savereport) {
+			wxString  title = m_nameproject + _T(" uses Qt libraries !") ;
+			Mes = _("It will generate the complements files...") ;
+			InfoWindow::Display(title, Mes, 2000);
+		}
 
 		bool usemake = prj->IsMakefileCustom() ;
 		if(usemake)   {
@@ -189,7 +196,7 @@ bool qtPre::detectQt(cbProject * prj) {
 	return valid;
 }
 ///-----------------------------------------------------------------------------
-/// Return true if good       'CompileTargetBase* container'
+/// Return true if good  'CompileTargetBase* container'
 ///
 /// called by  :
 ///	1. detectProjectQt():2,
@@ -229,5 +236,29 @@ bool qtPre::hasLibQt(CompileTargetBase * container) {
 	}
 
 	return ok;
+}
+///-----------------------------------------------------------------------------
+/// For replace 'Targetsfile = prjfile.buildTargets'
+/// copy a 'wxArrayString' to an another
+///
+/// called by  :
+///	1. findwasCreated():1,
+///	2. filesTocreate(bool):1,
+///
+wxArrayString qtPre::copyArray (const wxArrayString& strarray) {
+	wxArrayString tmp ;
+	int nl = strarray.GetCount()  ;
+	if (nl == 0)
+		return  tmp ;
+	// a line
+	wxString line;
+	for (int u = 0; u < nl; u++) {
+	// read strarray line
+		line = strarray.Item(u) ;
+	// write line to tmp
+		tmp.Add(line, 1) ;
+	}
+
+	return tmp ;
 }
 ///-----------------------------------------------------------------------------
