@@ -1,6 +1,6 @@
 /*************************************************************
  * Name:      QtPregen.cpp
- * Purpose:   Code::Blocks plugin  'qtPregenForCB.cbp'   0.5.0
+ * Purpose:   Code::Blocks plugin  'qtPregenForCB.cbp'   0.6.0
  * Author:    LETARTARE
  * Created:   2015-02-22
  * Copyright: LETARTARE
@@ -8,7 +8,6 @@
  *************************************************************
  */
 #include <sdk.h> 	// Code::Blocks SDK
-#include <compilergcc.h>  // struct s_rebuild
 #include "QtPregen.h"
 #include "qtprebuild.h"
 #include "print.h"

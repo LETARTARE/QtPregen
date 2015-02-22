@@ -1,4 +1,4 @@
-# QtPregenForCB-0.5.0  February 22, 2015 (for Win32)
+# QtPregenForCB-0.6.0  February 22, 2015 (for Win32)
 
 Plugin to compile QT applications with 'Code::Blocks'
 

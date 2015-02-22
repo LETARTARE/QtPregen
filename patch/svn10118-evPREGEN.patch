@@ -2,17 +2,25 @@ Index: include/sdk_events.h
 ===================================================================
 --- include/sdk_events.h	(révision 10118)
 +++ include/sdk_events.h	(copie de travail)
-@@ -419,6 +419,13 @@
+@@ -418,7 +418,20 @@
+ #define EVT_CLEAN_WORKSPACE_STARTED(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_CLEAN_WORKSPACE_STARTED, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
  extern EVTIMPORT const wxEventType cbEVT_COMPILER_SETTINGS_CHANGED;
  #define EVT_COMPILER_SETTINGS_CHANGED(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_COMPILER_SETTINGS_CHANGED, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
- 
+-
 +/// LETARTARE
 +// pre-compiler-related events (compiler plugins usually fire them)
 +extern EVTIMPORT const wxEventType cbEVT_PREGEN_ALL;
 +#define EVT_PREGEN_ALL(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_PREGEN_ALL, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
++// to use with 'cbEVT_PREGEN_ALL' in 'm_clientData'
++struct s_rebuild
++{
++     bool  workspace,
++           clean,
++           build;
++} ;
 +extern EVTIMPORT const wxEventType cbEVT_PREGEN_FILE;
 +#define EVT_PREGEN_FILE(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_PREGEN_FILE, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
-+
++/// <--
  // request app to compile a single file
  extern EVTIMPORT const wxEventType cbEVT_COMPILE_FILE_REQUEST;
  #define EVT_COMPILE_FILE_REQUEST(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_COMPILE_FILE_REQUEST, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
@@ -106,22 +114,7 @@ Index: plugins/compilergcc/compilergcc.h
 ===================================================================
 --- plugins/compilergcc/compilergcc.h	(révision 10118)
 +++ plugins/compilergcc/compilergcc.h	(copie de travail)
-@@ -79,6 +79,14 @@
-     baBuildFile
- };
- 
-+/// LETARTARE
-+struct s_rebuild
-+{
-+     bool  workspace,
-+           clean,
-+           build;
-+} ;
-+
- class wxComboBox;
- class wxGauge;
- class wxStaticText;
-@@ -181,6 +189,10 @@
+@@ -181,6 +181,10 @@
          void SaveOptions();
          void LoadOptions();
          void DoRegisterCompilers();
@@ -132,7 +125,7 @@ Index: plugins/compilergcc/compilergcc.h
          void DoPrepareQueue(bool clearLog);
          void NotifyCleanProject(const wxString& target);
          void NotifyCleanWorkspace();
-@@ -308,7 +320,9 @@
+@@ -308,7 +312,9 @@
          // to decide if post-build steps should run
          bool m_RunTargetPostBuild;
          bool m_RunProjectPostBuild;

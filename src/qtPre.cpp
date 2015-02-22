@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      qtPre.cpp
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'   0.4.2
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'   0.6.0
  * Author:    LETARTARE
- * Created:   2015-02-20
+ * Created:   2015-02-22
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
