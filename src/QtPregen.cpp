@@ -1,13 +1,14 @@
 /*************************************************************
  * Name:      QtPregen.cpp
- * Purpose:   Code::Blocks plugin  'qtPregenForCB.cbp'   0.4.2
+ * Purpose:   Code::Blocks plugin  'qtPregenForCB.cbp'   0.5.0
  * Author:    LETARTARE
- * Created:   2015-02-21
+ * Created:   2015-02-22
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
 #include <sdk.h> 	// Code::Blocks SDK
+#include <compilergcc.h>  // struct s_rebuild
 #include "QtPregen.h"
 #include "qtprebuild.h"
 #include "print.h"
@@ -39,11 +40,11 @@ void QtPregen::OnAttach()
 //2- handle build start
 	cbEventFunctor<QtPregen, CodeBlocksEvent>* functorGen =
 		new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnPregen);
-	Manager::Get()->RegisterEventSink(cbEVT_PRECOMPILER_STARTED, functorGen);
+	Manager::Get()->RegisterEventSink(cbEVT_PREGEN_ALL, functorGen);
 //3- handle compile file start
 	cbEventFunctor<QtPregen, CodeBlocksEvent>* functorCompile =
 		new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnPrecompile);
-	Manager::Get()->RegisterEventSink(cbEVT_PRECOMPILE_FILE, functorCompile);
+	Manager::Get()->RegisterEventSink(cbEVT_PREGEN_FILE, functorCompile);
 
 //4- construct the builder
 	// construct new 'm_prebuild'
@@ -145,7 +146,6 @@ void QtPregen::OnPregen(CodeBlocksEvent& event)
 	printWarn(Mes);
 
 // booleans from 'CompilerGCC'
-	struct s_rebuild {bool workspace, clean, build ;} ;
 	void* p = event.GetClientData();
 	bool Ws = ((s_rebuild*)p)->workspace;
 	bool Clean = ((s_rebuild*)p)->clean;

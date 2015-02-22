@@ -2,14 +2,14 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregenForCB-0.4.2" />
+		<Option title="qtPregenForCB-0.5.0" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
 				<![CDATA[use news events svn 10118
-1-  ''cbEVT_PRECOMPILER_STARTED'
-2-  ''cbEVT_PRECOMPILE_FILE']]>
+1-  ''cbEVT_PREGEN_ALL'
+2-  ''cbEVT_PREGEN_FILE']]>
 			</notes>
 		</Option>
 		<Build>
@@ -132,7 +132,7 @@
 		<Unit filename="manifest.xml">
 			<Option target="default" />
 		</Unit>
-		<Unit filename="patch/svn10118-evPRECOMPILER.patch">
+		<Unit filename="patch/svn10118-evPREGEN.patch">
 			<Option target="patchs" />
 		</Unit>
 		<Unit filename="src/QtPregen.cpp">

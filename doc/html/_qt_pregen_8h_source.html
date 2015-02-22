@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">qtPregenForCB
-   &#160;<span id="projectnumber">0.4.2</span>
+   &#160;<span id="projectnumber">0.5.0</span>
    </div>
   </td>
  </tr>
@@ -90,9 +90,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <a href="_qt_pregen_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/***************************************************************</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Name:      QtPregen.h</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Purpose:   Code::Blocks plugin &#39;qtPregenForCB.cbp&#39;   0.4.2</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Purpose:   Code::Blocks plugin &#39;qtPregenForCB.cbp&#39;   0.5.0</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Author:    LETARTARE</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Created:   2015-02-20</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Created:   2015-02-22</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * Copyright: LETARTARE</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * License:   GPL</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> **************************************************************/</span></div>
@@ -150,21 +150,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="class_qt_pregen.html#a2ecd402843d4d30fce8241f2a989822e">  156</a></span>&#160;    cbProject* <a class="code" href="class_qt_pregen.html#a2ecd402843d4d30fce8241f2a989822e">m_project</a>;</div>
 <div class="line"><a name="l00159"></a><span class="lineno"><a class="line" href="class_qt_pregen.html#a7959b2f3514ace72dd419450f2903a48">  159</a></span>&#160;    <a class="code" href="classqt_prebuild.html">qtPrebuild</a> * <a class="code" href="class_qt_pregen.html#a7959b2f3514ace72dd419450f2903a48">m_prebuild</a>;</div>
-<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="class_qt_pregen.html#aea21a52141ce21b1ba6e06e77746be83">  162</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_qt_pregen.html#aea21a52141ce21b1ba6e06e77746be83">m_buildAllOk</a>;</div>
-<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="class_qt_pregen.html#ae3412c06d77b0bfc53249d45b0a7b3c9">  165</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_qt_pregen.html#ae3412c06d77b0bfc53249d45b0a7b3c9">m_cleanAllOk</a>;</div>
-<div class="line"><a name="l00168"></a><span class="lineno"><a class="line" href="class_qt_pregen.html#a4fc62bc186f5ab2a5eeb1be66269866e">  168</a></span>&#160;    wxString <a class="code" href="class_qt_pregen.html#a4fc62bc186f5ab2a5eeb1be66269866e">Mes</a>;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  <span class="keyword">private</span> :</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_qt_pregen.html#a586b130f0d396af628a418a198cff7e6">display</a>();</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; <span class="comment">//DECLARE_EVENT_TABLE();</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;};</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#endif // _CBQTPREGEN_H_</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="comment">//-------------------------------------------------</span></div>
-<div class="ttc" id="class_qt_pregen_html_a4fc62bc186f5ab2a5eeb1be66269866e"><div class="ttname"><a href="class_qt_pregen.html#a4fc62bc186f5ab2a5eeb1be66269866e">QtPregen::Mes</a></div><div class="ttdeci">wxString Mes</div><div class="ttdef"><b>Definition:</b> QtPregen.h:168</div></div>
-<div class="ttc" id="class_qt_pregen_html_a586b130f0d396af628a418a198cff7e6"><div class="ttname"><a href="class_qt_pregen.html#a586b130f0d396af628a418a198cff7e6">QtPregen::display</a></div><div class="ttdeci">void display()</div><div class="ttdef"><b>Definition:</b> QtPregen.cpp:229</div></div>
-<div class="ttc" id="class_qt_pregen_html_a50082fbc3b10cd32e4770a57f080abc5"><div class="ttname"><a href="class_qt_pregen.html#a50082fbc3b10cd32e4770a57f080abc5">QtPregen::OnPrecompile</a></div><div class="ttdeci">void OnPrecompile(CodeBlocksEvent &amp;event)</div><div class="ttdef"><b>Definition:</b> QtPregen.cpp:187</div></div>
+<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="class_qt_pregen.html#a4fc62bc186f5ab2a5eeb1be66269866e">  162</a></span>&#160;    wxString <a class="code" href="class_qt_pregen.html#a4fc62bc186f5ab2a5eeb1be66269866e">Mes</a>;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; <span class="comment">//DECLARE_EVENT_TABLE();</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;};</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="preprocessor">#endif // _CBQTPREGEN_H_</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="comment">//-------------------------------------------------</span></div>
+<div class="ttc" id="class_qt_pregen_html_a4fc62bc186f5ab2a5eeb1be66269866e"><div class="ttname"><a href="class_qt_pregen.html#a4fc62bc186f5ab2a5eeb1be66269866e">QtPregen::Mes</a></div><div class="ttdeci">wxString Mes</div><div class="ttdef"><b>Definition:</b> QtPregen.h:162</div></div>
+<div class="ttc" id="class_qt_pregen_html_a50082fbc3b10cd32e4770a57f080abc5"><div class="ttname"><a href="class_qt_pregen.html#a50082fbc3b10cd32e4770a57f080abc5">QtPregen::OnPrecompile</a></div><div class="ttdeci">void OnPrecompile(CodeBlocksEvent &amp;event)</div><div class="ttdef"><b>Definition:</b> QtPregen.cpp:186</div></div>
 <div class="ttc" id="class_qt_pregen_html_aea23437befe36eb9978b2e5da822aa5f"><div class="ttname"><a href="class_qt_pregen.html#aea23437befe36eb9978b2e5da822aa5f">QtPregen::OnActivate</a></div><div class="ttdeci">void OnActivate(CodeBlocksEvent &amp;event)</div><div class="ttdef"><b>Definition:</b> QtPregen.cpp:79</div></div>
 <div class="ttc" id="classqt_prebuild_html"><div class="ttname"><a href="classqt_prebuild.html">qtPrebuild</a></div><div class="ttdoc">The class is used to pre-Build additional Qt files. </div><div class="ttdef"><b>Definition:</b> qtPrebuild.h:17</div></div>
 <div class="ttc" id="class_qt_pregen_html_aacfd896f531274f092bd180ce4e8433a"><div class="ttname"><a href="class_qt_pregen.html#aacfd896f531274f092bd180ce4e8433a">QtPregen::OnAttach</a></div><div class="ttdeci">virtual void OnAttach()</div><div class="ttdef"><b>Definition:</b> QtPregen.cpp:34</div></div>
@@ -173,10 +167,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="class_qt_pregen_html_a06a7bb63d07b66af7cbdb07fc241de39"><div class="ttname"><a href="class_qt_pregen.html#a06a7bb63d07b66af7cbdb07fc241de39">QtPregen::GetConfigurationGroup</a></div><div class="ttdeci">virtual int GetConfigurationGroup() const </div><div class="ttdef"><b>Definition:</b> QtPregen.h:50</div></div>
 <div class="ttc" id="class_qt_pregen_html_ac502c55b1f32f695187e174b3eeb4a8d"><div class="ttname"><a href="class_qt_pregen.html#ac502c55b1f32f695187e174b3eeb4a8d">QtPregen::Configure</a></div><div class="ttdeci">virtual int Configure()</div><div class="ttdef"><b>Definition:</b> QtPregen.h:37</div></div>
 <div class="ttc" id="class_qt_pregen_html_a7959b2f3514ace72dd419450f2903a48"><div class="ttname"><a href="class_qt_pregen.html#a7959b2f3514ace72dd419450f2903a48">QtPregen::m_prebuild</a></div><div class="ttdeci">qtPrebuild * m_prebuild</div><div class="ttdef"><b>Definition:</b> QtPregen.h:159</div></div>
-<div class="ttc" id="class_qt_pregen_html_ac1e3ec1ed91e7650df48aab085f057d3"><div class="ttname"><a href="class_qt_pregen.html#ac1e3ec1ed91e7650df48aab085f057d3">QtPregen::QtPregen</a></div><div class="ttdeci">QtPregen()</div><div class="ttdef"><b>Definition:</b> QtPregen.cpp:24</div></div>
+<div class="ttc" id="class_qt_pregen_html_ac1e3ec1ed91e7650df48aab085f057d3"><div class="ttname"><a href="class_qt_pregen.html#ac1e3ec1ed91e7650df48aab085f057d3">QtPregen::QtPregen</a></div><div class="ttdeci">QtPregen()</div><div class="ttdef"><b>Definition:</b> QtPregen.cpp:25</div></div>
 <div class="ttc" id="class_qt_pregen_html"><div class="ttname"><a href="class_qt_pregen.html">QtPregen</a></div><div class="ttdoc">Qt plugin main class. </div><div class="ttdef"><b>Definition:</b> QtPregen.h:27</div></div>
 <div class="ttc" id="class_qt_pregen_html_a80e48f6202713b622df17e71aa058b84"><div class="ttname"><a href="class_qt_pregen.html#a80e48f6202713b622df17e71aa058b84">QtPregen::GetConfigurationPriority</a></div><div class="ttdeci">virtual int GetConfigurationPriority() const </div><div class="ttdef"><b>Definition:</b> QtPregen.h:44</div></div>
-<div class="ttc" id="class_qt_pregen_html_ae3412c06d77b0bfc53249d45b0a7b3c9"><div class="ttname"><a href="class_qt_pregen.html#ae3412c06d77b0bfc53249d45b0a7b3c9">QtPregen::m_cleanAllOk</a></div><div class="ttdeci">bool m_cleanAllOk</div><div class="ttdef"><b>Definition:</b> QtPregen.h:165</div></div>
 <div class="ttc" id="class_qt_pregen_html_af163d1f7323b92e033fdf32071300ea0"><div class="ttname"><a href="class_qt_pregen.html#af163d1f7323b92e033fdf32071300ea0">QtPregen::BuildToolBar</a></div><div class="ttdeci">virtual bool BuildToolBar(wxToolBar *toolBar)</div><div class="ttdef"><b>Definition:</b> QtPregen.h:101</div></div>
 <div class="ttc" id="class_qt_pregen_html_a32be236e52246875c1a3135c58a4d0cf"><div class="ttname"><a href="class_qt_pregen.html#a32be236e52246875c1a3135c58a4d0cf">QtPregen::BuildMenu</a></div><div class="ttdeci">virtual void BuildMenu(wxMenuBar *menuBar)</div><div class="ttdef"><b>Definition:</b> QtPregen.h:74</div></div>
 <div class="ttc" id="class_qt_pregen_html_a51185ddf2bc2b62efa46261bf14c6772"><div class="ttname"><a href="class_qt_pregen.html#a51185ddf2bc2b62efa46261bf14c6772">QtPregen::~QtPregen</a></div><div class="ttdeci">virtual ~QtPregen()</div><div class="ttdef"><b>Definition:</b> QtPregen.h:34</div></div>
@@ -185,12 +178,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="class_qt_pregen_html_a2ecd402843d4d30fce8241f2a989822e"><div class="ttname"><a href="class_qt_pregen.html#a2ecd402843d4d30fce8241f2a989822e">QtPregen::m_project</a></div><div class="ttdeci">cbProject * m_project</div><div class="ttdef"><b>Definition:</b> QtPregen.h:156</div></div>
 <div class="ttc" id="class_qt_pregen_html_a5f9b6716d7d28f653128d32206cd7de5"><div class="ttname"><a href="class_qt_pregen.html#a5f9b6716d7d28f653128d32206cd7de5">QtPregen::Execute</a></div><div class="ttdeci">virtual int Execute()</div><div class="ttdoc">Execute the plugin. </div><div class="ttdef"><b>Definition:</b> QtPregen.h:109</div></div>
 <div class="ttc" id="class_qt_pregen_html_aab89031bb695f6ce2922694c677093ed"><div class="ttname"><a href="class_qt_pregen.html#aab89031bb695f6ce2922694c677093ed">QtPregen::OnRelease</a></div><div class="ttdeci">virtual void OnRelease(bool appShutDown)</div><div class="ttdef"><b>Definition:</b> QtPregen.cpp:57</div></div>
-<div class="ttc" id="class_qt_pregen_html_aea21a52141ce21b1ba6e06e77746be83"><div class="ttname"><a href="class_qt_pregen.html#aea21a52141ce21b1ba6e06e77746be83">QtPregen::m_buildAllOk</a></div><div class="ttdeci">bool m_buildAllOk</div><div class="ttdef"><b>Definition:</b> QtPregen.h:162</div></div>
 <div class="ttc" id="class_qt_pregen_html_ae881308d68630a064a76668ea420b40b"><div class="ttname"><a href="class_qt_pregen.html#ae881308d68630a064a76668ea420b40b">QtPregen::GetProjectConfigurationPanel</a></div><div class="ttdeci">virtual cbConfigurationPanel * GetProjectConfigurationPanel(wxWindow *parent, cbProject *project)</div><div class="ttdef"><b>Definition:</b> QtPregen.h:65</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 21 2015 18:04:21 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Feb 22 2015 12:39:30 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">qtPregenForCB
-   &#160;<span id="projectnumber">0.4.2</span>
+   &#160;<span id="projectnumber">0.5.0</span>
    </div>
   </td>
  </tr>
@@ -111,7 +111,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classqt_prebuild.html#a3f1e6c380f49c87bdd530007b1f5ffcb">buildQt</a>(cbProject * prj, <span class="keywordtype">bool</span> workspace, <span class="keywordtype">bool</span> allbuild);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classqt_prebuild.html#ae107d6ac38bdd9646c06146e07466519">buildFileQt</a>(cbProject * prj, wxString fcreator);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classqt_prebuild.html#acff47282b8c724225786a9bf6d3318c2">buildFileQt</a>(cbProject * prj, <span class="keyword">const</span> wxString&amp; fcreator);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
@@ -179,13 +179,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classqt_prebuild.html#a7374638d18655d1938497f6abff153ca">CompareDate</a>(<span class="keyword">const</span> wxString&amp;  fileref, <span class="keyword">const</span> wxString&amp;  filetarget) ;</div>
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classqt_prebuild.html#a45c068235a8051f443c7b4e188857373">ModifyDate</a>(<span class="keyword">const</span> wxString&amp; fileref, <span class="keyword">const</span> wxString&amp;  filetarget)  ;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classqt_prebuild.html#a45c068235a8051f443c7b4e188857373">ModifyDate</a>(<span class="keyword">const</span> wxString&amp; fileref, <span class="keyword">const</span> wxString&amp; filetarget)  ;</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classqt_prebuild.html#a11f637554c9b7895e081df70f757419f">isEmpty</a> (<span class="keyword">const</span> wxArrayString&amp; arraystr) ;</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        wxString <a class="code" href="classqt_prebuild.html#ae21614b586b26371a16163bf3b89efea">createComplement</a>(<span class="keyword">const</span> wxString&amp;  qexe,<span class="keyword">const</span> uint16_t index) ;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        wxString <a class="code" href="classqt_prebuild.html#ae21614b586b26371a16163bf3b89efea">createComplement</a>(<span class="keyword">const</span> wxString&amp; qexe, <span class="keyword">const</span> uint16_t index) ;</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        wxString <a class="code" href="classqt_prebuild.html#a8e3869e23491d2e9e3cf8b245a7ff782">createFileComplement</a>(<span class="keyword">const</span> wxString&amp;  qexe, <span class="keyword">const</span> wxString&amp; fcreator,</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        wxString <a class="code" href="classqt_prebuild.html#a8e3869e23491d2e9e3cf8b245a7ff782">createFileComplement</a>(<span class="keyword">const</span> wxString&amp; qexe, <span class="keyword">const</span> wxString&amp; fcreator,</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                                      <span class="keyword">const</span> wxString&amp; fout) ;</div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        wxString <a class="code" href="classqt_prebuild.html#a569b1eaf5c50cd2bc617e6c6b1d85fda">pathIncludeMoc</a>();</div>
@@ -224,7 +224,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classqt_prebuild_html_ac267cb70a37288d0954d0c063304bb9e"><div class="ttname"><a href="classqt_prebuild.html#ac267cb70a37288d0954d0c063304bb9e">qtPrebuild::inProjectFile</a></div><div class="ttdeci">bool inProjectFile(const wxString &amp;file)</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:1146</div></div>
 <div class="ttc" id="classqt_prebuild_html_a8e3869e23491d2e9e3cf8b245a7ff782"><div class="ttname"><a href="classqt_prebuild.html#a8e3869e23491d2e9e3cf8b245a7ff782">qtPrebuild::createFileComplement</a></div><div class="ttdeci">wxString createFileComplement(const wxString &amp;qexe, const wxString &amp;fcreator, const wxString &amp;fout)</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:1466</div></div>
 <div class="ttc" id="classqt_prebuild_html_a94bbd609ef859314ae1da267b27cb221"><div class="ttname"><a href="classqt_prebuild.html#a94bbd609ef859314ae1da267b27cb221">qtPrebuild::m_Identical</a></div><div class="ttdeci">bool m_Identical</div><div class="ttdef"><b>Definition:</b> qtPrebuild.h:276</div></div>
-<div class="ttc" id="classqt_prebuild_html_ae107d6ac38bdd9646c06146e07466519"><div class="ttname"><a href="classqt_prebuild.html#ae107d6ac38bdd9646c06146e07466519">qtPrebuild::buildFileQt</a></div><div class="ttdeci">bool buildFileQt(cbProject *prj, wxString fcreator)</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:215</div></div>
 <div class="ttc" id="classqt_prebuild_html_a7374638d18655d1938497f6abff153ca"><div class="ttname"><a href="classqt_prebuild.html#a7374638d18655d1938497f6abff153ca">qtPrebuild::CompareDate</a></div><div class="ttdeci">bool CompareDate(const wxString &amp;fileref, const wxString &amp;filetarget)</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:1290</div></div>
 <div class="ttc" id="classqt_prebuild_html_a9e4506a713df1cd62354cfdcd86e7e7b"><div class="ttname"><a href="classqt_prebuild.html#a9e4506a713df1cd62354cfdcd86e7e7b">qtPrebuild::indexTarget</a></div><div class="ttdeci">int indexTarget(const wxString &amp;nametarget)</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:1087</div></div>
 <div class="ttc" id="classqt_prebuild_html_a20e1906cf5733ed3390b6b36b64ebf15"><div class="ttname"><a href="classqt_prebuild.html#a20e1906cf5733ed3390b6b36b64ebf15">qtPrebuild::saveArray</a></div><div class="ttdeci">bool saveArray(const wxArrayString &amp;table, wxString namefile)</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:537</div></div>
@@ -237,6 +236,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classqt_prebuild_html_a46691f9007132cdbf91a4c77cb55a401"><div class="ttname"><a href="classqt_prebuild.html#a46691f9007132cdbf91a4c77cb55a401">qtPrebuild::openedit</a></div><div class="ttdeci">bool openedit(const wxString &amp;filename)</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:607</div></div>
 <div class="ttc" id="classqt_prebuild_html_ac9e02894ea1e6ad51484459d7ca1a833"><div class="ttname"><a href="classqt_prebuild.html#ac9e02894ea1e6ad51484459d7ca1a833">qtPrebuild::ExecuteAndGetOutputAndError</a></div><div class="ttdeci">wxString ExecuteAndGetOutputAndError(const wxString &amp;command, bool prepend_error=true)</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:1640</div></div>
 <div class="ttc" id="classqt_prebuild_html_a7d0313a3ead213434281caa38c6a3cae"><div class="ttname"><a href="classqt_prebuild.html#a7d0313a3ead213434281caa38c6a3cae">qtPrebuild::closedit</a></div><div class="ttdeci">bool closedit(const wxString &amp;filename)</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:635</div></div>
+<div class="ttc" id="classqt_prebuild_html_acff47282b8c724225786a9bf6d3318c2"><div class="ttname"><a href="classqt_prebuild.html#acff47282b8c724225786a9bf6d3318c2">qtPrebuild::buildFileQt</a></div><div class="ttdeci">bool buildFileQt(cbProject *prj, const wxString &amp;fcreator)</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:215</div></div>
 <div class="ttc" id="classqt_prebuild_html_a707ed36b79ab6e2af05860f8919a4706"><div class="ttname"><a href="classqt_prebuild.html#a707ed36b79ab6e2af05860f8919a4706">qtPrebuild::date</a></div><div class="ttdeci">wxString date()</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:660</div></div>
 <div class="ttc" id="qt_pre_8h_html"><div class="ttname"><a href="qt_pre_8h.html">qtPre.h</a></div></div>
 <div class="ttc" id="classqt_prebuild_html_a709576d6be4afc33f89cf94cedf0acec"><div class="ttname"><a href="classqt_prebuild.html#a709576d6be4afc33f89cf94cedf0acec">qtPrebuild::beginMesCreate</a></div><div class="ttdeci">void beginMesCreate()</div><div class="ttdef"><b>Definition:</b> qtPrebuild.cpp:46</div></div>
@@ -262,7 +262,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 21 2015 18:04:21 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Feb 22 2015 12:39:30 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

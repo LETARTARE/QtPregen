@@ -1,13 +1,13 @@
 /*************************************************************
  * Name:      qtPre.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.4.2
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.5.0
  * Author:    LETARTARE
- * Created:   2015-02-20
+ * Created:   2015-02-22
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
-#define VERSION_QTP _T("0.4.2")
+#define VERSION_QTP _T("0.5.0")
 
 #ifndef _QTPRE_H_
 #define _QTPRE_H_
