@@ -1,4 +1,4 @@
-# QtPregenForCB-0.6.0  February 22, 2015 (for Win32)
+# QtPregenForCB-0.7.1  February 24, 2015 (for Win32)
 
 Plugin to compile QT applications with 'Code::Blocks'
 
@@ -48,7 +48,7 @@ This version uses a new organization and is not compatible with earlier versions
 
     1- first install wizards 'cbqt4' and 'cbqt5',
 
-    2- then the patch 'svn10118-evPREGEN.patch' and recompile the modified
+    2- then the patch 'svn10118-evPREGEN-0.7.1.patch' and recompile the modified
        source of the version 'Code::Blocks svn 10118',
 
 	3- then compile and install the plugin 'qtPregenForCB-xyz'

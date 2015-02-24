@@ -1,13 +1,13 @@
 /*************************************************************
  * Name:      qtPre.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.6.0
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.7.1
  * Author:    LETARTARE
- * Created:   2015-02-22
+ * Created:   2015-02-24
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
-#define VERSION_QTP _T("0.6.0")
+#define VERSION_QTP _T("0.7.1")
 
 #ifndef _QTPRE_H_
 #define _QTPRE_H_
@@ -39,7 +39,7 @@ class qtPre
 		/** Plugin name
 		 * @return name
 		 */
-		 wxString namePlugin();
+		wxString namePlugin();
 
 		/** Detects if the current project uses Qt libraries,
 		 * refuses QT projects using a 'makefile'
@@ -48,6 +48,11 @@ class qtPre
          * @return true : if used
          */
 		bool detectQt(cbProject * prj, bool report= false);
+
+		/** Get version from 'cbplugin.h'
+		 * @return version du SDK ex: "1.19.0" for Code::Blocks 13.12
+		 */
+		wxString GetVersionSDK();
 
 	protected :
 
@@ -169,7 +174,7 @@ class qtPre
 		/** Set version to 'manifest.xml'
 		 * @param ver version du SDK ex: "1.19.0" for Code::Blocks 13.12
 		 */
-		void setVersion(const wxString& ver);
+		void SetVersionSDK(const wxString& ver);
 
 
 };

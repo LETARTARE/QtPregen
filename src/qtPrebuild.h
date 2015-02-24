@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      qtPrebuild.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.4.2
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.7.0
  * Author:    LETARTARE
- * Created:   2015-02-21
+ * Created:   2015-02-23
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -271,12 +271,9 @@ class qtPrebuild  : public qtPre
 
 	private:
 
-		/** Indicate if it's possible to compare date
-		 */
-		bool m_Dexeishere,
 		/** Indicate if identical dates
 		 */
-			m_Identical;
+		bool m_Identical;
 
 		/** String with "__DEVOID__"
 		 */

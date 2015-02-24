@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">qtPregenForCB
-   &#160;<span id="projectnumber">0.6.0</span>
+   &#160;<span id="projectnumber">0.7.1</span>
    </div>
   </td>
  </tr>
@@ -117,6 +117,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3d5d6728c963da35fbd82ce36b9e9210"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cf253174787aa571e6735f050f8268b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a1cf253174787aa571e6735f050f8268b">detectQt</a> (cbProject *prj, bool report=false)</td></tr>
 <tr class="separator:a1cf253174787aa571e6735f050f8268b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a026a70ce932418877568c5271efe9883"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a026a70ce932418877568c5271efe9883">GetVersionSDK</a> ()</td></tr>
+<tr class="separator:a026a70ce932418877568c5271efe9883"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -191,8 +193,8 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a5a71e5bdd08044238fa43384e8d10a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0322ee541e371be1324fb24da2fc95e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a0322ee541e371be1324fb24da2fc95e7">platForm</a> ()</td></tr>
 <tr class="separator:a0322ee541e371be1324fb24da2fc95e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7fae416e3b1df3b14b31da68b634be11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a7fae416e3b1df3b14b31da68b634be11">setVersion</a> (const wxString &amp;ver)</td></tr>
-<tr class="separator:a7fae416e3b1df3b14b31da68b634be11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03501a1c8d8507e7d237e7779e1feda9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a03501a1c8d8507e7d237e7779e1feda9">SetVersionSDK</a> (const wxString &amp;ver)</td></tr>
+<tr class="separator:a03501a1c8d8507e7d237e7779e1feda9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class that is used to detect Qt libraries. </p>
@@ -329,6 +331,25 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a026a70ce932418877568c5271efe9883"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">wxString qtPre::GetVersionSDK </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get version from 'cbplugin.h' </p><dl class="section return"><dt>Returns</dt><dd>version du SDK ex: "1.19.0" for Code::Blocks 13.12</dd></dl>
+<hr/>
+<p> Get version SDK</p>
+<p>called by : none </p>
+
+</div>
+</div>
 <a class="anchor" id="a5a71e5bdd08044238fa43384e8d10a3a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -414,7 +435,7 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7fae416e3b1df3b14b31da68b634be11"></a>
+<a class="anchor" id="a03501a1c8d8507e7d237e7779e1feda9"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -422,7 +443,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void qtPre::setVersion </td>
+          <td class="memname">void qtPre::SetVersionSDK </td>
           <td>(</td>
           <td class="paramtype">const wxString &amp;&#160;</td>
           <td class="paramname"><em>ver</em></td><td>)</td>
@@ -442,7 +463,7 @@ Private Member Functions</h2></td></tr>
   </dd>
 </dl>
 <hr/>
-<p> Set version</p>
+<p> Set version SDK</p>
 <p>called by : none </p>
 
 </div>
@@ -1066,7 +1087,7 @@ Private Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 22 2015 16:47:40 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Feb 24 2015 10:26:42 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

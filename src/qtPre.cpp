@@ -1,14 +1,15 @@
 /***************************************************************
  * Name:      qtPre.cpp
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'   0.6.0
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'   0.7.1
  * Author:    LETARTARE
- * Created:   2015-02-22
+ * Created:   2015-02-24
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
 #include "qtPre.h"
 
 #include <sdk.h>
+#include <cbplugin.h>      // sdk version
 #include <manager.h>
 #include <cbproject.h>
 #include <compiletargetbase.h>
@@ -73,7 +74,8 @@ wxString qtPre::namePlugin()
 ///
 void qtPre::platForm() {
 // choice platform
-	if (! m_Win) {
+	if (! m_Win)
+	{
 		#undef Sepd
 		#define Sepd 13
 		#undef Sizesep
@@ -97,7 +99,8 @@ void qtPre::platForm() {
         */
 	}
 
-	if (m_Win)  {
+	if (m_Win)
+	{
 		#undef Eol
 		#define Eol CrLf
 	// tables
@@ -117,23 +120,41 @@ void qtPre::platForm() {
 		m_TablibQt.Add(_T("qt5widgetsd"),1);
 	}
 	else
-	if (m_Mac)  {
+	if (m_Mac)
+	{
 		#undef Eol
 		#define Eol Cr
 	}
 	else
-	if (m_Linux) {
+	if (m_Linux)
+	{
 		#undef Eol
 		#define Eol Lf
 	}
 }
 ///-----------------------------------------------------------------------------
-///  Set version
+///  Get version SDK
 ///
 ///  called by :
 /// 		none
 ///
-void qtPre::setVersion(const wxString& ver)
+wxString qtPre::GetVersionSDK()
+{
+	uint16_t major 	= PLUGIN_SDK_VERSION_MAJOR ;
+	uint16_t minor 	= PLUGIN_SDK_VERSION_MINOR ;
+	uint16_t release= PLUGIN_SDK_VERSION_RELEASE;
+	Mes = (wxString()<<major) + _T(".") + (wxString()<<minor) + _T(".") + (wxString()<<release);
+	//print(Mes);
+
+    return  Mes ;
+}
+///-----------------------------------------------------------------------------
+///  Set version SDK
+///
+///  called by :
+/// 		none
+///
+void qtPre::SetVersionSDK(const wxString& ver)
 {   // TODO
 }
 ///-----------------------------------------------------------------------------
@@ -145,7 +166,8 @@ void qtPre::setVersion(const wxString& ver)
 /// calls to :
 /// 1. hasLibQt(Project):1+,
 ///
-bool qtPre::detectQt(cbProject * prj, bool report) {
+bool qtPre::detectQt(cbProject * prj, bool report)
+{
 	m_project = prj;
 	bool ok = m_project != nullptr;
 	if (!ok)
@@ -156,10 +178,12 @@ bool qtPre::detectQt(cbProject * prj, bool report) {
 	m_nameproject = m_project->GetTitle() ;
 // search project
 	ok = hasLibQt(m_project) ;
-	if (! ok) {
+	if (! ok)
+	{
 		ProjectBuildTarget* buildtarget;
 		uint16_t nt = 0 , ntargets = m_project->GetBuildTargetsCount() ;
-		while (nt < ntargets && ! ok ) {
+		while (nt < ntargets && ! ok )
+		{
 		// retrieve the target libraries  'ProjectBuildTarget* builstarget'
 			buildtarget = m_project->GetBuildTarget(nt++) ;
 			if (!buildtarget)
@@ -172,15 +196,18 @@ bool qtPre::detectQt(cbProject * prj, bool report) {
 	}
 
 	bool valid = ok ;
-	if (valid)  {
-		if (m_Savereport) {
+	if (valid)
+	{
+		if (m_Savereport)
+		{
 			wxString  title = m_nameproject + _T(" uses Qt libraries !") ;
 			Mes = _("It will generate the complements files...") ;
 			InfoWindow::Display(title, Mes, 2000);
 		}
 
 		bool usemake = prj->IsMakefileCustom() ;
-		if(usemake)   {
+		if(usemake)
+		{
 			Mes = _T("... but please, DISABLE using of custom makefile");
 			Mes += Lf + Quote + m_Thename + Quote + _T(" not use makefile.");
 			print(Mes);
@@ -204,18 +231,21 @@ bool qtPre::detectQt(cbProject * prj, bool report) {
 /// calls to :
 ///  none
 ///
-bool qtPre::hasLibQt(CompileTargetBase * container) {
+bool qtPre::hasLibQt(CompileTargetBase * container)
+{
 	bool ok = false;
 	if (!container)
 		return ok;
 
 	wxArrayString tablibs = container->GetLinkLibs() ;
 	uint16_t nlib = tablibs.GetCount() ;
-	if (nlib > 0 ) {
+	if (nlib > 0 )
+	{
 		wxString namelib ;
 		uint16_t u=0;
 		int16_t index= -1, pos ;
-		while (u < nlib && !ok ) {
+		while (u < nlib && !ok )
+		{
 			// lower, no extension
 			namelib = tablibs.Item(u++).Lower().BeforeFirst('.') ;
 			// no prefix "lib"
@@ -245,14 +275,17 @@ bool qtPre::hasLibQt(CompileTargetBase * container) {
 ///	1. findwasCreated():1,
 ///	2. filesTocreate(bool):1,
 ///
-wxArrayString qtPre::copyArray (const wxArrayString& strarray) {
+wxArrayString qtPre::copyArray (const wxArrayString& strarray)
+{
 	wxArrayString tmp ;
 	int nl = strarray.GetCount()  ;
 	if (nl == 0)
 		return  tmp ;
+
 	// a line
 	wxString line;
-	for (int u = 0; u < nl; u++) {
+	for (int u = 0; u < nl; u++)
+	{
 	// read strarray line
 		line = strarray.Item(u) ;
 	// write line to tmp

@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregenForCB-0.6.0" />
+		<Option title="qtPregenForCB-0.7.1" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
@@ -132,7 +132,7 @@
 		<Unit filename="manifest.xml">
 			<Option target="default" />
 		</Unit>
-		<Unit filename="patch/svn10118-evPREGEN.patch">
+		<Unit filename="patch/svn10118-evPREGEN0.7.1.patch">
 			<Option target="patchs" />
 		</Unit>
 		<Unit filename="src/QtPregen.cpp">

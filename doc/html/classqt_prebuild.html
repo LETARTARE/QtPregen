@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">qtPregenForCB
-   &#160;<span id="projectnumber">0.6.0</span>
+   &#160;<span id="projectnumber">0.7.1</span>
    </div>
   </td>
  </tr>
@@ -125,6 +125,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3d5d6728c963da35fbd82ce36b9e9210 inherit pub_methods_classqt_pre"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cf253174787aa571e6735f050f8268b inherit pub_methods_classqt_pre"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a1cf253174787aa571e6735f050f8268b">detectQt</a> (cbProject *prj, bool report=false)</td></tr>
 <tr class="separator:a1cf253174787aa571e6735f050f8268b inherit pub_methods_classqt_pre"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a026a70ce932418877568c5271efe9883 inherit pub_methods_classqt_pre"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a026a70ce932418877568c5271efe9883">GetVersionSDK</a> ()</td></tr>
+<tr class="separator:a026a70ce932418877568c5271efe9883 inherit pub_methods_classqt_pre"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -209,8 +211,6 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a3429fdc572c41508e43a4378d3e29aed"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_prebuild.html#a3429fdc572c41508e43a4378d3e29aed">m_Dexeishere</a></td></tr>
-<tr class="separator:a3429fdc572c41508e43a4378d3e29aed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94bbd609ef859314ae1da267b27cb221"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_prebuild.html#a94bbd609ef859314ae1da267b27cb221">m_Identical</a></td></tr>
 <tr class="separator:a94bbd609ef859314ae1da267b27cb221"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3e0d69087f89f0b404e430781d9eaff"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_prebuild.html#ac3e0d69087f89f0b404e430781d9eaff">m_Devoid</a></td></tr>
@@ -444,7 +444,7 @@ Additional Inherited Members</h2></td></tr>
 <p> Generating one complement file...</p>
 <ul>
 <li>called by :<ol type="1">
-<li><a class="el" href="class_qt_pregen.html#a50082fbc3b10cd32e4770a57f080abc5">QtPregen::OnPrecompile(CodeBlocksEvent&amp; event)</a></li>
+<li><a class="el" href="class_qt_pregen.html#a18cf487d899c841d502f75d46168886a">QtPregen::OnPregen(CodeBlocksEvent&amp; event)</a>:1,</li>
 </ol>
 </li>
 <li>calls to :<ol type="1">
@@ -1933,27 +1933,6 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3429fdc572c41508e43a4378d3e29aed"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool qtPrebuild::m_Dexeishere</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Indicate if it's possible to compare date </p>
-
-</div>
-</div>
 <a class="anchor" id="a94bbd609ef859314ae1da267b27cb221"></a>
 <div class="memitem">
 <div class="memproto">
@@ -2024,7 +2003,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 22 2015 16:47:40 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Feb 24 2015 10:26:42 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>
