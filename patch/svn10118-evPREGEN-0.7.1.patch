@@ -2,12 +2,12 @@ Index: include/sdk_events.h
 ===================================================================
 --- include/sdk_events.h	(révision 10118)
 +++ include/sdk_events.h	(copie de travail)
-@@ -418,6 +418,18 @@
- #define EVT_CLEAN_WORKSPACE_STARTED(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_CLEAN_WORKSPACE_STARTED, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
- extern EVTIMPORT const wxEventType cbEVT_COMPILER_SETTINGS_CHANGED;
- #define EVT_COMPILER_SETTINGS_CHANGED(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_COMPILER_SETTINGS_CHANGED, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
+@@ -474,6 +474,19 @@
+ 
+ // settings events
+ 
 +// Defines the futur current state of the compiler.
-+// to use with 'cbEVT_COMPILER_STARTED' in  'm_commandInt' or  'm_clientData'
++// to use with 'cbEVT_COMPILER_STARTED' in  'm_commandInt' or 'm_clientData'
 +enum cbFutureBuild
 +{
 +    fbNone = 0,
@@ -18,9 +18,10 @@ Index: include/sdk_events.h
 +    fbWorkspaceClean,
 +    fbWorkspaceReBuild
 +};
- 
- // request app to compile a single file
- extern EVTIMPORT const wxEventType cbEVT_COMPILE_FILE_REQUEST;
++
+ // event.GetInt() returns value of type cbSettingsType::Type indicating which setting group was changed
+ struct cbSettingsType
+ {
 Index: plugins/compilergcc/compilergcc.cpp
 ===================================================================
 --- plugins/compilergcc/compilergcc.cpp	(révision 10118)
@@ -72,7 +73,7 @@ Index: plugins/compilergcc/compilergcc.cpp
              // check if it should build with "All"
              // run target pre-build steps
              cmds = dc.GetPreBuildCommands(bt);
-@@ -3870,3 +3880,57 @@
+@@ -3870,3 +3880,55 @@
      return wxString::Format(_("%d minute(s), %d second(s)"), mins, secs);
  #endif // NO_TRANSLATION
  }
@@ -108,11 +109,10 @@ Index: plugins/compilergcc/compilergcc.cpp
 +{
 +    if (m_CommandQueue.GetCount() == 0)
 +    {
-+        // project/target pairs
++        // project/target pairs + cbFutureBuild
 +        CodeBlocksEvent evt(cbEVT_COMPILER_STARTED, 0, m_pBuildingProject, 0, this);
 +        evt.SetBuildTargetName(m_BuildingTargetName);
-+        evt.SetInt((int)GetFutureBuild());
-+        evt.SetString(_T(""));
++        evt.SetInt(static_cast<int>(GetFutureBuild()));
 +        Manager::Get()->ProcessEvent(evt);
 +    }
 +    Manager::Yield();
@@ -124,7 +124,6 @@ Index: plugins/compilergcc/compilergcc.cpp
 +    {
 +        CodeBlocksEvent evt(cbEVT_COMPILER_STARTED, 0, m_pProject, 0, this);
 +        evt.SetString(file);
-+        evt.SetInt(-1);
 +        Manager::Get()->ProcessEvent(evt);
 +    }
 +    Manager::Yield();
