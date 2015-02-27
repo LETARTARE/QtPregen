@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      QtPregen.h
- * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.7.0
+ * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.8.3
  * Author:    LETARTARE
- * Created:   2015-02-23
+ * Created:   2015-02-27
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -20,6 +20,7 @@
 //-------------------------------------------------
 class qtPre;
 class qtPrebuild;
+class TextCtrlLogger;
 //-------------------------------------------------
 /** @brief Qt plugin main class
  *
@@ -156,6 +157,31 @@ class QtPregen : public cbPlugin
     /** Global used to record different messages for the construction report
     */
     wxString Mes;
+
+  private:
+    /**  Append log message to 'PreBuild log'
+     */
+    void AppendToLog(const wxString& Text, Logger::level lv = Logger::info);
+
+    /** Log tab in the message pane
+     */
+    TextCtrlLogger* m_PregenLog;
+
+    /** Index of our log tab (can this change during run time ??)
+     */
+    int m_LogPageIndex,
+    /**  Last log index
+     */
+        m_LastIndex;
+
+    /**   last log
+     */
+    Logger * m_Lastlog;
+
+    /**  Manager log
+     */
+    LogManager* m_LogMan ;
+
 
  //DECLARE_EVENT_TABLE();
 };

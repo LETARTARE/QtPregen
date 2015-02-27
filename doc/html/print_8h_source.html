@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">qtPregenForCB
-   &#160;<span id="projectnumber">0.7.1</span>
+   &#160;<span id="projectnumber">0.8.3</span>
    </div>
   </td>
  </tr>
@@ -113,21 +113,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="print_8h.html#a30ed96a93c11a71c1933ecf7d1f8091b">   29</a></span>&#160;<span class="preprocessor">#define     Slash   wxFILE_SEP_PATH</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;logmanager.h&gt;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="print_8h.html#a0e7d962dae2151ea92d602543d1f62d2">   33</a></span>&#160;<span class="preprocessor">#define lm          Manager::Get()-&gt;GetLogManager()</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="print_8h.html#ad80e161a93ca0d69575846ad8432b4f9">   34</a></span>&#160;<span class="preprocessor">#define print       lm-&gt;Log</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="print_8h.html#a37e5be9a7e10ff86fb154068578f3545">   35</a></span>&#160;<span class="preprocessor">#define printLn     lm-&gt;Log(_T(&quot;&quot;))</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="print_8h.html#a7f757d5df6fddfe5e34a711719944ea5">   36</a></span>&#160;<span class="preprocessor">#define printWarn   lm-&gt;LogWarning</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="print_8h.html#a05e9a40d88a643e9993506c041eb80b5">   37</a></span>&#160;<span class="preprocessor">#define printErr    lm-&gt;LogError</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;filefilters.h&gt;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="print_8h.html#a756e4d5d7366024c2af007057a9c087a">   40</a></span>&#160;<span class="preprocessor">#define     EXT_H       FileFilters::H_EXT</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="print_8h.html#a2ad0562b7ab52f009c8055078aaf72e4">   41</a></span>&#160;<span class="preprocessor">#define     EXT_HPP     FileFilters::HPP_EXT</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="print_8h.html#aae8f2a3e3452ea18090dfc46895d8913">   42</a></span>&#160;<span class="preprocessor">#define     EXT_CPP     FileFilters::CPP_EXT</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="print_8h.html#af3c62bef0b8a2e893f364051be991f2a">   43</a></span>&#160;<span class="preprocessor">#define     DOT_EXT_H   FileFilters::H_DOT_EXT</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="print_8h.html#a2fe8d37215380717b82d083d5927a83e">   44</a></span>&#160;<span class="preprocessor">#define     DOT_EXT_CPP FileFilters::CPP_DOT_EXT</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif // PRINT_H_INCLUDED</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="print_8h.html#a08a010f36c7958b2991f1fbcf32e10ec">   34</a></span>&#160;<span class="preprocessor">#define Print       lm-&gt;Log</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="print_8h.html#a2daa9cfc51ebd6571878f21796acb63b">   35</a></span>&#160;<span class="preprocessor">#define PrintLn     lm-&gt;Log(_T(&quot;&quot;))</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="print_8h.html#a4a31f7251030f24695269de4bbfcc29d">   36</a></span>&#160;<span class="preprocessor">#define PrintWarn   lm-&gt;LogWarning</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="print_8h.html#ac0aefbabaad4b80f4f33d21b3cb96569">   37</a></span>&#160;<span class="preprocessor">#define PrintErr    lm-&gt;LogError</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#define p               m_LogPageIndex</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="print_8h.html#af9c8bea412f5a573061621aa001c224c">   40</a></span>&#160;<span class="preprocessor">#define print(a)        lm-&gt;Log(a, p)</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="print_8h.html#a37e5be9a7e10ff86fb154068578f3545">   41</a></span>&#160;<span class="preprocessor">#define printLn         lm-&gt;Log(_T(&quot;&quot;), p)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="print_8h.html#ade219469bfd5ad02e54153a8f0ed8d8c">   42</a></span>&#160;<span class="preprocessor">#define printWarn(a)    lm-&gt;LogWarning(a, p)</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="print_8h.html#afd45dbeadc2b308a273f32cfe724c3b9">   43</a></span>&#160;<span class="preprocessor">#define printErr(a)     lm-&gt;LogError(a, p)</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &lt;filefilters.h&gt;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="print_8h.html#a756e4d5d7366024c2af007057a9c087a">   46</a></span>&#160;<span class="preprocessor">#define     EXT_H       FileFilters::H_EXT</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="print_8h.html#a2ad0562b7ab52f009c8055078aaf72e4">   47</a></span>&#160;<span class="preprocessor">#define     EXT_HPP     FileFilters::HPP_EXT</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="print_8h.html#aae8f2a3e3452ea18090dfc46895d8913">   48</a></span>&#160;<span class="preprocessor">#define     EXT_CPP     FileFilters::CPP_EXT</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="print_8h.html#af3c62bef0b8a2e893f364051be991f2a">   49</a></span>&#160;<span class="preprocessor">#define     DOT_EXT_H   FileFilters::H_DOT_EXT</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="print_8h.html#a2fe8d37215380717b82d083d5927a83e">   50</a></span>&#160;<span class="preprocessor">#define     DOT_EXT_CPP FileFilters::CPP_DOT_EXT</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#endif // PRINT_H_INCLUDED</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 24 2015 10:26:42 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 27 2015 20:13:07 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

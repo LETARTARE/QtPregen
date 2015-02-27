@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      qtPrebuild.cpp
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.7.0
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.3
  * Author:    LETARTARE
- * Created:   2015-02-23
+ * Created:   2015-02-27
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -23,8 +23,8 @@
 /// called by :
 ///	1. QtPregen::OnAttach():1,
 ///
-qtPrebuild::qtPrebuild(cbProject * prj)
-	: qtPre(prj)
+qtPrebuild::qtPrebuild(cbProject * prj, int logindex)
+	: qtPre(prj, logindex)
 	, m_Identical(false)
 {
 	// not use  + _T(Slash)   !!
@@ -43,9 +43,9 @@ qtPrebuild::~qtPrebuild()
 /// called by :
 ///	1. buildQt():1,
 ///
-void qtPrebuild::beginMesCreate()
+void qtPrebuild::beginMesBuildCreate()
 {
-// begin '*.cre'
+// begin
 	if(!m_project)
 		return;
 
@@ -58,62 +58,35 @@ void qtPrebuild::beginMesCreate()
 		return ;
 
 	m_nameproject = m_project->GetTitle();
-	wxString file = m_dirproject + m_nameproject ;
-	closedit(file + _T(".cre"));
-	m_Fileswithstrings.Clear();
-// tittle
-	Mes = _("Begin ") +  Quote + m_Thename + _T(" ") + VERSION_QTP + Quote + _T(" : ") ;
-	//print(Mes) ;
-	m_Fileswithstrings.Add(Mes, 1) ;
-	// Qt path
-	wxString qtpath = findpathProjectQt() ;
-	Mes = Lf + Tab + Quote + _T("Qt") + Quote + _(" Installation path") + _T(" : ") ;
-	Mes +=  Quote + qtpath + Quote  ;
-	//print(Mes) ;
-	m_Fileswithstrings.Add(Mes, 1)  ;
+	m_nameactiveproject = m_project->GetActiveBuildTarget();
 
-	Mes = Lf + Tab + _("Eligibles files ") ;
-	Mes += _T("(*.h, *.hpp, *.cpp, *.ui, *.qrc)")  ;
-//	print(Mes) ;
-	m_Fileswithstrings.Add(Mes, 1)  ;
-	Mes = _T("");
-    if (m_project)
-	{
-		int nfp = m_project->GetFilesCount();
-		Mes = Lf + Tab + _("The active m_project ") + Quote + m_nameproject + Quote ;
-		Mes += _T(", ") + (wxString() << nfp) + _(" files") ;
-		Mes += Lf + Tab + _("Work path : ") + Quote + m_dirproject + Quote ;
-    }
-	// date
+// display log
+	printLn;
+	Mes = _T("-------------- ") ;
+	Mes += _T("PreBuild : ") ;
+	Mes += Quote + m_nameactiveproject + Quote;  // realtarget
+	Mes += _T(" in ");
+	Mes += Quote + m_nameproject + Quote;
+	Mes += _T("-------------- ") ;
+	printWarn(Mes);
+// date
 	wxString Datebegin = date() ;
-	Mes +=  Lf +  Tab + _("Date : ")+ Datebegin  ;
-	//print(Mes);
-	m_Fileswithstrings.Add(Mes, 1);
-	// for duration
+	Mes = _("started on : ")+ Datebegin  ;
+	print(Mes);
+// for duration
 	m_start = clock();
 }
 ///-----------------------------------------------------------------------------
 /// called by :
 ///	1. buildQt():1,
 ///
-void qtPrebuild::endMesCreate()
+void qtPrebuild::endMesBuildCreate()
 {
-// end '*.cre'
-	Mes = Lf + _("End ") + Quote + m_Thename + Quote  ;
-	m_Fileswithstrings.Add(Mes, 1) ;
-	// date and duration
-	Mes = date()  + _T(" -> ") + _("duration = ") + duration() ;
-	//print (Mes) ;
-	m_Fileswithstrings.Add(Mes, 1)  ;
-// saving
-	if (m_Savereport)
-	{
-		if (!saveFileswithstrings())
-		{
-			Mes = _("The message table can not be saved to disk !");
-			printErr(Mes);
-		}
-	}
+// date and duration
+	Mes = _("ended on : ") + date() ;
+	print (Mes) ;
+	Mes =  _("duration = ") + duration() ;
+	printWarn(Mes);
 }
 ///-----------------------------------------------------------------------------
 /// Generating the complements files...
@@ -135,39 +108,30 @@ bool qtPrebuild::buildQt(cbProject * prj, bool workspace, bool allbuild)
 	if (!ok)
 		return ok;
 
-	m_Savereport = ! workspace;
-    // begin banner
-	beginMesCreate();
+	if (m_Savereport)
+		m_Savereport = ! workspace;
+
+// begin banner
+	beginMesBuildCreate();
 
 	ok = false;
-	Mes = Tab + _("Generating the complements files ") ;
-	Mes += _("for the project ") + Quote + m_project->GetTitle() + Quote ;
-	print(Mes);
 	///***********************************************
 	///1- find good target with eligible files
 	///***********************************************
-	wxString mes = _T("1- findGoodfiles() ...") ;
 	// analyzing all project files
 	int nelegible =  findGoodfiles() ;
-	mes += Lf + Tab + _T("elegible files= ") + (wxString()<<nelegible) ;
 	if (nelegible > 0)
 	{
 		///************************************************
 		///2-  registered all files in 'm_Registered'
 		///************************************************
-		mes += Lf + _T("2- addRecording() ...");
 		int nfiles = addRecording() ;
-		mes += Lf + Tab + _T("recorded files = ") + (wxString()<<nfiles) ;
 		if (nfiles > 0)
 		{
 			///************************************************
 			///3-  files to create to 'm_Filestocreate'
 			///************************************************
-			mes += Lf + _T("3- filesTocreate(") ;
-			mes += allbuild ? _T("true") : _T("false");
-			mes += _T(") ...") ;
 			uint16_t ntocreate = filesTocreate(allbuild) ;
-			mes += Lf + Tab + _T("files to create = ") + (wxString()<<ntocreate) ;
 			if (ntocreate == 0 )
 				ok = !allbuild ;
 			else
@@ -181,18 +145,15 @@ bool qtPrebuild::buildQt(cbProject * prj, bool workspace, bool allbuild)
 				/// 1- adds files created in 'm_Createdfile'
 				/// 2- create additional files as needed  by 'create(qexe, fileori)'
 				///***********************************************************
-				mes +=  Lf + _T("4- createFiles() ...");
 				bool good = createFiles() ;
 				if (good)
 				{
 					///**********************************
 					///5- register files created
 					///**********************************
-					mes += Lf + _T("5- validCreated() ...")  ;
 					good = validCreated() ;
 					if (good)
 					{
-                //  print(mes);
 						///**********************************
 						///6- ???
 						///**********************************
@@ -205,9 +166,44 @@ bool qtPrebuild::buildQt(cbProject * prj, bool workspace, bool allbuild)
 		} // end (nfiles > 0)
 	} // end (nelegible > 0)
     // end banner
-	endMesCreate();
+	endMesBuildCreate();
 
 	return ok;
+}
+///-----------------------------------------------------------------------------
+/// called by :
+///	1. buildFileQt():1,
+///
+void qtPrebuild::beginMesFileCreate()
+{
+// banner
+	printLn;
+	Mes = _T("-------------- ") ;
+	Mes += _T("PreCompileFile : ") ;
+	Mes += Quote + m_project->GetActiveBuildTarget() + Quote;
+	Mes += _T(" in ");
+	Mes += Quote + m_project->GetTitle() + Quote;
+	Mes += _T(" : ") + Quote + m_filename + Quote;
+	Mes += _T("-------------- ") ;
+	printWarn(Mes);
+// date
+	wxString Datebegin = date() ;
+	Mes = _("started on : ")+ Datebegin  ;
+	print(Mes);
+// for duration
+	m_start = clock();
+}
+///-----------------------------------------------------------------------------
+/// called by :
+///	1. buildFileQt():1,
+///
+void qtPrebuild::endMesFileCreate()
+{
+// date and duration
+	Mes = _("ended on : ") + date() ;
+	print (Mes) ;
+	Mes =  _("duration = ") + duration() ;
+	printWarn(Mes);
 }
 ///-----------------------------------------------------------------------------
 /// Generating one complement file...
@@ -226,21 +222,52 @@ bool qtPrebuild::buildFileQt(cbProject * prj, const wxString& fcreator)
 	if(!prj)
 		return false;
 
-	m_dirproject = prj->GetBasePath();
+	m_project = prj;
+	m_filename = fcreator;
 
+// directory changed
+	m_dirproject = m_project->GetBasePath();
+	wxFileName::SetCwd (m_dirproject);
+	bool ok = createDir (m_dirgen) ;
+	if (!ok)
+		return ok;
+
+// file it is correct ?
     bool elegible = isElegible(fcreator);
-    if (elegible)
-	{
-		m_project = prj;
-		m_nameactiveproject = prj->GetActiveBuildTarget() ;
-     	wxString fout = m_dirgen + m_nameactiveproject + wxString(Slash) ;
-		fout += nameCreated(fcreator) ;
+    if (!elegible)
+		return elegible ;
 
-		Mes = Tab + _(" One supplement file are registered in the project") ;
-		print(Mes) ;
+// begin pre-Compile
+	beginMesFileCreate() ;
+// init Qt tools
+	ok = findTargetQtexe(prj) ;
+	if (!ok)
+		return ok ;
+
+	m_nameactiveproject =  m_project->GetActiveBuildTarget() ;
+	// targets no virtual list
+	wxArrayString ltargets;
+// virtual target ?
+	bool virt = isVirtualTarget(m_nameactiveproject);
+	if (virt)
+		ltargets = listTargets(m_nameactiveproject) ;
+	else
+		ltargets.Add(m_nameactiveproject);
+
+	uint16_t ntargets = ltargets.GetCount();
+	ProjectBuildTarget* buildtarget;
+    for (uint16_t nt = 0 ; nt < ntargets ; nt++ )
+    {
+		m_nameactiveproject = ltargets.Item(nt);
+		buildtarget = m_project->GetBuildTarget(m_nameactiveproject);
+		if (buildtarget && buildtarget->GetTargetType() == ttCommandsOnly )
+			continue;
+
+		wxString fout = m_dirgen + m_nameactiveproject + wxString(Slash) ;
+		fout += nameCreated(fcreator) ;
 		Mes = Tab + Quote + fcreator + Quote + _T(" -> ") + Quote + fout + Quote ;
 		print(Mes);
-    // already registered
+	// already registered
 		bool inproject = inProjectFile(fout) ;
 		if (!inproject)
 		{
@@ -262,15 +289,13 @@ bool qtPrebuild::buildFileQt(cbProject * prj, const wxString& fcreator)
 				cbMessageBox(Mes, _T("AddFile(...)"), wxICON_ERROR) ;
 			}
 		// display
-			Mes = Tab + _("Add ") + Quote + fout + Quote ;
 			if (include)
 			{
+				Mes = Tab + _("Add ") + Quote + fout + Quote ;
 				Mes += Lf + Tab + Tab + _T("*** ") + _("This file is included, ") ;
 				Mes += _("attributes 'compile' and 'link' will be set to 'false'") ;
+				print(Mes);
 			}
-			print(Mes);
-			//m_Fileswithstrings.Add(Mes, 1) ;
-
 			// svn 9501 : CB 13.12
 			Manager::Get()->GetProjectManager()->GetUI().RebuildTree() ;
 			// svn 8629 : CB 12.11
@@ -287,15 +312,22 @@ bool qtPrebuild::buildFileQt(cbProject * prj, const wxString& fcreator)
 			if (wxFileExists(fout))
 				m_Identical = CompareDate(fcreator, fout) ;
 		}
-	// ! identical date -> create
-		if (!m_Identical)
+
+		if (m_Identical)
 		{
-			Mes = Tab + _(" One supplement file are created in the project ...") ;
-			printWarn(Mes);
+			Mes =  _T("- ") ;
+			Mes += _("thing to be done (item are up-to-date)") ;
+			print(Mes) ;
+		}
+	// ! identical date -> create
+		else
+		{
+			//Mes = Tab + _(" One supplement file are created in the project ...") ;
+			//printWarn(Mes);
 		// create file complement with 'moc'
-            wxString strerror = createFileComplement(m_Mexe, fcreator, fout);
-            if (!strerror.IsEmpty())
-            {
+			wxString strerror = createFileComplement(m_Mexe, fcreator, fout);
+			if (!strerror.IsEmpty())
+			{
 			// error message
 				wxString title = _("Creating ") + Quote + fout + Quote ;
 				title += _(" failed") ;
@@ -308,30 +340,14 @@ bool qtPrebuild::buildFileQt(cbProject * prj, const wxString& fcreator)
 				Mes =  _T("=> ") ;
 				Mes += strerror.BeforeLast(Lf.GetChar(0)) ;
 				printErr (Mes) ;
-				m_Fileswithstrings.Add(Mes, 1) ;
 				cbMessageBox(Mes, title) ;
-            }
+			}
 		}
-    }
+	}
+// end preCompile
+	endMesFileCreate() ;
 
     return elegible;
-}
-///-----------------------------------------------------------------------------
-/// called by :
-///	1. endMesCreate():1,
-///
-/// calls to :
-///	1. saveArray(...):1,
-///
-bool qtPrebuild::saveFileswithstrings()
-{
-	bool good = false ;
-	if (m_project)
-	{
-		wxString nameprj = m_project->GetTitle();
-		good = saveArray(m_Fileswithstrings, nameprj + _T(".cre")) ;
-	}
-	return good;
 }
 ///-----------------------------------------------------------------------------
 /// Reference of libQt by target: "" or "4r" or "4d" or "5r" or "5d"
@@ -401,8 +417,8 @@ wxString qtPrebuild::refTargetQt(ProjectBuildTarget * buildtarget)
 	{
 		Mes = _("It is not a Qt target") + Lf + _("or nothing library") + _T(" ! ") ;
 		Mes += Lf + _("Cannot continue.") ;
+		printErr(Mes);
 		cbMessageBox(Mes, _("QtPregen information"), wxICON_INFORMATION | wxOK)  ;
-		//m_Fileswithstrings.Add(Mes, 1)
 	}
 
 	return refqt ;
@@ -465,14 +481,11 @@ wxString qtPrebuild::pathQt(CompileTargetBase * container)
 		while (u < npath && !ok )
 		{
 			path = tablibdirs.Item(u++);
-		//print(_T("path = ") + Quote+ path + Quote);
 			// not correct !!
 			ok = path.Find(_T("$QT")) != -1 ;
 			if (ok)
 			{
-		//	print(_T("path = ") + Quote+ path + Quote);
 				m_mam->ReplaceEnvVars(path) ;
-		//	print(_T("path = ") + Quote+ path + Quote);
 				path_nomacro =  path ;
 				// remove "\lib"
 				path_nomacro = path_nomacro.BeforeLast(Slash) ;
@@ -484,9 +497,7 @@ wxString qtPrebuild::pathQt(CompileTargetBase * container)
 				ok = path.Find(_T("#qt")) != -1 ;
 				if (ok)
 				{
-			//	print(_T("path = ") + Quote+ path + Quote);
 					m_mam->ReplaceMacros(path) ;
-			//	print(_T("path = ") + Quote+ path + Quote);
 					path_nomacro =  path ;
 					// remove "\lib"
 					path_nomacro = path_nomacro.BeforeLast(Slash) ;
@@ -509,19 +520,16 @@ bool qtPrebuild::findTargetQtexe(cbProject * parentbuildtarget)
 	if (!parentbuildtarget)
 		return false  ;
 
-//	Mes = _T("name projet = ") + Quote + parentbuildtarget->GetTitle() + Quote;
-//	printErr(Mes);
 	wxString qtpath = pathQt(parentbuildtarget) ;
 	if(qtpath.IsEmpty())
 	{
 		Mes = _("Nothing path 'qt'") ;
 		Mes += Lf + _("or nothing library !") + Lf + _("Cannot continue.") ;
+		printErr(Mes);
 		cbMessageBox(Mes, _T(""), wxICON_ERROR) ;
 		return false ;
 	}
 
-//	Mes = _T("qtpath = ") + Quote + qtpath + Quote;
-//	printErr(Mes);
 	wxString qtexe = qtpath + _T("bin") + wxFILE_SEP_PATH  ;
 	if (m_Win)
 	{
@@ -548,8 +556,6 @@ bool qtPrebuild::findTargetQtexe(cbProject * parentbuildtarget)
 		m_Lexe = qtexe + _T("lrelease") ;
 	}
 
-//	Mes = _T("qtexe = ") + Quote + qtexe + Quote;
-//	printErr(Mes);
 	bool Findqtexe = wxFileExists(m_Mexe) && wxFileExists(m_Uexe) ;
 	Findqtexe = Findqtexe && wxFileExists(m_Rexe) && wxFileExists(m_Lexe) ;
 	if (!Findqtexe)
@@ -557,8 +563,8 @@ bool qtPrebuild::findTargetQtexe(cbProject * parentbuildtarget)
 		Mes = _("Could not query the executable Qt") ;
 		Mes +=  _T(" !") ;
 		Mes += Lf + _("Cannot continue.") ;
+		printErr(Mes);
 		cbMessageBox(Mes, _("Search executable Qt ..."), wxICON_ERROR) ;
-	//	m_Fileswithstrings.Add(Mes, 1)
 	}
 	m_IncPathQt = pathIncludeMoc() ;
 	m_DefinesQt = definesMoc() ;
@@ -566,51 +572,9 @@ bool qtPrebuild::findTargetQtexe(cbProject * parentbuildtarget)
 	return Findqtexe ;
 }
 ///-----------------------------------------------------------------------------
-/// Save messages array to file
-///
 /// called by  :
-///	1. SaveFileswithstrings():1,
-/// calls to :
-///	1. none
-///
-bool qtPrebuild::saveArray(const wxArrayString& table, wxString namefile)
-{
-	int n = table.GetCount() ;
-	bool ok = n > 0 ;
-	if (ok)
-	{
-	// full name
-		namefile = m_dirproject + namefile ;
-	// exists ?
-		ok = wxFileExists(namefile)  ;
-		if (ok)
-			wxRemoveFile(namefile) ;
-
-	// data to file
-		wxString shortname = namefile.AfterLast(Slash) ;
-		wxString mes ;
-		wxString temp = GetStringFromArray(table, Eol, false ) ;
-		ok = WriteFileContents(namefile, temp ) ;
-		if (!ok)
-		{
-			mes =  Tab + _("Could not write file ") ;
-			mes += Quote + _T("locale\\") + shortname + Quote + _T(" !!") ;
-			mes += Eol + Tab + _("Check that the name not contain illegal characters ...") ;
-			m_Fileswithstrings.Add(mes, 1)  ;
-			return false ;
-		}
-		mes = Tab + _("Write file ") ;
-		mes += Quote + shortname + Quote  + Lf  + Lf ;
-		m_Fileswithstrings.Add(mes, 1) ;
-	// open file into editor
-		ok = openedit(namefile) ;
-	}
-
-	return ok ;
-}
-///-----------------------------------------------------------------------------
-/// called by  :
-///	1. q_object(...):1,hasIncluded(wxString):1,
+/// 1. q_object(filename,qt_macro):1,
+///	2. hasIncluded(wxString):1,
 ///
 /// calls to :
 ///		none
@@ -625,7 +589,7 @@ wxString qtPrebuild::ReadFileContents(const wxString& filename)
 }
 ///-----------------------------------------------------------------------------
 /// called by  :
-///	1. saveArray():1,
+///		none
 /// calls to :
 ///		none
 ///
@@ -637,65 +601,7 @@ bool qtPrebuild::WriteFileContents(const wxString& filename, const wxString& con
 
 	return cbWrite(f, contents);
 }
-///-----------------------------------------------------------------------------
-/// Open file to editor
-///
-/// called by  :
-///	1. saveArray():1,
-/// calls to :
-///     none
-///
-bool qtPrebuild::openedit(const wxString& filename)
-{
-	bool ok = wxFileExists(filename) ;
-	if (ok)
-	{
-		cbEditor * ed_open = Manager::Get()->GetEditorManager()->IsBuiltinOpen(filename) ;
-		if (ed_open )
-			ed_open->Close() ;
 
-		ed_open = Manager::Get()->GetEditorManager()->Open(filename) ;
-		ok = ed_open != nullptr ;
-		if (!ok )
-		{
-			Mes = _("Couldn't open ") + Quote + filename + Quote + _T(" !!") ;
-			cbMessageBox(Mes, _T(""), wxICON_ERROR)  ;
-			//print (Mes)
-			return ok ;
-		}
-	}
-	return ok ;
-}
-///-----------------------------------------------------------------------------
-/// Close file to editor
-///
-/// called by  :
-///	1. saveArray():1,
-///
-/// calls to :
-///     none
-///
-bool qtPrebuild::closedit(const wxString& filename)
-{
-//print(file);
-	bool ok = wxFileExists(filename) ;
-	if (ok)
-	{
-		cbEditor * ed_open = Manager::Get()->GetEditorManager()->IsBuiltinOpen(filename) ;
-		if (ed_open )
-		{
-			ok = ed_open->Close()  ;
-			if (!ok )
-			{
-				Mes = _("Couldn't close ") + Quote + filename + Quote + _T(" !!") ;
-				cbMessageBox(Mes, _T(""), wxICON_ERROR) ;
-				// print (Mes) ;
-				return ok ;
-			}
-		}
-	}
-	return ok ;
-}
 ///-----------------------------------------------------------------------------
 /// Get date
 ///
@@ -737,12 +643,8 @@ uint16_t qtPrebuild::findGoodfiles()
 	m_Filecreator.Clear();
 // active target
 	m_nameactiveproject = m_project->GetActiveBuildTarget() ;
-	Mes = Lf + Tab + _("The active target ") ;
-	Mes += Quote + m_nameactiveproject + Quote  + _T(" :") ;
-	//print(Mes) ;
-	m_Fileswithstrings.Add(Mes, 1) ;
 // virtual ?
-	if (isVirtualTarget(m_nameactiveproject) )
+	if (isVirtualTarget(m_nameactiveproject, true) )
 		return 0 ;
 
 // no good target
@@ -825,38 +727,77 @@ bool qtPrebuild::isGoodTargetQt(const wxString& nametarget)
 /// called by  :
 ///	1. findGoodfiles():1,
 ///
-bool qtPrebuild::isVirtualTarget(const wxString& nametarget)
+bool qtPrebuild::isVirtualTarget(const wxString& nametarget, bool warning)
 {
-	// search virtual target : vtargetsTable <- table::wxArrayString
+// search virtual target : vtargetsTable <- table::wxArrayString
 	wxString namevirtualtarget = _T("") ;
 	wxArrayString vtargetsTable = m_project->GetVirtualBuildTargets () ;
 	int nvirtual = vtargetsTable.GetCount() ;
 	bool ok = nvirtual > 0 ;
 	if (ok)
 	{
-		//PrintTable(_T("vtargetsTable"), vtargetsTable)
 		ok = false  ;
 	// virtual name
 		for (int nv = 0; nv < nvirtual ; nv++ )
 		{
 			namevirtualtarget = vtargetsTable.Item(nv) ;
 			ok = nametarget.Matches(namevirtualtarget) ;
-			if (ok)
+			if (!ok)
+				continue;
+
+			if (warning)
 			{
 				Mes = _T("'") + namevirtualtarget + _T("'") ;
 				Mes += _(" is a virtual target !!") ;
 				Mes += Lf + _("NOT YET IMPLEMENTED...") ;
 				Mes += Lf + _("... you must use the real targets.")  ;
 				Mes += Lf + _("Cannot continue.") ;
+				printErr(Mes);
 				cbMessageBox(Mes, _T(""), wxICON_ERROR)  ;
-				m_Fileswithstrings.Add(Mes, 1)  ;
-				break  ;
 			}
+			break;
 		}
 	}
 
 	return ok  ;
 }
+///-----------------------------------------------------------------------------
+/// Search all not virtual target
+///
+/// called by  :
+///		1. buildFileQt(cbProject * prj, const wxString& fcreator):1;
+///
+wxArrayString qtPrebuild::listTargets(const wxString& nametarget)
+{
+	wxArrayString groupTarget;
+	bool ok = isVirtualTarget(nametarget);
+	if(ok)
+	{
+		// list virtual targets
+		wxArrayString vtargetsTable = m_project->GetVirtualBuildTargets () ;
+		int nvirtual = vtargetsTable.GetCount() ;
+		ok = nvirtual > 0 ;
+		if (ok)
+		{
+			wxString namevirtualtarget = _T("") ;
+			ok = false  ;
+		// virtual name
+			for (int nv = 0; nv < nvirtual ; nv++ )
+			{
+				namevirtualtarget = vtargetsTable.Item(nv) ;
+				ok = nametarget.Matches(namevirtualtarget) ;
+				if (!ok)
+					continue;
+            // targets no virtual
+				groupTarget = m_project->GetVirtualBuildTargetGroup(nametarget) ;
+				break;
+			}
+		}
+	}
+
+	return groupTarget;
+}
+
 ///-----------------------------------------------------------------------------
 /// Search elegible files
 /// 'file' was created ?  ->  moc_*.cxx, ui_*.h, qrc_*.cpp
@@ -914,7 +855,6 @@ int  qtPrebuild::qt_find (wxString tmp, const wxString& qt_text)
 	int len_text = qt_text.length() ;
 	int posq, number =0 ;
 	bool ok, good, goodb, gooda ;
-
 	do
 	{
 		posq = tmp.Find(qt_text) ;
@@ -965,8 +905,7 @@ int qtPrebuild::q_object(const wxString& filename, const wxString& qt_macro)
 	if (! wxFileExists(namefile))
 	{
 		Mes = Quote + namefile + Quote + _(" NOT FOUND") + _T(" !!!") + Lf ;
-		print(Mes) ;
-		m_Fileswithstrings.Add(Mes, 1);
+		printErr(Mes) ;
 		return -1  ;
 	}
 //3- read source 'namefile'
@@ -974,7 +913,7 @@ int qtPrebuild::q_object(const wxString& filename, const wxString& qt_macro)
 	if (source.IsEmpty())
 	{
 		Mes = Quote + namefile + Quote + _(" : file is empty") +  _T(" !!!") + Lf ;
-		print(Mes) ;
+		printErr(Mes) ;
 		return -1 ;
 	}
 	// wxString
@@ -1086,9 +1025,7 @@ uint16_t qtPrebuild::addRecording()
 		fcreator = m_Filecreator.Item(u)  ;
 		//  this is where you add the name of the target
 		fout = m_dirgen + m_nameactiveproject + wxString(Slash)  ;
-	//print(fout);
 		fout += nameCreated(fcreator) ;
-
 		Mes = Tab + Quote + fcreator + Quote + _T(" -> ") +  Quote + fout + Quote;
 		print(Mes);
 		// checks if the file exists in the project
@@ -1124,8 +1061,7 @@ uint16_t qtPrebuild::addRecording()
 				Mes += Lf + Tab + Tab + _T("*** ") + _("This file is included, ") ;
 				Mes += _("attributes 'compile' and 'link' will be set to 'false'") ;
 			}
-			//print(Mes);
-			m_Fileswithstrings.Add(Mes, 1) ;
+			print(Mes);
 		}
 		// valid
 		if ( valid || inproject)
@@ -1134,17 +1070,18 @@ uint16_t qtPrebuild::addRecording()
 			m_Registered.Add(fout, 1) ;
 		}
 	}
+	printLn;
 // tree refresh
 	// svn 9501 : CB 13.12
 	Manager::Get()->GetProjectManager()->GetUI().RebuildTree() ;
 	// svn 8629 : CB 12.11
 	//Manager::Get()->GetProjectManager()->RebuildTree() ;
+
 //  end registering
 	uint16_t nf = m_Registered.GetCount() ;
 	Mes = Tab + Tab + _T("- ") + (wxString()<<nf) + _T(" ") ;
 	Mes += _("supplement(s) file(s) are registered in the plugin") ;
-	//print(Mes) ;
-	m_Fileswithstrings.Add(Mes, 1) ;
+	print(Mes) ;
 
 	return  nf;
 }
@@ -1269,6 +1206,7 @@ bool qtPrebuild::createDir (const wxString&  dirgen)
 		{
 			Mes = _("Can't create directory ")  ;
 			Mes += Quote + dirgen + Quote + _T(" !!") ;
+			printErr(Mes);
 			cbMessageBox(Mes, _T("createDir()"), wxICON_ERROR) ;
 		}
 	}
@@ -1291,6 +1229,7 @@ bool qtPrebuild::removeDir(const wxString&  dirgen )
 		{
 			Mes = _("Can't remove directory ") ;
 			Mes += Quote + dirgen + Quote + _T(" !!") ;
+			printErr(Mes);
 			cbMessageBox(Mes, _T(""), wxICON_ERROR) ;
 		}
 	}
@@ -1312,8 +1251,8 @@ uint16_t qtPrebuild::filesTocreate(bool allrebuild)
 	{
 		Mes = _("Couldn't save all files ") ;
 		Mes += _T(" !!")  ;
+		printErr (Mes);
 		cbMessageBox(Mes, _T(""), wxICON_ERROR)  ;
-		print (Mes);
 		return ok  ;
 	}
     uint16_t  ntocreate = 0;
@@ -1433,15 +1372,11 @@ bool qtPrebuild::createFiles()
 	if (emptiness)
 	{
 	// already created
-		Mes = Tab + _T("- ") + _("thing to be done (all items are up-to-date)") ;
+		Mes =  _T("- ") ;
+		Mes += _("thing to be done (all items are up-to-date)") ;
 		print(Mes) ;
-		m_Fileswithstrings.Add(Mes, 1) ;
 		return emptiness  ;
 	}
-
-//  message "begin create"
-	Mes = Lf + Tab + _T("=> ") + _("Begin create file to target")  ;
-	m_Fileswithstrings.Add(Mes, 1) ;
 
 // search target qt path for moc, ...
 	ProjectBuildTarget * buildtarget = m_project->GetBuildTarget(m_nameactiveproject)  ;
@@ -1501,7 +1436,6 @@ bool qtPrebuild::createFiles()
 			Mes =  _T("=> ") ;
 			Mes += strerror.BeforeLast(Lf.GetChar(0)) ;
 			printErr (Mes) ;
-			m_Fileswithstrings.Add(Mes, 1) ;
 
 			Mes += Lf + Lf + _("Do you want to stop the generation ?");
 			int16_t choice = cbMessageBox(Mes, title, wxICON_QUESTION | wxYES_NO) ;
@@ -1509,7 +1443,6 @@ bool qtPrebuild::createFiles()
 			{
                 Mes = _("Abandonment of the construction ...");
 				printErr (Mes) ;
-				m_Fileswithstrings.Add(Mes, 1) ;
 				break;
 			}
 		}
@@ -1519,10 +1452,6 @@ bool qtPrebuild::createFiles()
 	Mes =  Tab + _T("- ") + (wxString()<<nf) + _T(" ")  ;
 	Mes += _("supplement(s) file(s) are created in the target") ;
 	print(Mes)  ;
-
-// message "end create"
-	Mes = Tab + _T("<= ") + _("End create file") ;
-	m_Fileswithstrings.Add(Mes, 1)  ;
 
 	return created   ;
 }
@@ -1570,7 +1499,7 @@ wxString qtPrebuild::createFileComplement(const wxString&  qexe,
 
 	if (qexe.Matches(m_Mexe))
 	{
-		command +=  m_DefinesQt + m_IncPathQt  + _T(" -D__GNUC__ -DWIN32") ;
+		command +=  m_DefinesQt + m_IncPathQt  + _T("-D__GNUC__ -DWIN32") ;
 	}
 	// add input file
 	command += _T(" \"") + fcreator + _T("\"") ;
@@ -1583,11 +1512,13 @@ wxString qtPrebuild::createFileComplement(const wxString&  qexe,
 	m_nfilescreated++ ;
 	Mes = Tab + (wxString()<<m_nfilescreated) + _T("- ") + Quote + fcreator + Quote  ;
 	Mes +=  _T(" ---> ") + Quote + fout + Quote ;
-	m_Fileswithstrings.Add(Mes, 1)  ;
-	Mes = _T(">>") + command + _T("<<") ;
+	print(Mes);
+
+	wxString exe = qexe.AfterLast(Slash);
+	command.Replace(qexe, exe) ;
+	Mes = command;
 // log to debug
-	//printMes) ;
-	m_Fileswithstrings.Add(Mes, 1)  ;
+	print(Mes) ;
 	// create error
 	if (! created)
 	{
@@ -1610,7 +1541,6 @@ wxString qtPrebuild::createFileComplement(const wxString&  qexe,
 
 //5- return  error  : good if strerror is empty
 	return strerror ;
-
 }
 ///-----------------------------------------------------------------------------
 ///	Execute commands 'moc', 'uic', 'rcc' : return _("") if file created
@@ -1648,6 +1578,7 @@ wxString qtPrebuild::createComplement(const wxString& qexe, const uint16_t index
 	wxString Outputfile = m_Registered.Item(index) ;
 //3- create on file complement
 	wxString strerror = createFileComplement(qexe, inputfile, Outputfile) ;
+
 //4- return  error  : good if strerror is empty
 	return strerror ;
 }
@@ -1674,10 +1605,8 @@ wxString qtPrebuild::pathIncludeMoc()
 			tabpath.Add(line, 1) ;
 	//	}
 	}
-	//PrintTable(_T("tabpath"),tabpath)
 	// build 'incpath'
 	wxString incpath = _T(" ") + GetStringFromArray(tabpath, _T(" "), true) + _T(" ");
-//	print(incpath)
 
 	return incpath  ;
 }
@@ -1690,7 +1619,6 @@ wxString qtPrebuild::pathIncludeMoc()
 wxString qtPrebuild::definesMoc()
 {
 	wxArrayString tabdefines = m_project->GetCompilerOptions() ;
-	//PrintTable(_T("tabdefines"),tabdefines)
 	wxArrayString tabdef ;
 	wxString  line ;
 	uint16_t ncase = tabdefines.GetCount()  ;
@@ -1700,7 +1628,6 @@ wxString qtPrebuild::definesMoc()
 		if (line.Find(_T("-D")) != -1 )
 			tabdef.Add(line, 1) ;
 	}
-	//PrintTable(_T("tabdef"),tabdef)
 // build 'def'
 	wxString def = _T(" ") + GetStringFromArray(tabdef, _T(" "), true) + _T(" ") ;
 
@@ -1717,19 +1644,14 @@ bool qtPrebuild::validCreated()
 	bool ok = false  ;
 	uint16_t ncase = m_Createdfile.GetCount()  ;
 	while (ncase > 0 && !ok)
-	{
 		ok = ! m_Createdfile.Item(--ncase).Matches(m_Devoid)  ;
-	}
+
 	if (ok)
 	{
 		// svn 9501 : CB 13.12
 		Manager::Get()->GetProjectManager()->GetUI().RebuildTree()  ;
 		// svn 8629 : CB 12.11
 		// Manager::Get()->GetProjectManager()->RebuildTree()  ;
-		Mes = Tab + _("-> ") + _("Save project and rebuild of the tree") ;
-		Mes += _T(" ...") ;
-		print(Mes) ;
-		m_Fileswithstrings.Add(Mes + Lf, 1) ;
 	// save project
 		ok = Manager::Get()->GetProjectManager()->SaveProject(m_project)  ;
 	}

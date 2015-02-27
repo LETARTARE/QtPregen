@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">qtPregenForCB
-   &#160;<span id="projectnumber">0.7.1</span>
+   &#160;<span id="projectnumber">0.8.3</span>
    </div>
   </td>
  </tr>
@@ -85,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_qt_pregen-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -142,6 +143,11 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a18cf487d899c841d502f75d46168886a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a18cf487d899c841d502f75d46168886a">OnPregen</a> (CodeBlocksEvent &amp;event)</td></tr>
 <tr class="separator:a18cf487d899c841d502f75d46168886a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:ac7e28efda3afe4306b94c5fbbe0723d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#ac7e28efda3afe4306b94c5fbbe0723d2">AppendToLog</a> (const wxString &amp;Text, Logger::level lv=Logger::info)</td></tr>
+<tr class="separator:ac7e28efda3afe4306b94c5fbbe0723d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a2ecd402843d4d30fce8241f2a989822e"><td class="memItemLeft" align="right" valign="top">cbProject *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a2ecd402843d4d30fce8241f2a989822e">m_project</a></td></tr>
@@ -150,6 +156,16 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a7959b2f3514ace72dd419450f2903a48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fc62bc186f5ab2a5eeb1be66269866e"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a4fc62bc186f5ab2a5eeb1be66269866e">Mes</a></td></tr>
 <tr class="separator:a4fc62bc186f5ab2a5eeb1be66269866e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35b1f9f8cbc30664753053306faec087"><td class="memItemLeft" align="right" valign="top">TextCtrlLogger *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a35b1f9f8cbc30664753053306faec087">m_PregenLog</a></td></tr>
+<tr class="separator:a35b1f9f8cbc30664753053306faec087"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c2076848348e7fccb45d02ca39b0418"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a3c2076848348e7fccb45d02ca39b0418">m_LogPageIndex</a></td></tr>
+<tr class="separator:a3c2076848348e7fccb45d02ca39b0418"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30f0ff4f92e21a11823d1cf16cc8c03d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a30f0ff4f92e21a11823d1cf16cc8c03d">m_LastIndex</a></td></tr>
+<tr class="separator:a30f0ff4f92e21a11823d1cf16cc8c03d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acca6a59b2724570c160cccb9a27d51c1"><td class="memItemLeft" align="right" valign="top">Logger *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#acca6a59b2724570c160cccb9a27d51c1">m_Lastlog</a></td></tr>
+<tr class="separator:acca6a59b2724570c160cccb9a27d51c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fa451d422ac9972d9511606c06d94ae"><td class="memItemLeft" align="right" valign="top">LogManager *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a1fa451d422ac9972d9511606c06d94ae">m_LogMan</a></td></tr>
+<tr class="separator:a1fa451d422ac9972d9511606c06d94ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Qt plugin main class. </p>
@@ -197,6 +213,44 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ac7e28efda3afe4306b94c5fbbe0723d2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QtPregen::AppendToLog </td>
+          <td>(</td>
+          <td class="paramtype">const wxString &amp;&#160;</td>
+          <td class="paramname"><em>Text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Logger::level&#160;</td>
+          <td class="paramname"><em>lv</em> = <code>Logger::info</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Append log message to 'PreBuild log'</p>
+<hr/>
+<p> Append text to log</p>
+<p>called by : </p>
+
+</div>
+</div>
 <a class="anchor" id="a32be236e52246875c1a3135c58a4d0cf"></a>
 <div class="memitem">
 <div class="memproto">
@@ -599,8 +653,11 @@ Think of this method as the actual constructor...</p>
 </li>
 </ul>
 <p>calls to :</p><ol type="1">
-<li>m_prebuild-&gt;detectQt(prj, report):1,</li>
-<li>m_prebuild-&gt;buildQt(prj, Ws, Rebuild):1 </li>
+<li>m_prebuild-&gt;detectQt(prj, withreport):1,</li>
+<li>m_prebuild-&gt;buildQt(prj, Ws, Rebuild):1<ol type="a">
+<li>m_prebuild-&gt;buildFileQt(prj, file):1, </li>
+</ol>
+</li>
 </ol>
 
 </div>
@@ -639,6 +696,90 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a30f0ff4f92e21a11823d1cf16cc8c03d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int QtPregen::m_LastIndex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Last log index </p>
+
+</div>
+</div>
+<a class="anchor" id="acca6a59b2724570c160cccb9a27d51c1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Logger* QtPregen::m_Lastlog</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>last log </p>
+
+</div>
+</div>
+<a class="anchor" id="a1fa451d422ac9972d9511606c06d94ae"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">LogManager* QtPregen::m_LogMan</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Manager log </p>
+
+</div>
+</div>
+<a class="anchor" id="a3c2076848348e7fccb45d02ca39b0418"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int QtPregen::m_LogPageIndex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Index of our log tab (can this change during run time ??) </p>
+
+</div>
+</div>
 <a class="anchor" id="a7959b2f3514ace72dd419450f2903a48"></a>
 <div class="memitem">
 <div class="memproto">
@@ -657,6 +798,27 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 </table>
 </div><div class="memdoc">
 <p>pre-Builder for QT </p>
+
+</div>
+</div>
+<a class="anchor" id="a35b1f9f8cbc30664753053306faec087"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TextCtrlLogger* QtPregen::m_PregenLog</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Log tab in the message pane </p>
 
 </div>
 </div>
@@ -709,7 +871,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 24 2015 10:26:42 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 27 2015 20:13:08 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

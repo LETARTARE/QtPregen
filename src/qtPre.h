@@ -1,13 +1,13 @@
 /*************************************************************
  * Name:      qtPre.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.7.1
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.3
  * Author:    LETARTARE
- * Created:   2015-02-24
+ * Created:   2015-02-27
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
-#define VERSION_QTP _T("0.7.1")
+#define VERSION_QTP _T("0.8.3")
 
 #ifndef _QTPRE_H_
 #define _QTPRE_H_
@@ -20,6 +20,7 @@ class CompileTargetBase;
 class ProjectBuildTarget;
 class MacrosManager;
 class ProjectFile;
+class TextCtrlLogger;
 //------------------------------------------------------------------------------
 
 /**	@brief The class that is used to detect Qt libraries
@@ -31,8 +32,9 @@ class qtPre
 
 		/** Constructor
          * @param prj The active project.
+         * @param logindex The active log page.
          */
-		qtPre(cbProject *);
+		qtPre(cbProject * prj, int logindex);
 		/** Destructor */
 		virtual ~qtPre();
 
@@ -54,9 +56,13 @@ class qtPre
 		 */
 		wxString GetVersionSDK();
 
+		/**  Set page index to log
+		 */
+		void SetPageIndex(int pageindex);
+
 	protected :
 
-		/** Gibe an array from another
+		/** Give an array from another
          *	@param strarray : array name
          *	@return a copy, not an adress
          */
@@ -125,9 +131,7 @@ class qtPre
 		/** table contains libray name Qt
 		 */
 		wxArrayString  m_TablibQt ;
-		/** table contains report build
-		 */
-		wxArrayString m_Fileswithstrings ;
+
 	/// the tables
 		wxArrayString
 			/**	 files registered in the project
@@ -151,11 +155,15 @@ class qtPre
 		 */
 		wxString Mes;
 
+		/** log page index
+		 */
+		int	m_LogPageIndex;
+
 		/**  calculate duration  mS
 		 */
 		clock_t m_start;
 
-		/** Authorizes the editor output
+		/** authorizes the editor output
 		 */
 		bool m_Savereport;
 

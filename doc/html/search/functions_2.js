@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['closedit',['closedit',['../classqt_prebuild.html#a7d0313a3ead213434281caa38c6a3cae',1,'qtPrebuild']]],
   ['comparedate',['CompareDate',['../classqt_prebuild.html#a7374638d18655d1938497f6abff153ca',1,'qtPrebuild']]],
   ['configure',['Configure',['../class_qt_pregen.html#ac502c55b1f32f695187e174b3eeb4a8d',1,'QtPregen']]],
   ['copyarray',['copyArray',['../classqt_pre.html#a4b2acfe1f32fd66a63cdb535c1581226',1,'qtPre']]],

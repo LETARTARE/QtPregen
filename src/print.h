@@ -29,12 +29,18 @@
 #define 	Slash 	wxFILE_SEP_PATH
 ///-----------------------------------------------------------------------------
 #include <logmanager.h>
-/// debug messages
+/// debug messages  -> 'Code::Blocks log'
 #define lm			Manager::Get()->GetLogManager()
-#define print		lm->Log
-#define printLn		lm->Log(_T(""))
-#define printWarn	lm->LogWarning
-#define printErr	lm->LogError
+#define Print		lm->Log
+#define PrintLn		lm->Log(_T(""))
+#define PrintWarn	lm->LogWarning
+#define PrintErr	lm->LogError
+/// messages  -> 'PreBuild log'
+#define p               m_LogPageIndex
+#define print(a)	    lm->Log(a, p)
+#define printLn		    lm->Log(_T(""), p)
+#define printWarn(a)	lm->LogWarning(a, p)
+#define printErr(a)	    lm->LogError(a, p)
 ///------------------------------------------------------------------------------
 #include <filefilters.h>
 #define  	EXT_H 		FileFilters::H_EXT

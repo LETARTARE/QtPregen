@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['savearray',['saveArray',['../classqt_prebuild.html#a20e1906cf5733ed3390b6b36b64ebf15',1,'qtPrebuild']]],
-  ['savefileswithstrings',['saveFileswithstrings',['../classqt_prebuild.html#af5524db8b1eba9ead2701a711801ed45',1,'qtPrebuild']]],
-  ['setversionsdk',['SetVersionSDK',['../classqt_pre.html#a03501a1c8d8507e7d237e7779e1feda9',1,'qtPre']]]
+  ['readfilecontents',['ReadFileContents',['../classqt_prebuild.html#a535116e911b4d197f82423ebf32ed8f9',1,'qtPrebuild']]],
+  ['reftargetqt',['refTargetQt',['../classqt_prebuild.html#ab35b52e94dfcc414d63852fae7e49ca4',1,'qtPrebuild']]],
+  ['removedir',['removeDir',['../classqt_prebuild.html#a8db6eec84a5aff15151691a848a2ec83',1,'qtPrebuild']]]
 ];

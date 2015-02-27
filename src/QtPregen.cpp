@@ -1,13 +1,14 @@
 /*************************************************************
  * Name:      QtPregen.cpp
- * Purpose:   Code::Blocks plugin  'qtPregenForCB.cbp'   0.7.1
+ * Purpose:   Code::Blocks plugin  'qtPregenForCB.cbp'   0.8.3
  * Author:    LETARTARE
- * Created:   2015-02-24
+ * Created:   2015-02-27
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
 #include <sdk.h> 	// Code::Blocks SDK
+#include <loggers.h>
 #include "QtPregen.h"
 #include "qtprebuild.h"
 #include "print.h"
@@ -22,7 +23,8 @@ namespace
 ///	Load ressource 'QtPregen.zip'
 ///
 QtPregen::QtPregen()
-	: m_project(nullptr), m_prebuild(nullptr)
+	: m_project(nullptr), m_prebuild(nullptr) ,
+	  m_PregenLog(nullptr), m_LogPageIndex(0), m_LogMan(nullptr)
 {
 	if(!Manager::LoadResource(_T("QtPregen.zip")))
 		NotifyMissingFile(_T("QtPregen.zip"));
@@ -41,10 +43,31 @@ void QtPregen::OnAttach()
 		new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnPregen);
 	Manager::Get()->RegisterEventSink(cbEVT_COMPILER_STARTED, functorGen);
 
-//3- construct the builder
+//3- construct the log
+	m_LogMan = Manager::Get()->GetLogManager();
+	if(m_LogMan)
+    {
+        m_PregenLog = new TextCtrlLogger(true);
+        m_LogPageIndex = m_LogMan->SetLog(m_PregenLog);
+ //   Mes = wxString()<<m_LogPageIndex;
+ //   Print(Mes);
+        m_LogMan->Slot(m_LogPageIndex).title = _("PreBuild log");
+        CodeBlocksLogEvent evtAdd1(cbEVT_ADD_LOG_WINDOW, m_PregenLog, m_LogMan->Slot(m_LogPageIndex).title);
+        Manager::Get()->ProcessEvent(evtAdd1);
+        // last log
+        CodeBlocksLogEvent evtGetActive(cbEVT_GET_ACTIVE_LOG_WINDOW);
+        Manager::Get()->ProcessEvent(evtGetActive);
+        m_Lastlog   =  evtGetActive.logger;
+        m_LastIndex = evtGetActive.logIndex;
+        // display m_PregenLog
+        CodeBlocksLogEvent evtSwitch(cbEVT_SWITCH_TO_LOG_WINDOW, m_PregenLog);
+        Manager::Get()->ProcessEvent(evtSwitch);
+    }
+
+//4- construct the builder
 	// construct new 'm_prebuild'
 	m_project = Manager::Get()->GetProjectManager()->GetActiveProject();
-	m_prebuild = new qtPrebuild(m_project);
+	m_prebuild = new qtPrebuild(m_project, m_LogPageIndex);
 	if (m_prebuild)
 	{
 		Mes = _T("sdk : ") + Quote + m_prebuild->GetVersionSDK() + Quote;
@@ -56,18 +79,45 @@ void QtPregen::OnAttach()
 ///
 void QtPregen::OnRelease(bool appShutDown)
 {
+//1- delete builder
 	if (m_prebuild)
 	{
 		delete m_prebuild;
 		m_prebuild = nullptr;
 	}
 
-// do de-initialization for your plugin
+//2-  delete log
+	if(m_LogMan)
+    {
+        if(m_PregenLog)
+        {
+            CodeBlocksLogEvent evt(cbEVT_REMOVE_LOG_WINDOW, m_PregenLog);
+            Manager::Get()->ProcessEvent(evt);
+        }
+    }
+    m_PregenLog = nullptr;
+
+//3- do de-initialization for your plugin
     // if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
     // which means you must not use any of the SDK Managers
     // NOTE: after this function, the inherited member variable
     // m_IsAttached will be FALSE...
     Manager::Get()->RemoveAllEventSinksFor(this);
+}
+///-----------------------------------------------------------------------------
+/// Append text to log
+///
+/// called by :
+///
+///
+void QtPregen::AppendToLog(const wxString& Text, Logger::level lv)
+{
+    if(m_PregenLog)
+    {
+        CodeBlocksLogEvent evtSwitch(cbEVT_SWITCH_TO_LOG_WINDOW, m_PregenLog);
+        Manager::Get()->ProcessEvent(evtSwitch);
+        m_PregenLog->Append(Text, lv);
+    }
 }
 ///-----------------------------------------------------------------------------
 /// Activate new m_project
@@ -81,7 +131,6 @@ void QtPregen::OnActivate(CodeBlocksEvent& event)
 {
 // the active project
 	cbProject *prj = event.GetProject();
-	// no m_project !!
 	if(!prj)
 	{
 		Mes = _T("QtPregen -> no project supplied");
@@ -93,13 +142,18 @@ void QtPregen::OnActivate(CodeBlocksEvent& event)
 	if (!m_prebuild)
 		return;
 
-
 // detect Qt project
+	// with report
 	bool valid = m_prebuild->detectQt(prj, true);
+	// no report
+	//bool valid = m_prebuild->detectQt(prj, false);
 	if (valid)
 	{
-		Mes = _("it's a Qt project...");
-	//	print(Mes);
+		if (m_PregenLog)
+			m_PregenLog->Clear();
+		Mes = Quote + prj->GetTitle() + Quote;
+		Mes += Tab + _("it's a Qt project...");
+		AppendToLog(Mes, Logger::warning);
 	}
 }
 ///-----------------------------------------------------------------------------
@@ -123,8 +177,9 @@ void QtPregen::OnActivate(CodeBlocksEvent& event)
 ///		2. 'Clean file'
 ///
 /// calls to :
-///      -# m_prebuild->detectQt(prj, report):1,
-///      -# m_prebuild->buildQt(prj, Ws, Rebuild):1
+///     -# m_prebuild->detectQt(prj, withreport):1,
+///     -# m_prebuild->buildQt(prj, Ws, Rebuild):1
+///		-# m_prebuild->buildFileQt(prj, file):1,
 ///
 void QtPregen::OnPregen(CodeBlocksEvent& event)
 {
@@ -134,7 +189,7 @@ void QtPregen::OnPregen(CodeBlocksEvent& event)
 	if(!prj)
 	{
 		Mes = _T("QtPregen -> no project supplied");
-		printErr(Mes);
+		AppendToLog(Mes, Logger::error);
 		return;
 	}
 
@@ -142,8 +197,8 @@ void QtPregen::OnPregen(CodeBlocksEvent& event)
 	if (!m_prebuild)
 		return;
 
-// detect Qt project
-	bool valid = m_prebuild->detectQt(prj);
+// detect Qt project, no report
+	bool valid = m_prebuild->detectQt(prj, false);
 	// not Qt project
 	if (! valid)
 		return;
@@ -158,57 +213,49 @@ void QtPregen::OnPregen(CodeBlocksEvent& event)
 	if (!CompileFile && !CompileAll)
 		return;
 
+// last build log
+	CodeBlocksLogEvent evtGetActive(cbEVT_GET_ACTIVE_LOG_WINDOW);
+	Manager::Get()->ProcessEvent(evtGetActive);
+	m_Lastlog   =  evtGetActive.logger;
+	m_LastIndex = evtGetActive.logIndex;
+
+	Mes = _T("");
+	AppendToLog(Mes);
+
 ///********************************
 /// Build all complement files
 ///********************************
 	if (CompileAll)
 	{
-	// realtarget
-		wxString targetname = event.GetBuildTargetName() ;
-		prj->SetActiveBuildTarget(targetname);
-
-	// display log
-		printLn;
-		Mes = Quote + prj->GetTitle() + Quote;
-		Mes += _T("->")+ Quote + targetname + Quote;  // realtarget
-		printWarn(Mes);
-
-	// enum from 'sdk_events.h'
-		/*
+		/*  // enum from 'sdk_events.h'
 		enum cbFutureBuild
 		{
-			fbNone = 0,  // not used
-			fbBuild,
-			fbClean,  // not used
-			fbRebuild,
-			fbWorkspaceBuild,
-			fbWorkspaceClean,  // not used
-			fbWorkspaceReBuild
+			fbNone = 0,	fbBuild, fbClean, fbRebuild, fbWorkspaceBuild,
+			fbWorkspaceClean, fbWorkspaceReBuild
 		};
 		*/
-		// calculate future build
+	// calculate future build
 		cbFutureBuild FBuild = static_cast<cbFutureBuild>(eventInt);
-		//Mes = _T("FBuild = ") + wxString()<<FBuild;
-		//printErr(Mes);
 		bool Rebuild = FBuild == fbRebuild || FBuild == fbWorkspaceReBuild;
 		bool Build	=  FBuild == fbBuild || FBuild == fbWorkspaceBuild || Rebuild ;
 		bool Ws = FBuild == fbWorkspaceBuild || FBuild == fbWorkspaceReBuild;
 
+	// log clear
+		if (m_PregenLog && prj != m_project&& ! Ws)
+			m_PregenLog->Clear();
+
 		if (Build)
 		{
-		// begin pre-Build
-			Mes = Tab + _T("-> begin pre-Build...");
-			printWarn(Mes);
-		// preBuild active target !!!
+			// realtarget
+			wxString targetname = event.GetBuildTargetName() ;
+			prj->SetActiveBuildTarget(targetname);
+			// preBuild active target !!!
 			bool ok = m_prebuild->buildQt(prj, Ws, Rebuild);
 			if (! ok)
 			{
-				Mes = _T("Error pre-Build !!!");
-				printErr(Mes);
+				Mes = _T("Error PreBuild !!!");
+				AppendToLog(Mes, Logger::error);
 			}
-		// end preBuild
-			Mes = Tab + _T("<- end pre-Build.");
-			printWarn(Mes);
 		}
 	}
     else
@@ -217,25 +264,20 @@ void QtPregen::OnPregen(CodeBlocksEvent& event)
 ///********************************
 	if (CompileFile)
 	{
-		printLn;
-		Mes = Quote + prj->GetTitle() + Quote;
-		Mes += _T("->")+ Quote + prj->GetActiveBuildTarget () + Quote;
-		Mes += _T(" : ") + Quote + file + Quote;  // filename
-		printWarn(Mes);
+	// log clear
+		if (m_PregenLog && prj != m_project)
+			m_PregenLog->Clear();
 
-	// begin pre-Compile
-		Mes = Tab + _T("-> begin pre-CompileFile...");
-		printWarn(Mes);
 	// preCompile active file
 		bool elegible = m_prebuild->buildFileQt(prj, file);
-
-	// end preCompile
-		Mes = Tab + _T("<- end pre-CompileFile.");
-		printWarn(Mes);
 	}
 
 // memorize last m_project
 	m_project = prj;
+
+// switch last build log
+	CodeBlocksLogEvent evtSwitch(cbEVT_SWITCH_TO_LOG_WINDOW, m_Lastlog);
+    Manager::Get()->ProcessEvent(evtSwitch);
 }
 ///-----------------------------------------------------------------------------
 

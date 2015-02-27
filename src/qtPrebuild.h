@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      qtPrebuild.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.7.0
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.3
  * Author:    LETARTARE
- * Created:   2015-02-23
+ * Created:   2015-02-27
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -20,8 +20,9 @@ class qtPrebuild  : public qtPre
 
 		/** Constructor
          * @param prj The active project.
+         * @param logindex The active log
          */
-		qtPrebuild(cbProject * prj);
+		qtPrebuild(cbProject * prj, int logindex);
 
 		/** Destructor
          */
@@ -35,7 +36,7 @@ class qtPrebuild  : public qtPre
 		 */
 		bool buildQt(cbProject * prj, bool workspace, bool allbuild);
 
-		/** Built one file necessary complement
+		/** Built one file elegible necessary complement
 		 * @param prj The active project.
 		 * @param fcreator  creator file
 		 * @return	true if building is correct
@@ -46,11 +47,19 @@ class qtPrebuild  : public qtPre
 
 		/** Startup banner pre-building
          */
-		void beginMesCreate();
+		void beginMesBuildCreate();
 
 		/** Banner End pre-building
          */
-		void endMesCreate();
+		void endMesBuildCreate();
+
+		/** Startup banner pre-compiling file
+         */
+		void beginMesFileCreate();
+
+		/** Banner End pre-compiling file
+         */
+		void endMesFileCreate();
 
 		/**	Search the eligible files (which requires additional files)
 		 * @return  the number of eligible files
@@ -115,16 +124,6 @@ class qtPrebuild  : public qtPre
 		 */
 		bool findTargetQtexe(cbProject * parentbuildtarget) ;
 
-        /**  Saving 'm_Fileswithstrings'table
-         *	 @return true it's correct
-         */
-		bool saveFileswithstrings();
-
-		/** Save messages array to file
-		 *
-		 */
-		bool saveArray(const wxArrayString& table, wxString namefile) ;
-
 		/**  Read contents file
 		 *	 @param filename : file name
 		 *   @return contents file
@@ -138,18 +137,6 @@ class qtPrebuild  : public qtPre
 		*/
 		bool WriteFileContents(const wxString& filename, const wxString& contents);
 
-		/**  Open a file to editor
-		 **	 @param filename : file name
-		 *   @return true if it's correct
-		 */
-		bool openedit(const wxString& filename);
-
-		/**  Close a file to editor
-		 *	 @param filename : file name
-		 *   @return true if it's correct
-		 */
-		bool closedit(const wxString& filename);
-
 		/**  Give a date
 		 *   @return date
 		 */
@@ -162,9 +149,16 @@ class qtPrebuild  : public qtPre
 
 		/**  Give if target is virtual
 		 *	 @param nametarget : target name
+		 *	 @param warning : indicate a message
 		 *   @return true if it's virtual
 		 */
-		bool isVirtualTarget(const wxString& nametarget) ;
+		bool isVirtualTarget(const wxString& nametarget, bool warning=false) ;
+
+		/**  Give targets list for a virtual target
+		 *	 @param nametarget : virtual target name
+		 *   @return a table
+		 */
+		wxArrayString listTargets(const wxString& nametarget);
 
 		/**  Give if target is a Qt target
 		 *	 @param nametarget : target name
@@ -178,7 +172,7 @@ class qtPrebuild  : public qtPre
 		 */
 		int q_object(const wxString& filename, const wxString& qt_macro) ;
 
-		/** Search a text  inside  a string
+		/** Search a text inside a string
 		 *	 @param tmp : string
 		 *	 @param qt_text : the text
 		 */
@@ -286,7 +280,11 @@ class qtPrebuild  : public qtPre
 			m_IncPathQt,
 		/** Contains active target name
 		 */
-			m_nameactiveproject;
+			m_nameactiveproject,
+		/** Contains file name
+		 */
+			m_filename
+			;
 
 };
 

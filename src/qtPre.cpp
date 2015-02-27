@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      qtPre.cpp
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'   0.7.1
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'   0.8.3
  * Author:    LETARTARE
- * Created:   2015-02-24
+ * Created:   2015-02-27
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -25,13 +25,14 @@
 /// called by :
 ///	1. qtprebuild::qtprebuild():1,
 ///
-qtPre::qtPre(cbProject * prj )
+qtPre::qtPre(cbProject * prj, int logindex)
 	: m_Thename(_T("QtPregenForCB_plugin")),
 	  m_Win(false), m_Linux(false), m_Mac(false),
 	  m_Mexe(_T("")), m_Uexe(_T("")), m_Rexe(_T("")), m_Lexe(_T("")),
 	  Mes(_T("")), m_nameproject(_T("")),
 	  m_mam(Manager::Get()->GetMacrosManager() ),
-	  m_project(prj), m_Savereport(true)
+	  m_project(prj), m_LogPageIndex(logindex),
+	  m_Savereport(false)
 {
 	if (m_project)
 		m_nameproject = m_project->GetTitle();
@@ -136,7 +137,7 @@ void qtPre::platForm() {
 ///  Get version SDK
 ///
 ///  called by :
-/// 		none
+/// 	1. QtPregen::OnAttach():1,
 ///
 wxString qtPre::GetVersionSDK()
 {
@@ -158,10 +159,22 @@ void qtPre::SetVersionSDK(const wxString& ver)
 {   // TODO
 }
 ///-----------------------------------------------------------------------------
+///  Set index page to log
+///
+///  called by :
+/// 		none
+///
+void qtPre::SetPageIndex(int logindex)
+{
+	m_LogPageIndex = logindex;
+}
+
+///-----------------------------------------------------------------------------
 /// Detection of a 'Qt' Project : it contains at least one target Qt
 ///
 /// called by  :
-///	1. QtPregen::OnPrebuild(CodeBlocksEvent& event):1,
+///	1. QtPregen::OnActivate(CodeBlocksEvent& event):1,
+///	2. QtPregen::OnPregen(CodeBlocksEvent& event):1,
 ///
 /// calls to :
 /// 1. hasLibQt(Project):1+,

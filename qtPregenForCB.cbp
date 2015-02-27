@@ -2,14 +2,14 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregenForCB-0.7.1" />
+		<Option title="qtPregenForCB-0.8.3" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[use news events svn 10118
-1-  ''cbEVT_PREGEN_ALL'
-2-  ''cbEVT_PREGEN_FILE']]>
+				<![CDATA[use news events svn 10127
+1-  ''cbEVT_CCOMPILER_STARTED'
+]]>
 			</notes>
 		</Option>
 		<Build>
@@ -60,7 +60,7 @@
 					<Add after="zip -j9 QtPregen.cbplugin QtPregen.dll QtPregen.zip" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="CB" value="$(#cb10118)" />
+					<Variable name="CB" value="$(#cb10127)" />
 				</Environment>
 			</Target>
 			<Target title="cbqt4">
@@ -133,6 +133,9 @@
 			<Option target="default" />
 		</Unit>
 		<Unit filename="patch/svn10118-evPREGEN0.7.1.patch">
+			<Option target="patchs" />
+		</Unit>
+		<Unit filename="patch/svn10127-evPREGEN0.7.1.patch">
 			<Option target="patchs" />
 		</Unit>
 		<Unit filename="src/QtPregen.cpp">
