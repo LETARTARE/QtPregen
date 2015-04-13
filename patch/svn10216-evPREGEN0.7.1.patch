@@ -1,0 +1,156 @@
+Index: include/sdk_events.h
+===================================================================
+--- include/sdk_events.h	(révision 10216)
++++ include/sdk_events.h	(copie de travail)
+@@ -474,6 +474,19 @@
+ 
+ // settings events
+ 
++// Defines the futur current state of the compiler.
++// to use with 'cbEVT_COMPILER_STARTED' in  'm_commandInt' or 'm_clientData'
++enum cbFutureBuild
++{
++    fbNone = 0,
++    fbBuild,
++    fbClean,
++    fbRebuild,
++    fbWorkspaceBuild,
++    fbWorkspaceClean,
++    fbWorkspaceReBuild
++};
++
+ // event.GetInt() returns value of type cbSettingsType::Type indicating which setting group was changed
+ struct cbSettingsType
+ {
+Index: plugins/compilergcc/compilergcc.cpp
+===================================================================
+--- plugins/compilergcc/compilergcc.cpp	(révision 10216)
++++ plugins/compilergcc/compilergcc.cpp	(copie de travail)
+@@ -311,6 +311,7 @@
+     m_LastBuildStep(true),
+     m_RunTargetPostBuild(false),
+     m_RunProjectPostBuild(false),
++    m_Workspace(false),
+     m_IsWorkspaceOperation(false),
+     m_LogBuildProgressPercentage(false)
+ {
+@@ -351,6 +352,7 @@
+     m_Clean = false;
+     m_Build = false;
+     m_LastBuildStep = true;
++    m_Workspace = false;
+     m_IsWorkspaceOperation = false;
+ 
+     m_timerIdleWakeUp.SetOwner(this, idTimerPollCompiler);
+@@ -1038,7 +1040,12 @@
+ 
+     wxString fname = file.GetFullPath();
+     if (!fname.IsEmpty())
+-        CompileFile( UnixFilename(fname) );
++        {
++        wxString filename = UnixFilename(fname);
++        // fired  cbEVT_COMPILER_STARTED
++        DoPreGenFile(filename);
++        CompileFile(filename);
++    }
+ }
+ 
+ wxString CompilerGCC::ProjectMakefile()
+@@ -2093,6 +2100,7 @@
+     m_pLastBuildingTarget  = 0;
+     m_BuildingTargetName   = target;
+     m_CommandQueue.Clear();
++    m_Workspace            = job == bjWorkspace;
+ }
+ 
+ void CompilerGCC::ResetBuildState()
+@@ -2292,6 +2300,8 @@
+ 
+         case bsTargetPreBuild:
+         {
++            // fired  cbEVT_COMPILER_STARTED
++            DoPreGenAll();
+             // check if it should build with "All"
+             // run target pre-build steps
+             cmds = dc.GetPreBuildCommands(bt);
+@@ -3864,3 +3874,55 @@
+     return wxString::Format(_("%d minute(s), %d second(s)"), mins, secs);
+ #endif // NO_TRANSLATION
+ }
++
++cbFutureBuild CompilerGCC::GetFutureBuild()
++{
++    enum cbFutureBuild FBuild = fbNone;
++    if (! m_Workspace) {
++        if (! m_Clean && m_Build)
++            FBuild = fbBuild;
++        else
++        if (m_Clean && ! m_Build)
++            FBuild = fbClean ;
++        else
++        if (m_Clean && m_Build)
++            FBuild = fbRebuild ;
++    }
++    else  {
++        if (! m_Clean && m_Build)
++            FBuild = fbWorkspaceBuild;
++        else
++        if (m_Clean && ! m_Build)
++            FBuild = fbWorkspaceClean ;
++        else
++        if (m_Clean && m_Build)
++            FBuild = fbWorkspaceReBuild ;
++    }
++
++    return FBuild;
++}
++
++void CompilerGCC::DoPreGenAll()
++{
++    if (m_CommandQueue.GetCount() == 0)
++    {
++        // project/target pairs + cbFutureBuild
++        CodeBlocksEvent evt(cbEVT_COMPILER_STARTED, 0, m_pBuildingProject, 0, this);
++        evt.SetBuildTargetName(m_BuildingTargetName);
++        evt.SetInt(static_cast<int>(GetFutureBuild()));
++        Manager::Get()->ProcessEvent(evt);
++    }
++    Manager::Yield();
++}
++
++void CompilerGCC::DoPreGenFile(const wxString& file)
++{
++    if (m_CommandQueue.GetCount() == 0)
++    {
++        CodeBlocksEvent evt(cbEVT_COMPILER_STARTED, 0, m_pProject, 0, this);
++        evt.SetString(file);
++        Manager::Get()->ProcessEvent(evt);
++    }
++    Manager::Yield();
++}
++
+Index: plugins/compilergcc/compilergcc.h
+===================================================================
+--- plugins/compilergcc/compilergcc.h	(révision 10216)
++++ plugins/compilergcc/compilergcc.h	(copie de travail)
+@@ -181,6 +181,11 @@
+         void SaveOptions();
+         void LoadOptions();
+         void DoRegisterCompilers();
++
++        cbFutureBuild GetFutureBuild();
++        void DoPreGenAll();
++        void DoPreGenFile(const wxString& file);
++
+         void DoPrepareQueue(bool clearLog);
+         void NotifyCleanProject(const wxString& target);
+         void NotifyCleanWorkspace();
+@@ -308,7 +313,7 @@
+         // to decide if post-build steps should run
+         bool m_RunTargetPostBuild;
+         bool m_RunProjectPostBuild;
+-
++        bool m_Workspace; // true if Build, Rebuild, Clean workspace
+         bool m_IsWorkspaceOperation; // true for workspace commands
+ 
+         wxString   m_BuildLogFilename;
