@@ -2,6 +2,8 @@
 
 Plugin to compile QT applications with 'Code::Blocks'
 
+**Version for all 'Code::Block sdk 1.25.0'**
+
 This version is compatible with last version 0.7.1.
 
 It uses a log 'Prebuild log' for all posts plugin.
