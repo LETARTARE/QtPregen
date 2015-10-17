@@ -41,7 +41,7 @@ It uses a log 'Prebuild log' for all posts plugin.
 
 	1- a plugin project 'QtPregenForCB.cbp' using the directory 'src'
 
-	2- a directory 'patch' containing for patchs for versions of 'Code::Blocks' (10253, 10376, 10474, 10528)
+	2- a directory 'patch' containing four patchs for versions of 'Code::Blocks' (10253, 10376, 10474, 10528)
 
 	3- a directory 'CodeBlocks' containing wizards 'cbqt4' and cbqt5'
 
