@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      print.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.1.6
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.5
  * Author:    LETARTARE
- * Created:   2015-02-09
+ * Created:   2015-10-17
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/

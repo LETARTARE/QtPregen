@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      qtPrebuild.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.3
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.5
  * Author:    LETARTARE
- * Created:   2015-02-27
+ * Created:   2015-10-17
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -42,6 +42,12 @@ class qtPrebuild  : public qtPre
 		 * @return	true if building is correct
 		 */
 		bool buildFileQt(cbProject * prj, const wxString& fcreator);
+
+		/**  Give if target is a Qt target
+		 *	 @param nametarget : target name
+		 *   @return true if it's
+		 */
+		bool isGoodTargetQt(const wxString& nametarget);
 
 	private:
 
@@ -122,7 +128,8 @@ class qtPrebuild  : public qtPre
 		 *	 @param parentbuildtarget : 'cbProject*' of used target
 		 *   @return true if they exist all
 		 */
-		bool findTargetQtexe(cbProject * parentbuildtarget) ;
+	//	bool findTargetQtexe(cbProject * parentbuildtarget) ;
+		bool findTargetQtexe(CompileTargetBase * buildtarget) ;
 
 		/**  Read contents file
 		 *	 @param filename : file name
@@ -159,12 +166,6 @@ class qtPrebuild  : public qtPre
 		 *   @return a table
 		 */
 		wxArrayString listTargets(const wxString& nametarget);
-
-		/**  Give if target is a Qt target
-		 *	 @param nametarget : target name
-		 *   @return true if it's
-		 */
-		bool isGoodTargetQt(const wxString& nametarget);
 
 		/** Search a macro inside file
 		 *	 @param filename : file name
@@ -280,7 +281,7 @@ class qtPrebuild  : public qtPre
 			m_IncPathQt,
 		/** Contains active target name
 		 */
-			m_nameactiveproject,
+			m_nameactivetarget,
 		/** Contains file name
 		 */
 			m_filename

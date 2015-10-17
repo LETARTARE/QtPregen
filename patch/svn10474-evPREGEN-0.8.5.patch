@@ -1,6 +1,6 @@
 Index: include/sdk_events.h
 ===================================================================
---- include/sdk_events.h	(révision 10118)
+--- include/sdk_events.h	(révision 10475)
 +++ include/sdk_events.h	(copie de travail)
 @@ -474,6 +474,19 @@
  
@@ -24,7 +24,7 @@ Index: include/sdk_events.h
  {
 Index: plugins/compilergcc/compilergcc.cpp
 ===================================================================
---- plugins/compilergcc/compilergcc.cpp	(révision 10118)
+--- plugins/compilergcc/compilergcc.cpp	(révision 10475)
 +++ plugins/compilergcc/compilergcc.cpp	(copie de travail)
 @@ -311,6 +311,7 @@
      m_LastBuildStep(true),
@@ -32,22 +32,22 @@ Index: plugins/compilergcc/compilergcc.cpp
      m_RunProjectPostBuild(false),
 +    m_Workspace(false),
      m_IsWorkspaceOperation(false),
-     m_IsCompileFileRequest(false),
      m_LogBuildProgressPercentage(false)
-@@ -352,6 +353,7 @@
+ {
+@@ -351,6 +352,7 @@
      m_Clean = false;
      m_Build = false;
      m_LastBuildStep = true;
 +    m_Workspace = false;
      m_IsWorkspaceOperation = false;
-     m_IsCompileFileRequest = false;
  
-@@ -1040,7 +1042,12 @@
+     m_timerIdleWakeUp.SetOwner(this, idTimerPollCompiler);
+@@ -1038,7 +1040,12 @@
  
      wxString fname = file.GetFullPath();
      if (!fname.IsEmpty())
 -        CompileFile( UnixFilename(fname) );
-+    {
++        {
 +        wxString filename = UnixFilename(fname);
 +        // fired  cbEVT_COMPILER_STARTED
 +        DoPreGenFile(filename);
@@ -56,7 +56,7 @@ Index: plugins/compilergcc/compilergcc.cpp
  }
  
  wxString CompilerGCC::ProjectMakefile()
-@@ -2095,6 +2102,7 @@
+@@ -2093,6 +2100,7 @@
      m_pLastBuildingTarget  = 0;
      m_BuildingTargetName   = target;
      m_CommandQueue.Clear();
@@ -64,7 +64,7 @@ Index: plugins/compilergcc/compilergcc.cpp
  }
  
  void CompilerGCC::ResetBuildState()
-@@ -2294,6 +2302,8 @@
+@@ -2292,6 +2300,8 @@
  
          case bsTargetPreBuild:
          {
@@ -73,7 +73,7 @@ Index: plugins/compilergcc/compilergcc.cpp
              // check if it should build with "All"
              // run target pre-build steps
              cmds = dc.GetPreBuildCommands(bt);
-@@ -3870,3 +3880,55 @@
+@@ -3864,3 +3874,55 @@
      return wxString::Format(_("%d minute(s), %d second(s)"), mins, secs);
  #endif // NO_TRANSLATION
  }
@@ -131,7 +131,7 @@ Index: plugins/compilergcc/compilergcc.cpp
 +
 Index: plugins/compilergcc/compilergcc.h
 ===================================================================
---- plugins/compilergcc/compilergcc.h	(révision 10118)
+--- plugins/compilergcc/compilergcc.h	(révision 10475)
 +++ plugins/compilergcc/compilergcc.h	(copie de travail)
 @@ -181,6 +181,11 @@
          void SaveOptions();
@@ -152,5 +152,5 @@ Index: plugins/compilergcc/compilergcc.h
 -
 +        bool m_Workspace; // true if Build, Rebuild, Clean workspace
          bool m_IsWorkspaceOperation; // true for workspace commands
-         bool m_IsCompileFileRequest; // true for plugin compile file requests
  
+         wxString   m_BuildLogFilename;

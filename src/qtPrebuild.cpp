@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      qtPrebuild.cpp
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.3
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.5
  * Author:    LETARTARE
- * Created:   2015-02-27
+ * Created:   2015-10-17
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -58,13 +58,13 @@ void qtPrebuild::beginMesBuildCreate()
 		return ;
 
 	m_nameproject = m_project->GetTitle();
-	m_nameactiveproject = m_project->GetActiveBuildTarget();
+	m_nameactivetarget = m_project->GetActiveBuildTarget();
 
 // display log
 	printLn;
 	Mes = _T("-------------- ") ;
 	Mes += _T("PreBuild : ") ;
-	Mes += Quote + m_nameactiveproject + Quote;  // realtarget
+	Mes += Quote + m_nameactivetarget + Quote;  // realtarget
 	Mes += _T(" in ");
 	Mes += Quote + m_nameproject + Quote;
 	Mes += _T("-------------- ") ;
@@ -107,9 +107,6 @@ bool qtPrebuild::buildQt(cbProject * prj, bool workspace, bool allbuild)
 	bool ok = m_project != nullptr;
 	if (!ok)
 		return ok;
-
-	if (m_Savereport)
-		m_Savereport = ! workspace;
 
 // begin banner
 	beginMesBuildCreate();
@@ -244,26 +241,26 @@ bool qtPrebuild::buildFileQt(cbProject * prj, const wxString& fcreator)
 	if (!ok)
 		return ok ;
 
-	m_nameactiveproject =  m_project->GetActiveBuildTarget() ;
+	m_nameactivetarget =  m_project->GetActiveBuildTarget() ;
 	// targets no virtual list
 	wxArrayString ltargets;
 // virtual target ?
-	bool virt = isVirtualTarget(m_nameactiveproject);
+	bool virt = isVirtualTarget(m_nameactivetarget);
 	if (virt)
-		ltargets = listTargets(m_nameactiveproject) ;
+		ltargets = listTargets(m_nameactivetarget) ;
 	else
-		ltargets.Add(m_nameactiveproject);
+		ltargets.Add(m_nameactivetarget);
 
 	uint16_t ntargets = ltargets.GetCount();
 	ProjectBuildTarget* buildtarget;
     for (uint16_t nt = 0 ; nt < ntargets ; nt++ )
     {
-		m_nameactiveproject = ltargets.Item(nt);
-		buildtarget = m_project->GetBuildTarget(m_nameactiveproject);
+		m_nameactivetarget = ltargets.Item(nt);
+		buildtarget = m_project->GetBuildTarget(m_nameactivetarget);
 		if (buildtarget && buildtarget->GetTargetType() == ttCommandsOnly )
 			continue;
 
-		wxString fout = m_dirgen + m_nameactiveproject + wxString(Slash) ;
+		wxString fout = m_dirgen + m_nameactivetarget + wxString(Slash) ;
 		fout += nameCreated(fcreator) ;
 		Mes = Tab + Quote + fcreator + Quote + _T(" -> ") + Quote + fout + Quote ;
 		print(Mes);
@@ -278,13 +275,13 @@ bool qtPrebuild::buildFileQt(cbProject * prj, const wxString& fcreator)
 			if ( extin.Matches(EXT_H) && extout.Matches(EXT_CPP) )
 				include =  hasIncluded(fcreator) ;
 		// add file : AddFile(Nametarget, file, compile, link, weight)
-			ProjectFile* prjfile = m_project->AddFile(m_nameactiveproject, fout, !include, !include, 50);
+			ProjectFile* prjfile = m_project->AddFile(m_nameactivetarget, fout, !include, !include, 50);
 			if (!prjfile)
 			{
 			// display message
 				Mes  = _T("===> ") ;
 				Mes += _("can not add this file ");
-				Mes += Quote + fout + Quote + _(" to target ") + m_nameactiveproject ;
+				Mes += Quote + fout + Quote + _(" to target ") + m_nameactivetarget ;
 				printErr (Mes) ;
 				cbMessageBox(Mes, _T("AddFile(...)"), wxICON_ERROR) ;
 			}
@@ -335,7 +332,7 @@ bool qtPrebuild::buildFileQt(cbProject * prj, const wxString& fcreator)
 				//1- error create directory  :
 					// = _("Unable to create directory ")
 				//2- error buildtarget no exist :
-					// = Quote + m_nameactiveproject + Quote + _(" does not exist !!") ;
+					// = Quote + m_nameactivetarget + Quote + _(" does not exist !!") ;
 				//3- error create complement
 				Mes =  _T("=> ") ;
 				Mes += strerror.BeforeLast(Lf.GetChar(0)) ;
@@ -355,7 +352,6 @@ bool qtPrebuild::buildFileQt(cbProject * prj, const wxString& fcreator)
 ///
 /// called by  :
 ///	1. isGoodTargetQt():1,
-///	2. findGoodfiles():1
 ///
 wxString qtPrebuild::refTargetQt(ProjectBuildTarget * buildtarget)
 {
@@ -377,6 +373,7 @@ wxString qtPrebuild::refTargetQt(ProjectBuildTarget * buildtarget)
 	{
 		// lower, no extension
 		namelib = tablibs.Item(u++).Lower().BeforeFirst('.') ;
+//printWarn(namelib);
 		// no prefix "lib"
 		pos = namelib.Find(_T("lib"));
 		if (pos == 0)
@@ -413,6 +410,7 @@ wxString qtPrebuild::refTargetQt(ProjectBuildTarget * buildtarget)
 			break;
 		}
 	}
+	/*
 	if (refqt.IsEmpty() )
 	{
 		Mes = _("It is not a Qt target") + Lf + _("or nothing library") + _T(" ! ") ;
@@ -420,7 +418,7 @@ wxString qtPrebuild::refTargetQt(ProjectBuildTarget * buildtarget)
 		printErr(Mes);
 		cbMessageBox(Mes, _("QtPregen information"), wxICON_INFORMATION | wxOK)  ;
 	}
-
+     */
 	return refqt ;
 }
 ///-----------------------------------------------------------------------------
@@ -472,6 +470,8 @@ wxString qtPrebuild::pathQt(CompileTargetBase * container)
 
 	wxArrayString tablibdirs = container->GetLibDirs() ;
 	int npath = tablibdirs.GetCount() ;
+//Mes = wxString()<<npath;
+//printErr(Mes);
 	wxString  path_nomacro ;
 	if (npath > 0 )
 	{
@@ -481,6 +481,7 @@ wxString qtPrebuild::pathQt(CompileTargetBase * container)
 		while (u < npath && !ok )
 		{
 			path = tablibdirs.Item(u++);
+//printErr(path);
 			// not correct !!
 			ok = path.Find(_T("$QT")) != -1 ;
 			if (ok)
@@ -515,18 +516,20 @@ wxString qtPrebuild::pathQt(CompileTargetBase * container)
 /// called by  :
 ///	1. createFiles():1,
 ///
-bool qtPrebuild::findTargetQtexe(cbProject * parentbuildtarget)
+// bool qtPrebuild::findTargetQtexe(cbProject * parentbuildtarget)
+bool qtPrebuild::findTargetQtexe(CompileTargetBase * buildtarget)
 {
-	if (!parentbuildtarget)
+	if (! buildtarget)
 		return false  ;
 
-	wxString qtpath = pathQt(parentbuildtarget) ;
+	wxString qtpath = pathQt(buildtarget) ;
 	if(qtpath.IsEmpty())
 	{
-		Mes = _("Nothing path 'qt'") ;
-		Mes += Lf + _("or nothing library !") + Lf + _("Cannot continue.") ;
+		Mes = _("No library path QT 'in the target") + Lf + _("or nothing library !")  ;
+		Mes += Lf +  _("Check that you have a correct path to the Qt path libraries !") ;
+		Mes += Lf + _("Cannot continue.") ;
 		printErr(Mes);
-		cbMessageBox(Mes, _T(""), wxICON_ERROR) ;
+	//	cbMessageBox(Mes, _T(""), wxICON_ERROR) ;
 		return false ;
 	}
 
@@ -634,21 +637,21 @@ wxString qtPrebuild::duration()
 ///	1. QtPregen::OnPrebuild( ...):1
 ///
 /// calls to :
-///	1. isVirtualTarget(m_nameactiveproject):1,
-///	2. isGoodTargetQt(m_nameactiveproject):1,
+///	1. isVirtualTarget(m_nameactivetarget):1,
+///	2. isGoodTargetQt(m_nameactivetarget):1,
 ///	3. isEligible(file):1,
 ///
 uint16_t qtPrebuild::findGoodfiles()
 {
 	m_Filecreator.Clear();
 // active target
-	m_nameactiveproject = m_project->GetActiveBuildTarget() ;
+	m_nameactivetarget = m_project->GetActiveBuildTarget() ;
 // virtual ?
-	if (isVirtualTarget(m_nameactiveproject, true) )
+	if (isVirtualTarget(m_nameactivetarget, true) )
 		return 0 ;
 
 // no good target
-	if (! isGoodTargetQt(m_nameactiveproject))
+	if (! isGoodTargetQt(m_nameactivetarget))
 		return 0 ;
 
 // around project files
@@ -681,7 +684,7 @@ uint16_t qtPrebuild::findGoodfiles()
 			for (int t=0; t < nt; t++)
 			{
 				nametarget = tabtargets.Item(t) ;
-				good = nametarget.Matches(m_nameactiveproject) ;
+				good = nametarget.Matches(m_nameactivetarget) ;
 				if (good )
 					break ;
 			}
@@ -704,7 +707,8 @@ uint16_t qtPrebuild::findGoodfiles()
 /// Give the good type of target for Qt
 ///
 /// called by  :
-///	1. findGoodfiles():2,
+/// 1. QtPregen::OnPregen(CodeBlocksEvent& event):1,
+///	2. findGoodfiles():2,
 ///
 /// calls to:
 ///	1. refTargetQt(buildtarget):1,
@@ -718,6 +722,13 @@ bool qtPrebuild::isGoodTargetQt(const wxString& nametarget)
 	ok = buildtarget->GetTargetType() != ::ttCommandsOnly  ;
 	wxString str = refTargetQt(buildtarget)  ;
 	bool qt = ! str.IsEmpty()  ;
+	if (!qt)
+	{   // TODO ...
+		Mes = _("It is not a Qt target") + Lf + _("or nothing library") + _T(" ! ") ;
+		Mes += Lf + _("PreBuild cannot continue.") ;
+		//printWarn(Mes);
+		//cbMessageBox(Mes, _("QtPregen information"), wxICON_INFORMATION | wxOK)  ;
+	}
 
 	return ok && qt ;
 }
@@ -909,6 +920,8 @@ int qtPrebuild::q_object(const wxString& filename, const wxString& qt_macro)
 		return -1  ;
 	}
 //3- read source 'namefile'
+
+//printWarn(namefile);
 	wxString source = ReadFileContents(namefile) ;
 	if (source.IsEmpty())
 	{
@@ -1003,7 +1016,7 @@ int qtPrebuild::q_object(const wxString& filename, const wxString& qt_macro)
 ///	1. QtPregen::OnPrebuild():1,
 ///
 /// calls to :
-///	1. indexTarget(m_nameactiveproject):1,
+///	1. indexTarget(m_nameactivetarget):1,
 ///	2. nameCreated(fcreator):1,
 ///	3. inProjectFile(fout):1,
 ///	4. hasIncluded(fcreator):1,
@@ -1015,7 +1028,7 @@ uint16_t qtPrebuild::addRecording()
 // local variables
 	bool valid = false , inproject = false  ;
 	wxString fout, fcreator, strindex = _T("0") ;
-	uint16_t n=0, index, indextarget = indexTarget(m_nameactiveproject) ;
+	uint16_t n=0, index, indextarget = indexTarget(m_nameactivetarget) ;
 	ProjectFile *  prjfile;
 // read file list to 'm_Filecreator'  (*.h, *.cpp, *.qrc, *.ui)
 	uint16_t nfiles = m_Filecreator.GetCount() ;
@@ -1024,7 +1037,7 @@ uint16_t qtPrebuild::addRecording()
 		// creator
 		fcreator = m_Filecreator.Item(u)  ;
 		//  this is where you add the name of the target
-		fout = m_dirgen + m_nameactiveproject + wxString(Slash)  ;
+		fout = m_dirgen + m_nameactivetarget + wxString(Slash)  ;
 		fout += nameCreated(fcreator) ;
 		Mes = Tab + Quote + fcreator + Quote + _T(" -> ") +  Quote + fout + Quote;
 		print(Mes);
@@ -1040,7 +1053,7 @@ uint16_t qtPrebuild::addRecording()
 				include =  hasIncluded(fcreator) ;
 
 		// AddFile(Nametarget, file, compile, link, weight)
-			prjfile = m_project->AddFile(m_nameactiveproject, fout, !include, !include, 50);
+			prjfile = m_project->AddFile(m_nameactivetarget, fout, !include, !include, 50);
 			valid = true;
 			if (!prjfile)
 			{
@@ -1048,7 +1061,7 @@ uint16_t qtPrebuild::addRecording()
 			// display message
 				Mes  = _T("===> ") ;
 				Mes += _("can not add this file ");
-				Mes += Quote + fout + Quote + _(" to target ") + m_nameactiveproject ;
+				Mes += Quote + fout + Quote + _(" to target ") + m_nameactivetarget ;
 				printErr (Mes) ;
 				cbMessageBox(Mes, _T("AddFile(...)"), wxICON_ERROR) ;
 			}
@@ -1379,12 +1392,14 @@ bool qtPrebuild::createFiles()
 	}
 
 // search target qt path for moc, ...
-	ProjectBuildTarget * buildtarget = m_project->GetBuildTarget(m_nameactiveproject)  ;
+	ProjectBuildTarget * buildtarget = m_project->GetBuildTarget(m_nameactivetarget)  ;
 	bool ok = buildtarget != nullptr ;
 	if (!ok)
 		return ok ;
-
-	ok = findTargetQtexe(buildtarget->GetParentProject()) ;
+//printWarn(buildtarget->GetParentProject()->GetTitle());
+//printWarn(m_project->GetTitle());
+	ok = findTargetQtexe(buildtarget) ;
+	//ok = findTargetQtexe(m_project) ;
 	if (!ok)
 		return ok ;
 
@@ -1431,7 +1446,7 @@ bool qtPrebuild::createFiles()
 			//1- error create directory  :
 				// = _("Unable to create directory ")
 			//2- error buildtarget no exist :
-				// = Quote + m_nameactiveproject + Quote + _(" does not exist !!") ;
+				// = Quote + m_nameactivetarget + Quote + _(" does not exist !!") ;
 			//3- error create complement
 			Mes =  _T("=> ") ;
 			Mes += strerror.BeforeLast(Lf.GetChar(0)) ;
@@ -1554,7 +1569,7 @@ wxString qtPrebuild::createComplement(const wxString& qexe, const uint16_t index
 	bool created = false ;
 //1- name relative input file
 	wxString inputfile = m_Filecreator.Item(index) ;
-	// create directory for m_nameactiveproject
+	// create directory for m_nameactivetarget
 	wxString dirgen = m_Registered.Item(index).BeforeLast(Slash)  ;
 	dirgen +=  wxFILE_SEP_PATH ;
 	bool ok = createDir(dirgen) ;
@@ -1565,10 +1580,10 @@ wxString qtPrebuild::createComplement(const wxString& qexe, const uint16_t index
 	}
 
 	// add search path for compiler
-	ProjectBuildTarget * buildtarget = m_project->GetBuildTarget(m_nameactiveproject) ;
+	ProjectBuildTarget * buildtarget = m_project->GetBuildTarget(m_nameactivetarget) ;
 	if (!buildtarget)
 	{
-		Mes = Quote + m_nameactiveproject + Quote + _(" does not exist !!") ;
+		Mes = Quote + m_nameactivetarget + Quote + _(" does not exist !!") ;
 		return Mes ;
 	}
 
@@ -1591,7 +1606,6 @@ wxString qtPrebuild::createComplement(const wxString& qexe, const uint16_t index
 wxString qtPrebuild::pathIncludeMoc()
 {
 	wxArrayString tabincludedirs = m_project->GetIncludeDirs() ;
-//	PrintTable(_T("tabincludedirs"),tabincludedirs)
 	wxArrayString tabpath ;
 	wxString line ;
 	uint16_t ncase = tabincludedirs.GetCount()  ;

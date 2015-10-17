@@ -1,8 +1,8 @@
 /*************************************************************
  * Name:      QtPregen.cpp
- * Purpose:   Code::Blocks plugin  'qtPregenForCB.cbp'   0.8.3
+ * Purpose:   Code::Blocks plugin  'qtPregenForCB.cbp'   0.8.5
  * Author:    LETARTARE
- * Created:   2015-02-27
+ * Created:   2015-10-17
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
@@ -49,8 +49,6 @@ void QtPregen::OnAttach()
     {
         m_PregenLog = new TextCtrlLogger(true);
         m_LogPageIndex = m_LogMan->SetLog(m_PregenLog);
- //   Mes = wxString()<<m_LogPageIndex;
- //   Print(Mes);
         m_LogMan->Slot(m_LogPageIndex).title = _("PreBuild log");
         CodeBlocksLogEvent evtAdd1(cbEVT_ADD_LOG_WINDOW, m_PregenLog, m_LogMan->Slot(m_LogPageIndex).title);
         Manager::Get()->ProcessEvent(evtAdd1);
@@ -202,6 +200,8 @@ void QtPregen::OnPregen(CodeBlocksEvent& event)
 	// not Qt project
 	if (! valid)
 		return;
+Mes = _("It is a Qt target") ;
+printWarn(Mes);
 
 // test event.GetString()
 	wxString file = event.GetString();
@@ -249,13 +249,18 @@ void QtPregen::OnPregen(CodeBlocksEvent& event)
 			// realtarget
 			wxString targetname = event.GetBuildTargetName() ;
 			prj->SetActiveBuildTarget(targetname);
-			// preBuild active target !!!
-			bool ok = m_prebuild->buildQt(prj, Ws, Rebuild);
-			if (! ok)
-			{
-				Mes = _T("Error PreBuild !!!");
-				AppendToLog(Mes, Logger::error);
-			}
+			// verify Qt target
+			bool ok = m_prebuild->isGoodTargetQt(targetname);
+			if (ok)
+            {
+                // preBuild active target !!!
+                ok = m_prebuild->buildQt(prj, Ws, Rebuild);
+                if (! ok)
+                {
+                    Mes = _T("Error PreBuild !!!");
+                    AppendToLog(Mes, Logger::error);
+                }
+            }
 		}
 	}
     else

@@ -31,8 +31,7 @@ qtPre::qtPre(cbProject * prj, int logindex)
 	  m_Mexe(_T("")), m_Uexe(_T("")), m_Rexe(_T("")), m_Lexe(_T("")),
 	  Mes(_T("")), m_nameproject(_T("")),
 	  m_mam(Manager::Get()->GetMacrosManager() ),
-	  m_project(prj), m_LogPageIndex(logindex),
-	  m_Savereport(false)
+	  m_project(prj), m_LogPageIndex(logindex)
 {
 	if (m_project)
 		m_nameproject = m_project->GetTitle();
@@ -185,11 +184,10 @@ bool qtPre::detectQt(cbProject * prj, bool report)
 	bool ok = m_project != nullptr;
 	if (!ok)
 		return ok;
-// reports
-	m_Savereport = report;
+
 // project name
 	m_nameproject = m_project->GetTitle() ;
-// search project
+// search to project
 	ok = hasLibQt(m_project) ;
 	if (! ok)
 	{
@@ -201,7 +199,7 @@ bool qtPre::detectQt(cbProject * prj, bool report)
 			buildtarget = m_project->GetBuildTarget(nt++) ;
 			if (!buildtarget)
 				continue ;
-// search target
+// search to target
 			ok = hasLibQt(buildtarget) ;
 			if (ok)
 				break;
@@ -211,7 +209,7 @@ bool qtPre::detectQt(cbProject * prj, bool report)
 	bool valid = ok ;
 	if (valid)
 	{
-		if (m_Savereport)
+		if (report)
 		{
 			wxString  title = m_nameproject + _T(" uses Qt libraries !") ;
 			Mes = _("It will generate the complements files...") ;

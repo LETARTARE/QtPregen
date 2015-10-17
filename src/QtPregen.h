@@ -1,8 +1,8 @@
 /***************************************************************
  * Name:      QtPregen.h
- * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.8.3
+ * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.8.5
  * Author:    LETARTARE
- * Created:   2015-02-27
+ * Created:   2015-10-17
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/

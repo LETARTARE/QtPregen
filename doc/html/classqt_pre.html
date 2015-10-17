@@ -4,10 +4,17 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.8"/>
-<title>qtPregenForCB: qtPre Class Reference</title>
+<title>qtPregen: qtPre Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -22,8 +29,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">qtPregenForCB
-   &#160;<span id="projectnumber">0.8.3</span>
+   <div id="projectname">qtPregen
+   &#160;<span id="projectnumber">0.8.5</span>
    </div>
   </td>
  </tr>
@@ -66,6 +73,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classqt_pre.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -80,13 +102,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classqt_pre-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">qtPre Class Reference</div>  </div>
@@ -145,8 +165,6 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a72d7c7d224a5a20b45c4c3460a850fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4ed1e88bc667ecf97fc9b1e70a7836d"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#ad4ed1e88bc667ecf97fc9b1e70a7836d">m_nameproject</a></td></tr>
 <tr class="separator:ad4ed1e88bc667ecf97fc9b1e70a7836d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af680f5c2ac56594ac243d99b3bf24239"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#af680f5c2ac56594ac243d99b3bf24239">m_nameactiveproject</a></td></tr>
-<tr class="separator:af680f5c2ac56594ac243d99b3bf24239"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7e6db7912a22e451e60628c03bd3cac"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#ab7e6db7912a22e451e60628c03bd3cac">m_nfilescreated</a></td></tr>
 <tr class="separator:ab7e6db7912a22e451e60628c03bd3cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0fae808cdb8f5dfc1d4104605652eee"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#ab0fae808cdb8f5dfc1d4104605652eee">m_Mexe</a></td></tr>
@@ -186,17 +204,6 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a0db81017bd1e89ab0b869732b49e9b26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af831f91871939c2ecd509c46a293ab1e"><td class="memItemLeft" align="right" valign="top">clock_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#af831f91871939c2ecd509c46a293ab1e">m_start</a></td></tr>
 <tr class="separator:af831f91871939c2ecd509c46a293ab1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af343e0d191b9ff27b46ba01c77316a80"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#af343e0d191b9ff27b46ba01c77316a80">m_Savereport</a></td></tr>
-<tr class="separator:af343e0d191b9ff27b46ba01c77316a80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:a5a71e5bdd08044238fa43384e8d10a3a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a5a71e5bdd08044238fa43384e8d10a3a">hasLibQt</a> (CompileTargetBase *container)</td></tr>
-<tr class="separator:a5a71e5bdd08044238fa43384e8d10a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0322ee541e371be1324fb24da2fc95e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a0322ee541e371be1324fb24da2fc95e7">platForm</a> ()</td></tr>
-<tr class="separator:a0322ee541e371be1324fb24da2fc95e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03501a1c8d8507e7d237e7779e1feda9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_pre.html#a03501a1c8d8507e7d237e7779e1feda9">SetVersionSDK</a> (const wxString &amp;ver)</td></tr>
-<tr class="separator:a03501a1c8d8507e7d237e7779e1feda9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The class that is used to detect Qt libraries. </p>
@@ -366,43 +373,6 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5a71e5bdd08044238fa43384e8d10a3a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool qtPre::hasLibQt </td>
-          <td>(</td>
-          <td class="paramtype">CompileTargetBase *&#160;</td>
-          <td class="paramname"><em>container</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Search Qt libraries in project, targets </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">container</td><td>'cbProject * Project' or 'ProjectBuildTarget * buildtarget' both inherited of 'CompileTargetBase' </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if finded</dd></dl>
-<hr/>
-<p> Return true if good 'CompileTargetBase* container'</p>
-<p>called by :</p><ol type="1">
-<li>detectProjectQt():2,</li>
-</ol>
-<p>calls to : none </p>
-
-</div>
-</div>
 <a class="anchor" id="a3d5d6728c963da35fbd82ce36b9e9210"></a>
 <div class="memitem">
 <div class="memproto">
@@ -422,35 +392,6 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0322ee541e371be1324fb24da2fc95e7"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void qtPre::platForm </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Adjusts variable depending on the platform</p>
-<hr/>
-<p> Determines the system platform</p>
-<p>called by :</p><ol type="1">
-<li>qtpre():1, </li>
-</ol>
-
-</div>
-</div>
 <a class="anchor" id="a53a4647b5408ba5b198f722890dba82e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -467,39 +408,6 @@ Private Member Functions</h2></td></tr>
 <p>Set page index to log</p>
 <hr/>
 <p> Set index page to log</p>
-<p>called by : none </p>
-
-</div>
-</div>
-<a class="anchor" id="a03501a1c8d8507e7d237e7779e1feda9"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void qtPre::SetVersionSDK </td>
-          <td>(</td>
-          <td class="paramtype">const wxString &amp;&#160;</td>
-          <td class="paramname"><em>ver</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Set version to 'manifest.xml' </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ver</td><td>version du SDK ex: "1.19.0" for Code::Blocks 13.12</td></tr>
-  </table>
-  </dd>
-</dl>
-<hr/>
-<p> Set version SDK</p>
 <p>called by : none </p>
 
 </div>
@@ -799,27 +707,6 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af680f5c2ac56594ac243d99b3bf24239"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">wxString qtPre::m_nameactiveproject</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>active target name </p>
-
-</div>
-</div>
 <a class="anchor" id="ad4ed1e88bc667ecf97fc9b1e70a7836d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -945,27 +832,6 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>executable name files Qt : 'rcc' </p>
-
-</div>
-</div>
-<a class="anchor" id="af343e0d191b9ff27b46ba01c77316a80"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool qtPre::m_Savereport</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>authorizes the editor output </p>
 
 </div>
 </div>
@@ -1117,15 +983,19 @@ Private Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>src/<a class="el" href="qt_pre_8h_source.html">qtPre.h</a></li>
-<li>src/<a class="el" href="qt_pre_8cpp.html">qtPre.cpp</a></li>
+<li>U:/Donnees/TRAVAIL_NT/CodeBlock/Gcc/Greffons/QtPre-x/0.8.5/src/<a class="el" href="qt_pre_8h_source.html">qtPre.h</a></li>
+<li>U:/Donnees/TRAVAIL_NT/CodeBlock/Gcc/Greffons/QtPre-x/0.8.5/src/<a class="el" href="qt_pre_8cpp.html">qtPre.cpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 27 2015 20:13:08 for qtPregenForCB by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classqt_pre.html">qtPre</a></li>
+    <li class="footer">Generated on Sat Oct 17 2015 19:17:58 for qtPregen by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
+  </ul>
+</div>
 </body>
 </html>

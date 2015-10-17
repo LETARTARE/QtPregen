@@ -1,13 +1,13 @@
 /*************************************************************
  * Name:      qtPre.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.3
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.5
  * Author:    LETARTARE
- * Created:   2015-02-27
+ * Created:   2015-10-17
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
-#define VERSION_QTP _T("0.8.3")
+#define VERSION_QTP _T("0.8.5")
 
 #ifndef _QTPRE_H_
 #define _QTPRE_H_
@@ -92,10 +92,7 @@ class qtPre
 				  m_dirgen;
 		/**  project name,
 		 */
-		wxString m_nameproject,
-		/**  active target name
-		 */
-				m_nameactiveproject;
+		wxString m_nameproject;
 		/**  numbers files projects
 		 */
 		uint16_t m_nfilescreated;
@@ -162,10 +159,6 @@ class qtPre
 		/**  calculate duration  mS
 		 */
 		clock_t m_start;
-
-		/** authorizes the editor output
-		 */
-		bool m_Savereport;
 
 	private:
 

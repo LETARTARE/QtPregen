@@ -1,6 +1,6 @@
 Index: include/sdk_events.h
 ===================================================================
---- include/sdk_events.h	(révision 10216)
+--- include/sdk_events.h	(révision 10253)
 +++ include/sdk_events.h	(copie de travail)
 @@ -474,6 +474,19 @@
  
@@ -24,7 +24,7 @@ Index: include/sdk_events.h
  {
 Index: plugins/compilergcc/compilergcc.cpp
 ===================================================================
---- plugins/compilergcc/compilergcc.cpp	(révision 10216)
+--- plugins/compilergcc/compilergcc.cpp	(révision 10253)
 +++ plugins/compilergcc/compilergcc.cpp	(copie de travail)
 @@ -311,6 +311,7 @@
      m_LastBuildStep(true),
@@ -131,7 +131,7 @@ Index: plugins/compilergcc/compilergcc.cpp
 +
 Index: plugins/compilergcc/compilergcc.h
 ===================================================================
---- plugins/compilergcc/compilergcc.h	(révision 10216)
+--- plugins/compilergcc/compilergcc.h	(révision 10253)
 +++ plugins/compilergcc/compilergcc.h	(copie de travail)
 @@ -181,6 +181,11 @@
          void SaveOptions();
