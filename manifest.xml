@@ -4,7 +4,7 @@
     <Plugin name="QtPregen">
         <Value title="QtPregen" />
         <Value version="0.8.5" />
-        <Value description="Compilling Qt software with this plugin (sdk 1.28.0, svn10528)" />
+        <Value description="Compilling Qt software with this plugin (sdk 1.30.0, svn10703)" />
         <Value author="LETARTARE" />
         <Value authorEmail="" />
         <Value authorWebsite="https://github.com/LETARTARE/QtPregenForCB" />
