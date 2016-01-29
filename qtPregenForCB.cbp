@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregenForCB-0.8.5-cb703" />
+		<Option title="qtPregenForCB-0.8.5-cb-16.01" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[use cb10600 sdk 1.29]]>
+				<![CDATA[use cb16_01 sdk 1.30.0]]>
 			</notes>
 		</Option>
 		<Build>
@@ -58,7 +58,7 @@
 					<Add after="zip -j9 QtPregen.cbplugin QtPregen.dll QtPregen.zip" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="CB" value="$(#cb10703)" />
+					<Variable name="CB" value="$(#cb16_01)" />
 				</Environment>
 			</Target>
 			<Target title="cbqt4">
@@ -130,10 +130,31 @@
 		<Unit filename="manifest.xml">
 			<Option target="default" />
 		</Unit>
+		<Unit filename="patch/cb-16-01-evPREGEN-0.8.5.patch">
+			<Option target="patchs" />
+		</Unit>
 		<Unit filename="patch/svn10118-evPREGEN0.7.1.patch">
 			<Option target="patchs" />
 		</Unit>
 		<Unit filename="patch/svn10127-evPREGEN0.7.1.patch">
+			<Option target="patchs" />
+		</Unit>
+		<Unit filename="patch/svn10253-evPREGEN-0.8.5.patch">
+			<Option target="patchs" />
+		</Unit>
+		<Unit filename="patch/svn10376-evPREGEN-0.8.5.patch">
+			<Option target="patchs" />
+		</Unit>
+		<Unit filename="patch/svn10474-evPREGEN-0.8.5.patch">
+			<Option target="patchs" />
+		</Unit>
+		<Unit filename="patch/svn10528-evPREGEN-0.8.5.patch">
+			<Option target="patchs" />
+		</Unit>
+		<Unit filename="patch/svn10600-evPREGEN-0.8.5.patch">
+			<Option target="patchs" />
+		</Unit>
+		<Unit filename="patch/svn10703-evPREGEN-0.8.5.patch">
 			<Option target="patchs" />
 		</Unit>
 		<Unit filename="src/QtPregen.cpp">
