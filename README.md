@@ -1,4 +1,4 @@
-# QtPregenForCB-0.8.5  January 29, 2016 (for Win32)
+# QtPregenForCB-0.8.5  March 22, 2016 (for Win32)
 
 Plugin to compile QT applications with 'Code::Blocks'
 
@@ -46,16 +46,16 @@ It uses a log 'Prebuild log' for all posts plugin.
 	3- a directory 'CodeBlocks' containing wizards 'cbqt4' and cbqt5'
 
 
-4- Installation to 'Code::Blocks 16.01'
+4- Installation to 'Code::Blocks 10816'
 
     1- first install wizards 'cbqt4' and 'cbqt5',
 
-    2- then the patch 'cb-16.01-evPREGEN-0.8.5.patch' and recompile the modified
-       source of the version 'Code::Blocks 16.01',
+    2- then the patch 'svn10816-evPREGEN-0.8.5.patch' and recompile the modified
+       source of the version 'Code::Blocks 10816',
 
-	3- then with 'C::B-16.01' compile and install the plugin 'qtPregenForCB-xyz' 
-        - change the local variable 'CB = $(#cb16_01)' in agreement with your
-          global 'cb16_01' which should identify sources of 'Code::Blocks'
+	3- then with 'C::B-10816' compile and install the plugin 'qtPregenForCB-xyz' 
+        - change the local variable 'CB = $(#cb10816)' in agreement with your
+          global 'cb10816' which should identify sources of 'Code::Blocks'
 
 5- Using
 
