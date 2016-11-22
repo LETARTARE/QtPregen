@@ -2,12 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregenForCB-0.8.5-cb-10816" />
+		<Option title="qtPregenForCB-0.8.6-cb-10922" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[use cb10816 sdk 1.30.0]]>
+				<![CDATA[use cb10922 sdk 1.30.0
+patch revised]]>
 			</notes>
 		</Option>
 		<Build>
@@ -18,6 +19,7 @@
 				<Option compiler="gcc" />
 				<Option projectCompilerOptionsRelation="1" />
 				<Compiler>
+					<Add option="-std=gnu++11" />
 					<Add option="-pipe" />
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
@@ -36,6 +38,7 @@
 					<Add directory="$CB/sdk" />
 					<Add directory="$CB/include" />
 					<Add directory="$CB/plugins/compilergcc" />
+					<Add directory="$CB/include/tinyxml" />
 					<Add directory="$CB/include/wxscintilla/include" />
 					<Add directory="$CB/sdk/wxscintilla/include" />
 					<Add directory="$(#wx.include)" />
@@ -58,7 +61,7 @@
 					<Add after="zip -j9 QtPregen.cbplugin QtPregen.dll QtPregen.zip" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="CB" value="$(#cb10816)" />
+					<Variable name="CB" value="$(#cb10922)" />
 				</Environment>
 			</Target>
 			<Target title="cbqt4">

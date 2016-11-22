@@ -167,6 +167,7 @@ function SetupProject(project)
     {
 		// ttConsoleOnly: console for debugging
         target.SetTargetType(ttConsoleOnly);
+        target.AddLibDir(QtPathDefaultLib);
 // -> LETARTARE
 		// add link libraries
 		if (PLATFORM == PLATFORM_MSW)    {
@@ -189,6 +190,7 @@ function SetupProject(project)
     {
 		// ttExecutable: no console
         target.SetTargetType(ttExecutable);
+        target.AddLibDir(QtPathDefaultLib);
 // -> LETARTARE
         // add link libraries
 		if (PLATFORM == PLATFORM_MSW) {

@@ -29,7 +29,7 @@ qtPrebuild::qtPrebuild(cbProject * prj, int logindex)
 {
 	// not use  + _T(Slash)   !!
 	m_dirgen = _T("qtprebuild") + wxString(Slash);
-	m_Devoid = _T("__NULL__") ;
+	m_Devoid = _T("__nullptr__") ;
 }
 ///-----------------------------------------------------------------------------
 /// called by :
