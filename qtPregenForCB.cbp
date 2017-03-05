@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregenForCB-0.8.6-cb-10922" />
+		<Option title="qtPregenForCB-0.8.6-cb-11021" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[use cb10922 sdk 1.30.0
+				<![CDATA[use cb11019 sdk 1.30.0
 patch revised]]>
 			</notes>
 		</Option>
@@ -61,7 +61,7 @@ patch revised]]>
 					<Add after="zip -j9 QtPregen.cbplugin QtPregen.dll QtPregen.zip" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="CB" value="$(#cb10922)" />
+					<Variable name="CB" value="$(#cb11021)" />
 				</Environment>
 			</Target>
 			<Target title="cbqt4">
