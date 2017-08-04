@@ -30,9 +30,6 @@ It uses a log 'Prebuild log' for all posts plugin.
     4- detects resource files '*.qrc' to generate files
          'qrc_filename.cpp'
 
-    ~~for now does not recognize in the '*.h' -> 'Q_DECLARE_INTERFACE (...)'~~
-
-
 3- 'QtPregenForCB-x.y.z' contains :
 
 	1- a plugin project 'QtPregenForCB.cbp' using the directory 'src'
