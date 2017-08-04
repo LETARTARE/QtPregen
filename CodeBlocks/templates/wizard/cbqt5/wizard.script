@@ -4,16 +4,18 @@
 //
 // Project	: CbQt5 project  :  (with Qt5.x only)
 // Author	: LETARTARE http://forums.codeblocks.org
-// Modified	: LETARTARE February 09 2015  r3
+// Modified	: LETARTARE June 06, 2017
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 // globals
-QtPathDefault5   <- _T("$(#qt56)");
+QtPathDefault5   <- _T("$(#qt5)");
 QtPathDefaultInc <- _T("");
 QtPathDefaultLib <- _T("");
 QtPath5 <- _T("");
 QtPathSpecs <- _T("mkspecs") + wxFILE_SEP_PATH + _T("win32-g++") ;
+// not used here
+QtVersion <- _T("");
 
 function BeginWizard()
 {
@@ -21,24 +23,24 @@ function BeginWizard()
                          "This wizard will guide you to create a new CbQt5 project\n" +
                          "using the Trolltech Qt5.x cross-platform GUI toolkit\n\n" +
                          "When you're ready to proceed, please click \"Next\"...");
-// -> LETARTARE
+/// -> cbqt5
 	local  advice_msg =_("This is an experimental wizard, using a plugin\n" +
 						 "'QtPreGen-x.y.z', which allows generate additional files for Qt:\n" +
 						 "- meta-objects ('Q_OBJECT', 'Q_GADGET' in .h, .hpp, .cpp)\n" +
 						 "- forms (.ui)\n" +
 						 "- resources (.qrc).\n" +
 						 "When you're ready to proceed, please click \"Next\"...\n\n");
-// <--
+/// <--
 
-    local qtpath_msg = _("Please select the location of Trolltech Qt5 on your computer.\n" +
+    local qtpath_msg = _("Please select the location of Qt5 on your computer.\n" +
                           "This is the top-level folder where Qt5 was installed.\n" +
                           "To help you, this folder must contain the subfolders\n" +
                           "\"include\" and \"lib\".");
 
     Wizard.AddInfoPage(_T("QtIntro"), intro_msg);
-//--> LETARTARE
+///--> cbqt5
     Wizard.AddInfoPage(_T("QtAdvice"), advice_msg);
-// <--
+/// <--
     Wizard.AddGenericSelectPathPage(_T("QtPath"), qtpath_msg, _("Qt's location:"), QtPathDefault5);
 
     Wizard.AddProjectPathPage();
@@ -114,30 +116,32 @@ function OnLeave_QtPath(fwd)
 // return the files this project contains
 function GetFilesDir()
 {
-// -->  LETARTARE
+/// -->  cbqt5
 	// -> main.cpp, qtest.h, qtest.cpp
 	return _T("cbqt5/files");
-// <--
+/// <--
 }
 
 // setup the already created project
 function SetupProject(project)
 {
     project.AddIncludeDir(QtPathDefaultInc);
-// --> LETARTARE
+    project.AddIncludeDir(QtPathDefaultInc + wxFILE_SEP_PATH + _T("QtGui"));
+/// --> cbqt5
     project.AddIncludeDir(QtPathDefaultInc + wxFILE_SEP_PATH + _T("QtWidgets"));
     project.AddIncludeDir(QtPathDefaultInc + wxFILE_SEP_PATH + _T("QtCore"));
+    project.AddIncludeDir(QtPathDefaultInc + wxFILE_SEP_PATH + _T("QtXml"));
     project.AddIncludeDir(QtPathDefaultInc + wxFILE_SEP_PATH + _T("ActiveQt"));
-// <--
-	project.AddIncludeDir(QtPathDefaultInc + wxFILE_SEP_PATH + _T("QtGui"));
-// --> LETARTARE
 	project.AddIncludeDir(QtPathDefaultInc + wxFILE_SEP_PATH + QtPathSpecs);
-// <--
+/// <--
     project.AddLibDir(QtPathDefaultLib);
-// --> LETARTARE
+/// --> cbqt5
     project.AddCompilerOption (_T("-frtti"));
     project.AddCompilerOption (_T("-DUNICODE"));
-    project.AddCompilerOption (_T("-DQT_LARGEFILE_SUPPORT"));
+    /// qt > 5.6
+  //  project.AddCompilerOption (_T("-DQT_LARGEFILE_SUPPORT"));
+	project.AddCompilerOption (_T("-std=gnu++11"));
+	///
     project.AddCompilerOption (_T("-DQT_GUI_LIB"));
     project.AddCompilerOption (_T("-DQT_CORE_LIB") );
     project.AddCompilerOption (_T("-DQT_HAVE_MMX") );
@@ -162,7 +166,7 @@ function SetupProject(project)
     project.AddLinkerOption (_T("--enable-runtime-pseudo-reloc") );
     project.AddLinkerOption (_T("-mconsole") );
     project.AddLinkerOption (_T("-mwindows") );
-// <--
+/// <--
     // enable compiler warnings (project-wide)
     WarningsOn(project, idcompiler);
 
@@ -173,19 +177,21 @@ function SetupProject(project)
 		// ttConsoleOnly: console for debugging
         target.SetTargetType(ttConsoleOnly);
         target.AddLibDir(QtPathDefaultLib);
-// -> LETARTARE
+/// -> cbqt5
 		// add link libraries
 		if (PLATFORM == PLATFORM_MSW)    {
 			target.AddLinkLib(_T("Qt5Cored"));
 			target.AddLinkLib(_T("Qt5Guid"));
 			target.AddLinkLib(_T("Qt5Widgetsd"));
+			target.AddLinkLib(_T("Qt5Xmld"));
 		}
 		else {
 			target.AddLinkLib(_T("QtCored"));
 			target.AddLinkLib(_T("QtGuid"));
 			target.AddLinkLib(_T("QtWidgetsd"));
+			target.AddLinkLib(_T("QtXmld"));
 		}
-// <--
+/// <--
         target.SetOutputFilename(Wizard.GetDebugOutputDir() + Wizard.GetProjectName() + DOT_EXT_EXECUTABLE);
         // enable generation of debugging symbols for target
         DebugSymbolsOn(target, Wizard.GetCompilerID());
@@ -198,19 +204,21 @@ function SetupProject(project)
 		// ttExecutable: no console
         target.SetTargetType(ttExecutable);
         target.AddLibDir(QtPathDefaultLib);
-// -> LETARTARE
+/// -> cbqt5
         // add link libraries
 		if (PLATFORM == PLATFORM_MSW) {
 			target.AddLinkLib(_T("Qt5Core"));
 			target.AddLinkLib(_T("Qt5Gui"));
 			target.AddLinkLib(_T("Qt5Widgets"));
+			target.AddLinkLib(_T("Qt5Xml"));
 		}
 		else {
 			target.AddLinkLib(_T("QtCore"));
 			target.AddLinkLib(_T("QtGui"));
 			target.AddLinkLib(_T("QtWidgets"));
+			target.AddLinkLib(_T("Qt5Xml"));
 		}
-// <--
+/// <--
         target.SetOutputFilename(Wizard.GetReleaseOutputDir() + Wizard.GetProjectName() + DOT_EXT_EXECUTABLE);
         // enable optimizations for target
         OptimizationsOn(target, Wizard.GetCompilerID());

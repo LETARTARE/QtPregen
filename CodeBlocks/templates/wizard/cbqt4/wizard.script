@@ -30,7 +30,7 @@ function BeginWizard()
 						 "When you're ready to proceed, please click \"Next\"...\n\n");
 // <--
 
-    local qtpath_msg = _("Please select the location of Trolltech Qt4 on your computer.\n" +
+    local qtpath_msg = _("Please select the location of Qt4 on your computer.\n" +
                           "This is the top-level folder where Qt4 was installed.\n" +
                           "To help you, this folder must contain the subfolders\n" +
                           "\"include\" and \"lib\".");

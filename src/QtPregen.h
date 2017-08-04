@@ -1,8 +1,9 @@
 /***************************************************************
  * Name:      QtPregen.h
- * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.8.5
+ * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.9
  * Author:    LETARTARE
  * Created:   2015-10-17
+ * Modified:  2017-07-23
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -22,7 +23,8 @@ class qtPre;
 class qtPrebuild;
 class TextCtrlLogger;
 //-------------------------------------------------
-/** @brief Qt plugin main class
+/** \class  QtPregen
+ * @brief Qt plugin main class
  *
 */
 class QtPregen : public cbPlugin
@@ -147,15 +149,33 @@ class QtPregen : public cbPlugin
       */
     void OnPregen(CodeBlocksEvent& event);
 
+    /** This method called by 'cbEVT_CLEAN_PROJECT_STARTED' for
+      * allows remove all the additional files ...
+      * @param event Contains the event which call this method
+      */
+    void OnCleanPregen(CodeBlocksEvent& event);
+
+     /** This method called by 'cbEVT_PROJECT_FILE_REMOVED' for
+      * allows remove complement file
+      * @param event Contains the event which call this method
+      */
+    void OnFileRemovedPregen(CodeBlocksEvent& event);
+
   private:
     /** project
-      */
+     */
     cbProject* m_project;
     /** pre-Builder for QT
-    */
+     */
     qtPrebuild * m_prebuild;
+    /** project type
+      */
+    bool m_qtproject = false;
+    /**  removing complement files
+     */
+    bool m_removingfirst = true;
     /** Global used to record different messages for the construction report
-    */
+     */
     wxString Mes;
 
   private:

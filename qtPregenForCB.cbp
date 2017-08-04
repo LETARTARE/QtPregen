@@ -2,17 +2,18 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregenForCB-0.8.6-cb-11021" />
+		<Option title="qtPregenForCB-0.9-cb-11112" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[use cb11019 sdk 1.30.0
-patch revised]]>
+				<![CDATA[use cb11112 sdk 1.30.0
+patch revised 0.9]]>
 			</notes>
 		</Option>
 		<Build>
 			<Target title="default">
+				<Option platforms="Windows;" />
 				<Option output="QtPregen" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objs" />
 				<Option type="3" />
@@ -61,7 +62,7 @@ patch revised]]>
 					<Add after="zip -j9 QtPregen.cbplugin QtPregen.dll QtPregen.zip" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="CB" value="$(#cb11021)" />
+					<Variable name="CB" value="$(#cb11112)" />
 				</Environment>
 			</Target>
 			<Target title="cbqt4">
@@ -76,8 +77,12 @@ patch revised]]>
 				<Option type="4" />
 				<Option compiler="null" />
 			</Target>
+			<Target title="infos">
+				<Option type="4" />
+				<Option compiler="gcc" />
+			</Target>
 			<Environment>
-				<Variable name="WX_CFG=" value="" />
+				<Variable name="WX_CFG" value="" />
 				<Variable name="WX_SUFFIX" value="u" />
 			</Environment>
 		</Build>
@@ -127,8 +132,11 @@ patch revised]]>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/wizard.script">
 			<Option target="cbqt5" />
 		</Unit>
+		<Unit filename="infos/Todo.his">
+			<Option target="infos" />
+		</Unit>
 		<Unit filename="infos/qtPregen.his">
-			<Option target="default" />
+			<Option target="infos" />
 		</Unit>
 		<Unit filename="manifest.xml">
 			<Option target="default" />
@@ -158,6 +166,15 @@ patch revised]]>
 			<Option target="patchs" />
 		</Unit>
 		<Unit filename="patch/svn10703-evPREGEN-0.8.5.patch">
+			<Option target="patchs" />
+		</Unit>
+		<Unit filename="patch/svn10922-evPREGEN-0.8.6.patch">
+			<Option target="patchs" />
+		</Unit>
+		<Unit filename="patch/svn11021-evPREGEN-0.8.6.patch">
+			<Option target="patchs" />
+		</Unit>
+		<Unit filename="patch/svn11021-evPREGEN-0.8.7.patch">
 			<Option target="patchs" />
 		</Unit>
 		<Unit filename="src/QtPregen.cpp">

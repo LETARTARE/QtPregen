@@ -1,8 +1,9 @@
 /***************************************************************
  * Name:      qtPrebuild.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.5
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.9
  * Author:    LETARTARE
  * Created:   2015-10-17
+ * Modified:  2017-07-26
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -11,7 +12,8 @@
 //------------------------------------------------------------------------------
 #include "qtpre.h"
 //------------------------------------------------------------------------------
-/**	@brief The class is used to pre-Build additional Qt files
+/**	\class qtPrebuild
+ *	@brief The class is used to pre-Build additional Qt files
  *
  */
 class qtPrebuild  : public qtPre
@@ -48,6 +50,33 @@ class qtPrebuild  : public qtPre
 		 *   @return true if it's
 		 */
 		bool isGoodTargetQt(const wxString& nametarget);
+
+		/**	Remove all complement files to
+		 *		- an internal table to build additional files
+		 *		- directory "qtprebuild\target" to disk
+		 * @return	true if correct
+         */
+		bool removeComplements();
+		/**	Remove one complement file to disk directory "qtprebuild\target"
+		 *  @param  filename : complement file name
+		 *  @param  index :  table index
+		 * @return	true if correct
+         */
+		bool removeComplementToDisk(const wxString & filename, int16_t index);
+
+		/**  Unregister a project file  to 'CB'
+		 *  @param complement : file name
+		 *  @return	true if correct
+		 */
+		bool unregisterProjectFileToCB(const wxString & file);
+
+		/**  Unregister a project file to 'qtPregen'
+		 *  @param file : file name  (complement or creator)
+		 *  @param complement : it'a complement file
+		 *  @param first : the first call to 'unregisterProjectFile(...)'
+		 *  @return	true if correct
+		 */
+		bool unregisterProjectFile(const wxString & file, bool complement, bool first);
 
 	private:
 
@@ -125,10 +154,9 @@ class qtPrebuild  : public qtPre
 		wxString pathQt(CompileTargetBase * container) ;
 
 		/**  Is whether the QT executables exist
-		 *	 @param parentbuildtarget : 'cbProject*' of used target
+		 *	 @param buildtarget : 'CompileTargetBase*' of used target
 		 *   @return true if they exist all
 		 */
-	//	bool findTargetQtexe(cbProject * parentbuildtarget) ;
 		bool findTargetQtexe(CompileTargetBase * buildtarget) ;
 
 		/**  Read contents file
@@ -229,12 +257,12 @@ class qtPrebuild  : public qtPre
 		 *  @param arraystr : a table
 		 *  @return if it's
 		 */
-		bool isEmpty (const wxArrayString& arraystr) ;
+		bool isEmpty(const wxArrayString& arraystr) ;
 
         /** Execute commands 'moc', 'uic', 'rcc'
          *	 @param qexe  : executable name
          *	 @param index : position creator file inside 'm_Filecreator'
-         *   @return  _("") if file created else error string
+         *   @return  _T("") if file created else error string
          */
 		wxString createComplement(const wxString& qexe, const uint16_t index) ;
 
@@ -242,7 +270,7 @@ class qtPrebuild  : public qtPre
          *	 @param qexe : executable name
          *	 @param fcreator : file name creator
          *	 @param fout : file name to create
-         *   @return _("") if file created else error string
+         *   @return _T("") if file created else error string
          */
 		wxString createFileComplement(const wxString& qexe, const wxString& fcreator,
 									  const wxString& fout) ;
@@ -270,9 +298,7 @@ class qtPrebuild  : public qtPre
 		 */
 		bool m_Identical;
 
-		/** String with "__DEVOID__"
-		 */
-		wxString m_Devoid,
+		wxString
 		/** Contains all defines Qt for executables
 		 */
 			m_DefinesQt,

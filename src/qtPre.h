@@ -1,13 +1,14 @@
 /*************************************************************
  * Name:      qtPre.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.8.5
+ * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.9
  * Author:    LETARTARE
  * Created:   2015-10-17
+ * Modified:  2017-07-26
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
-#define VERSION_QTP _T("0.8.5")
+#define VERSION_QTP _T("0.9.0")
 
 #ifndef _QTPRE_H_
 #define _QTPRE_H_
@@ -23,7 +24,8 @@ class ProjectFile;
 class TextCtrlLogger;
 //------------------------------------------------------------------------------
 
-/**	@brief The class that is used to detect Qt libraries
+/**	\class qtPre
+ *	@brief The class that is used to detect Qt libraries
  *
  */
 class qtPre
@@ -43,6 +45,24 @@ class qtPre
 		 */
 		wxString namePlugin();
 
+		/** Give complement directory
+		 * @return directory name
+		*/
+		wxString complementDirectory() const;
+		/**
+		 * @return true : is a complement file
+		 */
+        bool isComplementFile(wxString & filename);
+        /**
+		 * @return true : is a creator file
+		 */
+        bool isCreatorFile(wxString & filename);
+
+        /**
+         * @return true : tables is empty
+         */
+        bool isClean();
+
 		/** Detects if the current project uses Qt libraries,
 		 * refuses QT projects using a 'makefile'
          * @param prj : the active project.
@@ -50,6 +70,11 @@ class qtPre
          * @return true : if used
          */
 		bool detectQt(cbProject * prj, bool report= false);
+
+		/** Detects if the current project has complements
+         * @param prj : the active project.
+         */
+		bool detectComplements(cbProject * prj);
 
 		/** Get version from 'cbplugin.h'
 		 * @return version du SDK ex: "1.19.0" for Code::Blocks 13.12
@@ -67,6 +92,12 @@ class qtPre
          *	@return a copy, not an adress
          */
 		wxArrayString copyArray (const wxArrayString& strarray)  ;
+
+		/** Give an array from another
+         *	@param strarray : array name
+         *	@return a reverse,
+         */
+		wxArrayString reverseFileCreator(const wxArrayString& strarray) ;
 
 	protected:
 		/** name of plugin
@@ -129,11 +160,14 @@ class qtPre
 		 */
 		wxArrayString  m_TablibQt ;
 
+		/** String with "__nullptr__"
+		 */
+		 const wxString m_Devoid = _T("__nullptr__") ;
+
 	/// the tables
-		wxArrayString
-			/**	 files registered in the project
+			/**	files registered in the project
 			 */
-			m_Registered,
+		wxArrayString	m_Registered,
 			/** files to be created in the project
 			 */
 			m_Filestocreate,
@@ -146,7 +180,10 @@ class qtPre
 			/** file was already created
 			 */
 			m_Filewascreated
-					;
+		;
+		/**  the table is empty
+		 */
+		bool m_clean = true;
 
 		/**  messages to console
 		 */
