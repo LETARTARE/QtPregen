@@ -45,10 +45,10 @@ It uses a log 'Prebuild log' for all posts plugin.
 
     1- first install wizards 'cbqt4' and 'cbqt5',
 
-    2- then the patch 'cb-11112-evPREGEN-0.9.0.patch' and recompile the modified source of the version 'Code::Blocks-11176',
+    2- then the patch 'cb-11176-evPREGEN-0.9.0.patch' and recompile the modified source of the version 'Code::Blocks-11176',
 
 	3- then with 'C::B-11176' compile and install the plugin 'qtPregenForCB-xyz' 
-        - change the local variable 'CB = $(#cb11112)' in agreement with your global 'cb11176' which should identify sources of 'Code::Blocks'
+        - change the local variable 'CB = $(#cb11176)' in agreement with your global 'cb11176' which should identify sources of 'Code::Blocks'
 
 5- Using
 
