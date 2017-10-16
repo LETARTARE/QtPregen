@@ -1,8 +1,10 @@
-# QtPregenForCB-0.9.0 August 4, 2017 (for Win32)
+# QtPregenForCB-0.9.0 October 15, 2017 (for Win32)
 
 Plugin to compile QT applications with 'Code::Blocks'
 
 **Version for all 'Code::Block, sdk >= 1.25.0, svn >= 10127'**
+
+**Last: sdk = 1.31.0, svn = 11176**
 
 It uses a log 'Prebuild log' for all posts plugin.
 
@@ -34,19 +36,19 @@ It uses a log 'Prebuild log' for all posts plugin.
 
 	1- a plugin project 'QtPregenForCB.cbp' using the directory 'src'
 
-	2- a directory 'patch' containing patchs for versions of 'Code::Blocks' (10253, 10376, 10474, 10528, 10600, 10703, cb-16.01, 10816, 10856, 10922, 11021, 11112)
+	2- a directory 'patch' containing patchs for versions of 'Code::Blocks' (10253, 10376, 10474, 10528, 10600, 10703, cb-16.01, 10816, 10856, 10922, 11021, 11112, 11176)
 
 	3- a directory 'CodeBlocks' containing wizards 'cbqt4' and cbqt5'
 
 
-4- Installation to 'Code::Blocks 11112'
+4- Installation to 'Code::Blocks 11176'
 
     1- first install wizards 'cbqt4' and 'cbqt5',
 
-    2- then the patch 'cb-11112-evPREGEN-0.9.0.patch' and recompile the modified source of the version 'Code::Blocks-11112',
+    2- then the patch 'cb-11112-evPREGEN-0.9.0.patch' and recompile the modified source of the version 'Code::Blocks-11176',
 
-	3- then with 'C::B-11112' compile and install the plugin 'qtPregenForCB-xyz' 
-        - change the local variable 'CB = $(#cb11112)' in agreement with your global 'cb11112' which should identify sources of 'Code::Blocks'
+	3- then with 'C::B-11176' compile and install the plugin 'qtPregenForCB-xyz' 
+        - change the local variable 'CB = $(#cb11112)' in agreement with your global 'cb11176' which should identify sources of 'Code::Blocks'
 
 5- Using
 
