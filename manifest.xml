@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_plugin_manifest_file>
-    <SdkVersion major="1" minor="32" release="0" />
+    <SdkVersion major="1" minor="33" release="0" />
     <Plugin name="QtPregen">
         <Value title="QtPregen" />
-        <Value version="0.9.0" />
-        <Value description="Compilling Qt software with this plugin (sdk 1.32.0, cb-11210)" />
+        <Value version="1.0" />
+        <Value description="Compilling Qt software with this plugin (sdk 1.33.0, cb-11246)" />
         <Value author="LETARTARE" />
         <Value authorEmail="" />
         <Value authorWebsite="https://github.com/LETARTARE/QtPregenForCB" />

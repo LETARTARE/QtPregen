@@ -1,9 +1,9 @@
 /***************************************************************
- * Name:      QtPregen.h
- * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp'   0.9
+ * Name:      qtpregen.h
+ * Purpose:   Code::Blocks plugin 'qtpregen.cbp'   1.0
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2017-07-23
+ * Modified:  2017-11-23
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -142,7 +142,7 @@ class QtPregen : public cbPlugin
     void OnActivate(CodeBlocksEvent& event);
 
     /** This method called by 'cbEVT_COMPILER_STARTED' for
-      * 1- allows pre-build all the additional files ...
+      * 1- allows pre-build all the additioisGoodTargetQtnal files ...
       * 2- allows pre-compile one additional file ...
       *   required to compile a project using the Qt libraries
       * @param event Contains the event which call this method

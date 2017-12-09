@@ -1,16 +1,20 @@
 /*************************************************************
- * Name:      QtPregen.cpp
- * Purpose:   Code::Blocks plugin 'qtPregenForCB.cbp' 0.9
+ * Name:      qtpregen.cpp
+ * Purpose:   Code::Blocks plugin 'qtpregen.cbp' 1.1
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2017-07-26
+ * Modified:  2017-12-09
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
 #include <sdk.h> 	// Code::Blocks SDK
+// for linux
+#include <cbproject.h>
+#include <projectmanager.h>
+// <-
 #include <loggers.h>
-#include "QtPregen.h"
+#include "qtpregen.h"
 #include "qtprebuild.h"
 #include "print.h"
 //------------------------------------------------------------------------------
@@ -18,7 +22,10 @@
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
-	PluginRegistrant<QtPregen> reg(_T("QtPregen"));
+	/**  name to register this plugin with Code::Blocks
+  	 */
+  	wxString NamePlugin = _T("QtPregen");
+	PluginRegistrant<QtPregen> reg(NamePlugin);
 }
 ///-----------------------------------------------------------------------------
 ///	Load ressource 'QtPregen.zip'
@@ -27,8 +34,9 @@ QtPregen::QtPregen()
 	: m_project(nullptr), m_prebuild(nullptr), m_qtproject(false),
 	  m_PregenLog(nullptr), m_LogPageIndex(0), m_LogMan(nullptr)
 {
-	if(!Manager::LoadResource(_T("QtPregen.zip")))
-		NotifyMissingFile(_T("QtPregen.zip"));
+	wxString zip = NamePlugin + _T(".zip");
+	if(!Manager::LoadResource(zip))
+		NotifyMissingFile(zip);
 }
 ///-----------------------------------------------------------------------------
 /// Create handlers event and creating the pre-builders
@@ -76,7 +84,7 @@ void QtPregen::OnAttach()
 //4- construct the builder
 	// construct new 'm_prebuild'
 	m_project = pm->GetProjectManager()->GetActiveProject();
-	m_prebuild = new qtPrebuild(m_project, m_LogPageIndex);
+	m_prebuild = new qtPrebuild(m_project, m_LogPageIndex, NamePlugin);
 	if (m_prebuild)
 	{
 		Mes = _T("sdk => ") + Quote + m_prebuild->GetVersionSDK() + Quote;
@@ -143,8 +151,8 @@ void QtPregen::OnActivate(CodeBlocksEvent& event)
 	cbProject *prj = event.GetProject();
 	if(!prj)
 	{
-		Mes = _T("QtPregen -> no project supplied !!");
-		AppendToLog(Mes, Logger::error);
+		Mes = NamePlugin + _T(" -> ") + _("no project supplied !!");
+		printErr(Mes);
 		event.Skip();
 		return;
 	}
@@ -152,26 +160,28 @@ void QtPregen::OnActivate(CodeBlocksEvent& event)
 // missing builder 'm_prebuild'!
 	if (!m_prebuild)
 	{
-		Mes = _T("QtPregen -> no 'm_prebuild' !!!");
-		AppendToLog(Mes, Logger::error);
+		Mes = NamePlugin + _T(" -> ") + _("'m_prebuild' !!!");
+		printErr(Mes);
 		event.Skip();
 		return;
 	}
 // detect Qt project
 	// with report
 	m_qtproject = m_prebuild->detectQt(prj, true);
+//Mes = _T("m_qtproject = ") + (wxString() << (int)m_qtproject);
+//printWarn(Mes);
 	// no report
 		//bool valid = m_prebuild->detectQt(prj, false);
 	// clear log
-	if (m_PregenLog)
-		m_PregenLog->Clear();
+//	if (m_PregenLog)
+//		m_PregenLog->Clear();
 	// advice
 	Mes = Quote + prj->GetTitle() + Quote;
 	if (m_qtproject)
 	{
 		// advice
 		Mes += Space + _("is a Qt project...");
-		AppendToLog(Mes, Logger::warning);
+		printWarn(Mes);
 		// complements exists already ?
 		bool ok = m_prebuild->detectComplements(prj);
 		// init
@@ -241,8 +251,7 @@ printWarn(Mes);
 	// no project !!
 	if(!prj)
 	{
-		Mes = _T("QtPregen -> no project supplied");
-		//AppendToLog(Mes, Logger::error);
+		Mes = NamePlugin + _T(" -> ") + _("no project supplied");
 		printErr(Mes);
 		event.Skip();
 		return ;
@@ -250,8 +259,7 @@ printWarn(Mes);
 // missing m_builder 'm_prebuild'
 	if (!m_prebuild)
 	{
-		Mes = _T("QtPregen -> no 'm_prebuild' !!!");
-		//AppendToLog(Mes, Logger::error);
+		Mes = NamePlugin + _T(" -> ") + _T("no 'm_prebuild' !!!");
 		printErr(Mes);
 		event.Skip();
 		return;
@@ -308,7 +316,7 @@ printWarn(Mes);
 /*  debug
 Mes = _T(" FBuild = ") + (wxString() << FBuild);
 Mes += _T(", Build(11) = ") + (wxString() << (Build ? _T("true") : _T("false")) );
-Mes += _T(", Clean(12) = ") + (wxString() << (Clean ? _T("true") : _T("false")));
+Mes += _T(", Clean(12) = ") + (My ProjectwxString() << (Clean ? _T("true") : _T("false")));
 Mes += _T(", Rebuild(13) = ") + (wxString() << (Rebuild ? _T("true") : _T("false")));
 printWarn(Mes);
 */
@@ -335,9 +343,8 @@ printWarn(Mes);
 		{
 //Mes =  _T("Build complement files ...");
 //printWarn(Mes);
-//PrintWarn(Mes);
 			// realtarget
-			wxString targetname = event.GetBuildTargetName() ;
+            wxString targetname = event.GetBuildTargetName() ;
 			prj->SetActiveBuildTarget(targetname);
 			// verify Qt target
 			bool ok = m_prebuild->isGoodTargetQt(targetname);
@@ -348,10 +355,16 @@ printWarn(Mes);
                 if (! ok)
                 {
                     Mes = _("Error 'PreBuild' !!!");
-                    AppendToLog(Mes, Logger::error);
-                   // printErr(Mes);
+                    printErr(Mes);
                 }
             }
+            else
+            {
+                Mes = _("It's not a good target !!!");
+                printWarn(Mes);
+
+            }
+
             Build = false;
 		}
 	}
@@ -374,7 +387,7 @@ printWarn(Mes);
 			Build = true;
 		}
 
-		if (Clean)    // n'existe pas tout seul !!
+		if (Clean)    // does not exist alone !!
 		{
 			Mes =  _T("CompileOneFile && Clean ...");
 			printErr(Mes);
@@ -432,7 +445,6 @@ printWarn(Mes);
 		if (! ok)
 		{
 			Mes = _T("Error remove all complement files !!!");
-			//AppendToLog(Mes, Logger::error);
 			printErr(Mes);
 		}
 	}
@@ -447,7 +459,7 @@ printWarn(Mes);
 ///
 ///	 project popup menu or menu
 ///		1. 'Remove file from project'
-///		2. 'Remove files ...'
+///		2. 'Remove files ...'My Project
 ///     3. 'Remove  dir\*'
 ///
 void QtPregen::OnFileRemovedPregen(CodeBlocksEvent& event)

@@ -2,19 +2,20 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregenForCB-0.9-cb-11210" />
+		<Option title="qtPregen-1.0-cb11246" />
+		<Option platforms="Windows;" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[use cb11210 sdk 1.32.0
-patch revised 0.9]]>
+				<![CDATA[use cb11227 sdk 1.33.0
+patch revised 1.0]]>
 			</notes>
 		</Option>
 		<Build>
 			<Target title="default">
 				<Option platforms="Windows;" />
-				<Option output="QtPregen" prefix_auto="1" extension_auto="1" />
+				<Option output="QtPregen" prefix_auto="0" extension_auto="1" />
 				<Option object_output="objs" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -35,13 +36,9 @@ patch revised 0.9]]>
 					<Add option="-DWX_PRECOMP" />
 					<Add option="-DwxUSE_UNICODE" />
 					<Add directory="src" />
-					<Add directory="$CB" />
-					<Add directory="$CB/sdk" />
-					<Add directory="$CB/include" />
-					<Add directory="$CB/plugins/compilergcc" />
-					<Add directory="$CB/include/tinyxml" />
-					<Add directory="$CB/include/wxscintilla/include" />
-					<Add directory="$CB/sdk/wxscintilla/include" />
+					<Add directory="$(cb)/include" />
+					<Add directory="$(cb)/include/tinyxml" />
+					<Add directory="$(cb)/sdk/wxscintilla/include" />
 					<Add directory="$(#wx.include)" />
 					<Add directory="$(#wx.lib)/gcc_dll/mswu" />
 					<Add directory="$(#wx)/contrib/include" />
@@ -52,17 +49,17 @@ patch revised 0.9]]>
 				<Linker>
 					<Add library="codeblocks" />
 					<Add library="wxmsw28u" />
-					<Add directory="$CB/devel" />
-					<Add directory="$CB/devel/share/CodeBlocks/plugins/" />
+					<Add directory="$(cb)/devel" />
+					<Add directory="$(cb)/devel/share/CodeBlocks/plugins/" />
 					<Add directory="$(#wx.lib)/gcc_dll" />
-					<Add directory="$CB/.objs/plugins/compilergcc" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip -j9 QtPregen.zip manifest.xml" />
 					<Add after="zip -j9 QtPregen.cbplugin QtPregen.dll QtPregen.zip" />
+					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="CB" value="$(#cb11210)" />
+					<Variable name="cb" value="$(#cb11246)" />
 				</Environment>
 			</Target>
 			<Target title="cbqt4">
@@ -92,17 +89,14 @@ patch revised 0.9]]>
 		<Linker>
 			<Add option="-s" />
 			<Add library="wxmsw28u_gcc_cb" />
-			<Add directory="$CB/devel" />
-			<Add directory="$CB/lib" />
-			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 		</Linker>
-		<Unit filename="CodeBlocks/templates/wizard/cbqt4/files/Qtest.cpp">
-			<Option target="cbqt4" />
-		</Unit>
-		<Unit filename="CodeBlocks/templates/wizard/cbqt4/files/Qtest.h">
-			<Option target="cbqt4" />
-		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt4/files/main.cpp">
+			<Option target="cbqt4" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt4/files/qtest.cpp">
+			<Option target="cbqt4" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt4/files/qtest.h">
 			<Option target="cbqt4" />
 		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt4/logo.png">
@@ -114,13 +108,13 @@ patch revised 0.9]]>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt4/wizard.script">
 			<Option target="cbqt4" />
 		</Unit>
-		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/Qtest.cpp">
-			<Option target="cbqt5" />
-		</Unit>
-		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/Qtest.h">
-			<Option target="cbqt5" />
-		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/main.cpp">
+			<Option target="cbqt5" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/qtest.cpp">
+			<Option target="cbqt5" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/qtest.h">
 			<Option target="cbqt5" />
 		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/logo.png">
@@ -135,7 +129,7 @@ patch revised 0.9]]>
 		<Unit filename="infos/Todo.his">
 			<Option target="infos" />
 		</Unit>
-		<Unit filename="infos/qtPregen.his">
+		<Unit filename="infos/qtpregen.his">
 			<Option target="infos" />
 		</Unit>
 		<Unit filename="manifest.xml">
@@ -177,25 +171,25 @@ patch revised 0.9]]>
 		<Unit filename="patch/svn11021-evPREGEN-0.8.7.patch">
 			<Option target="patchs" />
 		</Unit>
-		<Unit filename="src/QtPregen.cpp">
-			<Option target="default" />
-		</Unit>
-		<Unit filename="src/QtPregen.h">
-			<Option target="default" />
-		</Unit>
 		<Unit filename="src/print.h">
-			<Option target="default" />
-		</Unit>
-		<Unit filename="src/qtPre.cpp">
-			<Option target="default" />
-		</Unit>
-		<Unit filename="src/qtPre.h">
 			<Option target="default" />
 		</Unit>
 		<Unit filename="src/qtPrebuild.cpp">
 			<Option target="default" />
 		</Unit>
 		<Unit filename="src/qtPrebuild.h">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/qtpre.cpp">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/qtpre.h">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/qtpregen.cpp">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src/qtpregen.h">
 			<Option target="default" />
 		</Unit>
 		<Extensions>

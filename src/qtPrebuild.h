@@ -1,9 +1,9 @@
 /***************************************************************
- * Name:      qtPrebuild.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.9
+ * Name:      qtprebuild.h
+ * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.0
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2017-07-26
+ * Modified:  2017-11-29
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -23,8 +23,9 @@ class qtPrebuild  : public qtPre
 		/** Constructor
          * @param prj The active project.
          * @param logindex The active log
+         * @param nameplugin The plugin name
          */
-		qtPrebuild(cbProject * prj, int logindex);
+		qtPrebuild(cbProject * prj, int logindex, wxString & nameplugin);
 
 		/** Destructor
          */
@@ -33,7 +34,7 @@ class qtPrebuild  : public qtPre
 		/** Built all files necessary complements
 		 * @param prj The active project.
 		 * @param workspace is true -> no report, no popup messages.
-		 * @param allbuild is true -> rebuild complement files.
+		 * @param allbuild is true -> rebuild complement files.isGoodTargetQt
 		 * @return	true if building is correct
 		 */
 		bool buildQt(cbProject * prj, bool workspace, bool allbuild);
@@ -151,7 +152,7 @@ class qtPrebuild  : public qtPre
 		 * 	 	both inherited of  'CompileTargetBase'
 		 *   @return path
 		 */
-		wxString pathQt(CompileTargetBase * container) ;
+		wxString pathlibQt(CompileTargetBase * container) ;
 
 		/**  Is whether the QT executables exist
 		 *	 @param buildtarget : 'CompileTargetBase*' of used target
@@ -181,19 +182,6 @@ class qtPrebuild  : public qtPre
 		 *   @return duration mS
 		 */
 		wxString duration();
-
-		/**  Give if target is virtual
-		 *	 @param nametarget : target name
-		 *	 @param warning : indicate a message
-		 *   @return true if it's virtual
-		 */
-		bool isVirtualTarget(const wxString& nametarget, bool warning=false) ;
-
-		/**  Give targets list for a virtual target
-		 *	 @param nametarget : virtual target name
-		 *   @return a table
-		 */
-		wxArrayString listTargets(const wxString& nametarget);
 
 		/** Search a macro inside file
 		 *	 @param filename : file name
@@ -278,12 +266,12 @@ class qtPrebuild  : public qtPre
 		/** Retrieve path include table for executable
 		 * @return string path include
 		 */
-		wxString pathIncludeMoc();
+		wxString pathIncludeMoc(CompileTargetBase * container);
 
 		/** Retrieve all defines table for executables
 		 * @return string all defines
 		 */
-		wxString definesMoc() ;
+		wxString definesMoc(CompileTargetBase * container) ;
 
         /**  Launch a command line
          *	 @param command : command line
@@ -305,9 +293,6 @@ class qtPrebuild  : public qtPre
 		/** Contains all path include Qt for executables
 		 */
 			m_IncPathQt,
-		/** Contains active target name
-		 */
-			m_nameactivetarget,
 		/** Contains file name
 		 */
 			m_filename

@@ -1,13 +1,13 @@
 /***************************************************************
- * Name:      qtPre.cpp
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'   0.9
+ * Name:      qtpre.cpp
+ * Purpose:   Code::Blocks plugin	'qtPregen.cbp'   1.0
  * Author:    LETARTARE
  * Created:   2015-02-27
- * Modified:  2017-07-26
+ * Modified:  2017-11-29
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
-#include "qtPre.h"
+#include "qtpre.h"
 
 #include <sdk.h>
 #include <cbplugin.h>      // sdk version
@@ -19,15 +19,18 @@
 #include <editormanager.h>
 #include <cbeditor.h>
 #include <wx/datetime.h>
+// for linux
+#include <wx/dir.h>
 #include <projectfile.h>
+#include "infowindow.h"     // InfoWindow::Display(
 // not place change !
 #include "print.h"
 ///-----------------------------------------------------------------------------
 /// called by :
 ///		1. qtPrebuild::qtPrebuild(cbProject * prj, int logindex):1,
 ///
-qtPre::qtPre(cbProject * prj, int logindex)
-	: m_Thename(_T("QtPregenForCB_plugin")),
+qtPre::qtPre(cbProject * prj, int logindex, wxString & nameplugin)
+	: m_namePlugin(nameplugin),
 	  m_Win(false), m_Linux(false), m_Mac(false),
 	  m_Mexe(_T("")), m_Uexe(_T("")), m_Rexe(_T("")), m_Lexe(_T("")),
 	  Mes(_T("")), m_nameproject(_T("")),
@@ -65,7 +68,7 @@ qtPre::~qtPre()
 ///
 wxString qtPre::namePlugin()
 {
-	return m_Thename;
+	return m_namePlugin;
 }
 ///-----------------------------------------------------------------------------
 /// Determines the system platform
@@ -77,27 +80,27 @@ void qtPre::platForm() {
 // choice platform
 	if (! m_Win)
 	{
-		#undef Sepd
-		#define Sepd 13
+		#undef SepD
+		#define SepD 13
 		#undef Sizesep
 		#define Sizesep 1
-	// tables
-       /*   TODO ????
+	// tables  ( >= Qt-5.9 )
+       //   TODO ????
 		m_TablibQt.Add(_T("qtmain"),1) ;
-		m_TablibQt.Add(_T("qtmaind"),1) ;
+	//	m_TablibQt.Add(_T("qtmaind"),1) ;
 		// qt4   ???
-		m_TablibQt.Add(_T("qtgui"),1) ;
-		m_TablibQt.Add(_T("qtcore"),1) ;
-		m_TablibQt.Add(_T("qtguid"),1) ;
-		m_TablibQt.Add(_T("qtcored"),1) ;
+	//	m_TablibQt.Add(_T("qtgui"),1) ;
+	//	m_TablibQt.Add(_T("qtcore"),1) ;
+	//	m_TablibQt.Add(_T("qtguid"),1) ;
+	//	m_TablibQt.Add(_T("qtcored"),1) ;
 		// qt5   ???
 		m_TablibQt.Add(_T("qt5gui"),1) ;
 		m_TablibQt.Add(_T("qt5core"),1) ;
 		m_TablibQt.Add(_T("qt5widgets"),1) ;
-		m_TablibQt.Add(_T("qt5guid"),1) ;
-		m_TablibQt.Add(_T("qt5cored"),1) ;
-		m_TablibQt.Add(_T("qt5widgetsd"),1);
-        */
+		/// qt < 5.9.0
+		//m_TablibQt.Add(_T("Qt5Guid"),1) ;
+		//m_TablibQt.Add(_T("Qt5Cored"),1) ;
+		//m_TablibQt.Add(_T("Qt5Widgetsd"),1);
 	}
 
 	if (m_Win)
@@ -112,10 +115,11 @@ void qtPre::platForm() {
 		m_TablibQt.Add(_T("qtcore4"),1) ;
 		m_TablibQt.Add(_T("qtguid4"),1) ;
 		m_TablibQt.Add(_T("qtcored4"),1) ;
-		// qt5
+		// qt5 
 		m_TablibQt.Add(_T("qt5gui"),1) ;
 		m_TablibQt.Add(_T("qt5core"),1) ;
 		m_TablibQt.Add(_T("qt5widgets"),1) ;
+			// <= qt5.9
 		m_TablibQt.Add(_T("qt5guid"),1) ;
 		m_TablibQt.Add(_T("qt5cored"),1) ;
 		m_TablibQt.Add(_T("qt5widgetsd"),1);
@@ -144,7 +148,7 @@ wxString qtPre::GetVersionSDK()
 	uint16_t major 	= PLUGIN_SDK_VERSION_MAJOR ;
 	uint16_t minor 	= PLUGIN_SDK_VERSION_MINOR ;
 	uint16_t release= PLUGIN_SDK_VERSION_RELEASE;
-	Mes = (wxString()<<major) + _T(".") + (wxString() << minor) + _T(".") + (wxString() << release);
+	Mes = (wxString() << major) + _T(".") + (wxString() << minor) + _T(".") + (wxString() << release);
 	//print(Mes);
 
     return  Mes ;
@@ -155,8 +159,8 @@ wxString qtPre::GetVersionSDK()
 ///  called by :
 /// 		none
 ///
-void qtPre::SetVersionSDK(const wxString& ver)
-{   // TODO
+void qtPre::SetVersionSDK(const wxString & SetVersionSDK)
+{   // TODO ?
 }
 
 ///-----------------------------------------------------------------------------
@@ -193,8 +197,8 @@ wxString qtPre::complementDirectory() const
 bool qtPre::isComplementFile(wxString & file)
 {
 	// target name
-	wxString nameactivetarget = m_project->GetActiveBuildTarget() ;
-	wxString filename = m_dirgen + nameactivetarget + wxString(Slash) + file;
+	m_nameactivetarget = m_project->GetActiveBuildTarget() ;
+	wxString filename = m_dirgen + m_nameactivetarget + wxString(Slash) + file;
 //Mes = filename;
 //printWarn(Mes);
 	int16_t  index = m_Registered.Index (filename);
@@ -221,13 +225,93 @@ bool qtPre::isCreatorFile(wxString & file)
 
 ///-----------------------------------------------------------------------------
 ///  Set index page to log
-///
 ///  called by :
 /// 		none
 ///
 void qtPre::SetPageIndex(int logindex)
 {
 	m_LogPageIndex = logindex;
+}
+
+///-----------------------------------------------------------------------------
+/// Search virtual target
+///
+/// called by  :
+///		1. findGoodfiles():1,
+///
+bool qtPre::isVirtualTarget(const wxString& nametarget, bool warning)
+{
+// search virtual target : vtargetsTable <- table::wxArrayString
+	wxString namevirtualtarget = _T("") ;
+	wxArrayString vtargetsTable = m_project->GetVirtualBuildTargets () ;
+	int nvirtual = vtargetsTable.GetCount() ;
+	bool ok = nvirtual > 0 ;
+	if (ok)
+	{
+		ok = false  ;
+	// virtual name
+		for (int nv = 0; nv < nvirtual ; nv++ )
+		{
+			namevirtualtarget = vtargetsTable.Item(nv) ;
+			ok = nametarget.Matches(namevirtualtarget) ;
+			if (!ok)
+				continue;
+
+			if (warning)			{
+				Mes = _T("'") + namevirtualtarget + _T("'") ;
+				Mes += _(" is a virtual target !!") ;
+				Mes += Lf + _("NOT YET IMPLEMENTED...") ;
+				Mes += Lf + _("... you must use the real targets.")  ;
+				Mes += Lf + _("Cannot continue.") ;
+				printErr(Mes);
+				cbMessageBox(Mes, _T(""), wxICON_ERROR)  ;
+			}
+			break;
+		}
+	}
+
+	return ok  ;
+}
+
+///-----------------------------------------------------------------------------
+/// Search all not virtual target
+///
+/// called by  :
+///		1. buildFileQt(cbProject * prj, const wxString& fcreator):1;
+///
+wxArrayString qtPre::listRealsTargets(const wxString& nametarget)
+{
+	wxArrayString realsTargets;
+	bool ok = isVirtualTarget(nametarget);
+	if(ok)
+	{
+		// list virtual targets
+		wxArrayString vtargetsTable = m_project->GetVirtualBuildTargets () ;
+		int nvirtual = vtargetsTable.GetCount() ;
+		ok = nvirtual > 0 ;
+		if (ok)
+		{
+			wxString namevirtualtarget = _T("") ;
+			ok = false  ;
+		// virtual name
+			for (int nv = 0; nv < nvirtual ; nv++ )
+			{
+				namevirtualtarget = vtargetsTable.Item(nv) ;
+				ok = nametarget.Matches(namevirtualtarget) ;
+				if (!ok)
+					continue;
+            // targets no virtuals
+				realsTargets = m_project->GetVirtualBuildTargetGroup(nametarget) ;
+				break;
+			}
+		}
+	}
+	else
+	{
+	    realsTargets.Add(nametarget);
+    }
+
+	return realsTargets;
 }
 
 ///-----------------------------------------------------------------------------
@@ -242,52 +326,90 @@ void qtPre::SetPageIndex(int logindex)
 ///
 bool qtPre::detectQt(cbProject * prj, bool report)
 {
+Mes = _T("=> 'qtPre::detectQt(...)'") ;
+//printWarn(Mes);
 	m_project = prj;
-	bool ok = m_project != nullptr;
-	if (!ok)
-		return ok;
+	if (!m_project)
+		return false;
 
 // project name
 	m_nameproject = m_project->GetTitle() ;
-// search to project
-	ok = hasLibQt(m_project) ;
-	if (! ok)
-	{
-		ProjectBuildTarget* buildtarget;
-		uint16_t nt = 0 , ntargets = m_project->GetBuildTargetsCount() ;
-		while (nt < ntargets && ! ok )
-		{
-		// retrieve the target libraries  'ProjectBuildTarget* builstarget'
-			buildtarget = m_project->GetBuildTarget(nt++) ;
-			if (!buildtarget)
-				continue ;
-// search to target
-			ok = hasLibQt(buildtarget) ;
-			if (ok)
-				break;
-		}
-	}
+//Mes = _T("m_nameproject = ") + m_nameproject;
+//printWarn(Mes);
+    m_nameactivetarget = m_project->GetActiveBuildTarget();
+/// attention : might be virtual target !
+    // peek the first real target
+    m_nameactivetarget = listRealsTargets(m_nameactivetarget).Item(0);
+Mes = _T("first real target = ") + m_nameactivetarget;
+//printWarn(Mes);
+    ProjectBuildTarget* buildtarget =  m_project->GetBuildTarget(m_nameactivetarget) ;
+/// option relation target <-> project for compiler
+  //  OptionsRelation rel = m_project->GetOptionRelation(ortCompilerOptions);
+    OptionsRelation rel = buildtarget->GetOptionRelation(ortCompilerOptions);
+Mes = _T("rel = ") + (wxString() << (int)rel);
+//printWarn(Mes);
+/** rel =
+    orUseParentOptionsOnly = 0orUseTargetOptionsOnly
+    orUseTargetOptionsOnly = 1
+    orPrependToParentOptions = 2
+    orAppendToParentOptions = 3//
+*/
+    /*
+    bool ok = false ;
+  //  if (rel == orUseTargetOptionsOnly)
+        ok =  hasLibQt(buildtarget) ;
+    if (!ok)
+        ok = hasLibQt(m_project) ;
+        */
+    bool ok03 = false, ok12 = false;
+/// use parent only or append target to parent ?
+    // 0 or 3
+    if (rel == orUseParentOptionsOnly || rel == orAppendToParentOptions)
+    {
+        // search libraries to project
+        ok03 = hasLibQt(m_project) ;
+        if (!ok03 && rel == orAppendToParentOptions)
+         // search libraries to all targets
+            ok03 = findLibQtToTargets();
+    }
+Mes = _T("ok03 = ") + (wxString() << (int)ok03);
+//printWarn(Mes);
 
-	bool valid = ok ;
+/// use target only or prepend target to parent ?
+    // 1 or 2
+    if (rel == orUseTargetOptionsOnly || rel == orPrependToParentOptions)
+    {
+         // search libraries to targets
+        ok12 = findLibQtToTargets();
+        if (!ok12 && rel == orPrependToParentOptions)
+        // search libraries to project
+            ok12 = hasLibQt(m_project) ;
+    }
+Mes = _T("ok12 = ") + (wxString() << (int)ok12);
+// printWarn(mes);
+
+   // bool valid = ok;
+	bool valid = ok03 || ok12;
 	if (valid)
 	{
 		if (report)
 		{
-			wxString  title = m_nameproject + _T(" uses Qt libraries !") ;
+			wxString  title = _("The project") + Space + + m_nameproject + Space + _("uses Qt libraries !") ;
 			Mes = _("It will generate the complements files...") ;
-			InfoWindow::Display(title, Mes, 2000);
+			InfoWindow::Display(title, Mes, 5000);
 		}
 
-		bool usemake = prj->IsMakefileCustom() ;
+		bool usemake = m_project->IsMakefileCustom() ;
 		if(usemake)
 		{
 			Mes = _T("... but please, DISABLE using of custom makefile");
-			Mes += Lf + Quote + m_Thename + Quote + _T(" not use makefile.");
+			Mes += Lf + Quote + m_namePlugin + Quote + _T(" not use makefile.");
 			print(Mes);
+
 			Mes += Lf + _("CAN NOT CONTINUE !") ;
 			cbMessageBox(Mes, _("Used makefile !!"), wxICON_WARNING ) ;
 			valid = false;
-			Mes = _T("QtPregen -> end ...");
+			Mes = m_namePlugin + _T(" -> ") + _("end") + _T(" ...");
 			printWarn(Mes);
 			return valid ;
 		}
@@ -295,6 +417,35 @@ bool qtPre::detectQt(cbProject * prj, bool report)
 
 	return valid;
 }
+///-----------------------------------------------------------------------------
+/// Return true if find library QT in targets of 'm_project'
+///
+/// called by  :
+///		1. detectQt(cbProject * prj, bool report= false):2,
+///
+///
+bool qtPre::findLibQtToTargets()
+{
+    bool ok = false ;
+// search library to targets
+    ProjectBuildTarget* buildtarget;
+    uint16_t nt = 0 , ntargets = m_project->GetBuildTargetsCount() ;
+    while (nt < ntargets && ! ok )
+    {
+    // retrieve the target libraries  'ProjectBuildTarget* builstarget'
+        buildtarget = m_project->GetBuildTarget(nt++) ;
+        if (!buildtarget)
+            continue ;
+        ok = hasLibQt(buildtarget) ;
+        if (ok)
+            break;
+    }
+//Mes = _T("ok = ") + (wxString() << (int)ok);
+//printWarn(Mes);
+
+    return ok;
+}
+
 ///-----------------------------------------------------------------------------
 /// Return true if good  'CompileTargetBase* container'
 ///
@@ -304,12 +455,16 @@ bool qtPre::detectQt(cbProject * prj, bool report)
 ///
 bool qtPre::hasLibQt(CompileTargetBase * container)
 {
+//Mes = _T("into 'qtPre::hasLibQt(...)'") ;
+//printWarn(Mes);
 	bool ok = false;
 	if (!container)
 		return ok;
 
 	wxArrayString tablibs = container->GetLinkLibs() ;
 	uint16_t nlib = tablibs.GetCount() ;
+//Mes = _T("nlib = ") + (wxString() << nlib);
+//printWarn(Mes);
 	if (nlib > 0 )
 	{
 		wxString namelib ;
@@ -319,7 +474,9 @@ bool qtPre::hasLibQt(CompileTargetBase * container)
 		{
 			// lower, no extension
 			namelib = tablibs.Item(u++).Lower().BeforeFirst('.') ;
-			// no prefix "lib"
+//Mes = Quote + namelib + Quote;
+//printWarn(Mes);
+			// no prefix "lib"wxString() << n
 			pos = namelib.Find(_T("lib")) ;
 			if (pos == 0)
 				namelib.Remove(0, 3) ;
@@ -329,6 +486,8 @@ bool qtPre::hasLibQt(CompileTargetBase * container)
 				continue ;
 			// compare
 			index = m_TablibQt.Index(namelib);
+//Mes = _T("index = ") + (wxString() << index);
+//printWarn(Mes);m_TablibQt
 			ok = index != -1 ;
 			// first finded
 			if (ok)
@@ -352,8 +511,8 @@ bool qtPre::detectComplements(cbProject * prj)
 {
 	bool ok = false;
 	//
-	wxString nameactivetarget = prj->GetActiveBuildTarget() ;
-	wxString dirgen = m_dirgen + nameactivetarget + wxString(Slash);
+	m_nameactivetarget = prj->GetActiveBuildTarget() ;
+	wxString dirgen = m_dirgen + m_nameactivetarget + wxString(Slash);
 //Mes = _T("dirgen = ") + Quote + dirgen + Quote;
 //printWarn(Mes);
 	m_dirproject = prj->GetBasePath();

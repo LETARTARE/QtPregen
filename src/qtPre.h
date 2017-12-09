@@ -1,9 +1,9 @@
 /*************************************************************
- * Name:      qtPre.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.9
+ * Name:      qtpre.h
+ * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.0
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2017-07-26
+ * Modified:  2017-11-29
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
@@ -36,7 +36,7 @@ class qtPre
          * @param prj The active project.
          * @param logindex The active log page.
          */
-		qtPre(cbProject * prj, int logindex);
+		qtPre(cbProject * prj, int logindex, wxString & nameplugin);
 		/** Destructor */
 		virtual ~qtPre();
 
@@ -56,12 +56,27 @@ class qtPre
         /**
 		 * @return true : is a creator file
 		 */
+
         bool isCreatorFile(wxString & filename);
 
         /**
          * @return true : tables is empty
          */
         bool isClean();
+
+        /**  Give if target is virtual
+		 *	 @param nametarget : target name
+
+		 *	 @param warning : indicate a message
+		 *   @return true if it's virtual
+		 */
+		bool isVirtualTarget(const wxString& nametarget, bool warning=false) ;
+
+		/**  Give reals targets list for a virtual target
+		 *	 @param nametarget : virtual target name
+		 *   @return a table : if not a virtual target -> target name
+		 */
+		wxArrayString listRealsTargets(const wxString& nametarget);
 
 		/** Detects if the current project uses Qt libraries,
 		 * refuses QT projects using a 'makefile'
@@ -102,28 +117,32 @@ class qtPre
 	protected:
 		/** name of plugin
 		 */
-		const wxString m_Thename;
+		wxString m_namePlugin;
 		/** platforms Windows
 		 */
 		bool m_Win,
 		/** platforms Linux
 		 */
-			 m_Linux,
+		 m_Linux,
 		/** platforms Mac
 		 */
 			 m_Mac;
 		/** the project
 		 */
 		cbProject * m_project	;
+
 		/**  project directory
 		 */
 		wxString  m_dirproject,
 		/**  generation directory
 		 */
-				  m_dirgen;
+				  m_dirgen,
 		/**  project name,
 		 */
-		wxString m_nameproject;
+                  m_nameproject,
+		/** Contains active target name
+		 */
+                  m_nameactivetarget;
 		/**  numbers files projects
 		 */
 		uint16_t m_nfilescreated;
@@ -142,7 +161,7 @@ class qtPre
 		/** files prefix for 'moc'
 		 */
 		wxString m_Moc,
-		/** files prefix for 'uic'
+        /** files prefix for 'uic'
 		 */
 				 m_UI,
 		/** files prefix for 'rcc'
@@ -199,7 +218,12 @@ class qtPre
 
 	private:
 
-        /**  Search Qt libraries in project, targets
+	    /**  Search Qt libraries in targets of m_project
+         * @return true if finded
+		 */
+		bool findLibQtToTargets();
+
+        /**  Search Qt libraries in project or target
          * @param container: 'cbProject * Project' or 'ProjectBuildTarget * buildtarget' both inherited of  'CompileTargetBase'
 		 * @return true if finded
          */

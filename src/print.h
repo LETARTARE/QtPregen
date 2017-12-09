@@ -1,9 +1,9 @@
 /***************************************************************
  * Name:      print.h
- * Purpose:   Code::Blocks plugin	'qtPregenForCB.cbp'  0.9
+ * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.0
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2017-07-10
+ * Modified:  2017-11-29
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -13,7 +13,8 @@
 	#define _PRINT_H_
 
 ///-----------------------------------------------------------------------------
-/// end of line for Win/Linux/OX
+/** @brief end of line for Win/Linux/OX
+ */
 #define 	Cr 		wxString(_T("\r"))
 #define 	Lf 		wxString(_T("\n"))
 #define 	CrLf 	wxString(_T("\r\n"))
@@ -22,29 +23,36 @@
 #define		Dquote  wxString(_T("\""))
 #define 	Tab		wxString(_T("\t"))
 #define 	Space	wxString(_T(" "))
-/// text separator
-#define 	Sepd 	13 	// 0xD
-#define 	Sepf 	10	// 0xA
+/** text separator
+ */
+#define 	SepD 	13 	// 0xD
+#define 	SepA 	10	// 0xA
 #define 	Sizesep 2
-/// directory separator
+
 #include <wx/filefn.h>
-/// use _T("....")  +  wxString (Slash ) : not  _T("....")  +  Slash !!
+/** @brief directory separator
+ *  use _T("....")  +  wxString (Slash ) : not  _T("....")  +  Slash !!
+ */
 #define 	Slash 	wxFILE_SEP_PATH
 ///-----------------------------------------------------------------------------
 #include <logmanager.h>
-/// debug messages  -> 'Code::Blocks log'
+/** @brief debug messages  -> 'Code::Blocks log'
+ */
 #define lm			Manager::Get()->GetLogManager()
 #define Print		lm->Log
 #define PrintLn		lm->Log(_T(""))
 #define PrintWarn	lm->LogWarning
 #define PrintErr	lm->LogError
-/// messages  -> 'PreBuild log'
+/** @brief messages  -> 'PreBuild log'
+ */
 #define p               m_LogPageIndex
 #define print(a)	    lm->Log(a, p)
 #define printLn		    lm->Log(_T(""), p)
 #define printWarn(a)	lm->LogWarning(a, p)
 #define printErr(a)	    lm->LogError(a, p)
 ///-----------------------------------------------------------------------------
+/** @brief news extensions
+ */
 #define		EXT_UI			_T("ui")
 #define		EXT_MOC			_T("moc")
 #define		EXT_QRC			_T("qrc")
