@@ -1,5 +1,5 @@
 # QtPregen-1.0 December 08, 2017 (for Win32)
-(A Linux-64 version is under study)
+(A Linux-64 version is under study 0...)
 
 Plugin to compile QT applications with 'Code::Blocks'
 
@@ -50,7 +50,7 @@ It uses a log 'Prebuild log' for all posts plugin.
 
     2- then the patch 'cb-11246-evPREGEN-1.0.patch' and recompile the modified source of the version 'Code::Blocks-11246',
 
-	3- then with 'C::B-11246' compile and install the plugin 'qtPregenForCB-xyz' 
+	3- then with 'C::B-11246' compile and install the plugin 'qtPregen-xyz' 
         - change the local variable 'CB = $(#cb11246)' in agreement with your global 'cb11246' which should identify sources of 'Code::Blocks'
 
 5- Using
