@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>qtPregen: QtPregen Class Reference</title>
+<title>qtPregen-1.1: QtPregen Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">qtPregen
+   <div id="projectname">qtPregen-1.1
    </div>
   </td>
  </tr>
@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('class_qt_pregen.html','');});
 <p>Qt plugin main class.  
  <a href="class_qt_pregen.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="_qt_pregen_8h_source.html">QtPregen.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="qtpregen_8h_source.html">qtpregen.h</a>&gt;</code></p>
 
 <p>Inherits cbPlugin.</p>
 <table class="memberdecls">
@@ -127,8 +127,10 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:aacfd896f531274f092bd180ce4e8433a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab89031bb695f6ce2922694c677093ed"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#aab89031bb695f6ce2922694c677093ed">OnRelease</a> (bool appShutDown)</td></tr>
 <tr class="separator:aab89031bb695f6ce2922694c677093ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea23437befe36eb9978b2e5da822aa5f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#aea23437befe36eb9978b2e5da822aa5f">OnActivate</a> (CodeBlocksEvent &amp;event)</td></tr>
-<tr class="separator:aea23437befe36eb9978b2e5da822aa5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4bcd564e71b85bb9d1dbffe021b83bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#aa4bcd564e71b85bb9d1dbffe021b83bf">OnActivateProject</a> (CodeBlocksEvent &amp;event)</td></tr>
+<tr class="separator:aa4bcd564e71b85bb9d1dbffe021b83bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a575f3b524427476ef149e864637e6e65"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a575f3b524427476ef149e864637e6e65">OnNewProject</a> (CodeBlocksEvent &amp;event)</td></tr>
+<tr class="separator:a575f3b524427476ef149e864637e6e65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18cf487d899c841d502f75d46168886a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a18cf487d899c841d502f75d46168886a">OnPregen</a> (CodeBlocksEvent &amp;event)</td></tr>
 <tr class="separator:a18cf487d899c841d502f75d46168886a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64d0d7c5b55edaa286397ab6aa9769cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a64d0d7c5b55edaa286397ab6aa9769cd">OnCleanPregen</a> (CodeBlocksEvent &amp;event)</td></tr>
@@ -487,8 +489,8 @@ It is a pure virtual method that needs to be implemented by all plugins. If the 
 
 </div>
 </div>
-<a id="aea23437befe36eb9978b2e5da822aa5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea23437befe36eb9978b2e5da822aa5f">&#9670;&nbsp;</a></span>OnActivate()</h2>
+<a id="aa4bcd564e71b85bb9d1dbffe021b83bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4bcd564e71b85bb9d1dbffe021b83bf">&#9670;&nbsp;</a></span>OnActivateProject()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -497,7 +499,7 @@ It is a pure virtual method that needs to be implemented by all plugins. If the 
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void QtPregen::OnActivate </td>
+          <td class="memname">void QtPregen::OnActivateProject </td>
           <td>(</td>
           <td class="paramtype">CodeBlocksEvent &amp;&#160;</td>
           <td class="paramname"><em>event</em></td><td>)</td>
@@ -517,11 +519,13 @@ It is a pure virtual method that needs to be implemented by all plugins. If the 
   </dd>
 </dl>
 <hr/>
-<p> Activate new m_project</p>
+<p> Activate a project</p>
 <p>called by : 'cbEVT_PROJECT_ACTIVATE'</p>
 <p>calls to :</p><ol type="1">
 <li>detectQt(prj):1, </li>
 </ol>
+<p>create a new project : this event arrived before 'cbEVT_PROJECT_NEW' !!</p>
+<p>activate an old project ...</p>
 <p>The event processing system continues searching </p>
 
 </div>
@@ -629,6 +633,45 @@ Think of this method as the actual constructor...</p>
 
 </div>
 </div>
+<a id="a575f3b524427476ef149e864637e6e65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a575f3b524427476ef149e864637e6e65">&#9670;&nbsp;</a></span>OnNewProject()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QtPregen::OnNewProject </td>
+          <td>(</td>
+          <td class="paramtype">CodeBlocksEvent &amp;&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method called by a new project allows detect active project and active target </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>Contains the event which call this method</td></tr>
+  </table>
+  </dd>
+</dl>
+<hr/>
+<p> Create a new project</p>
+<p>called by : 'cbEVT_PROJECT_NEW'</p>
+<p>calls to :</p><ol type="1">
+<li>detectQt(prj):1, </li>
+</ol>
+<p>The event processing system continues searching </p>
+
+</div>
+</div>
 <a id="a18cf487d899c841d502f75d46168886a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a18cf487d899c841d502f75d46168886a">&#9670;&nbsp;</a></span>OnPregen()</h2>
 
@@ -687,8 +730,8 @@ Think of this method as the actual constructor...</p>
 </ol>
 <p>Calls to :</p><ul>
 <li>m_prebuild-&gt;detectQt(prj, withreport):1,</li>
-<li>m_prebuild-&gt;buildQt(prj, Ws, Rebuild):1<ul>
-<li>m_prebuild-&gt;buildFileQt(prj, file):1, </li>
+<li>m_prebuild-&gt;buildAllFiles(prj, Ws, Rebuild):1<ul>
+<li>m_prebuild-&gt;buildOneFile(prj, file):1, </li>
 </ul>
 </li>
 </ul>
@@ -733,8 +776,8 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="_qt_pregen_8h_source.html">QtPregen.h</a></li>
-<li>QtPregen.cpp</li>
+<li><a class="el" href="qtpregen_8h_source.html">qtpregen.h</a></li>
+<li>qtpregen.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -742,7 +785,7 @@ Think of this method as the actual destructor... </p><dl class="params"><dt>Para
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_qt_pregen.html">QtPregen</a></li>
-    <li class="footer">Generated on Sat Dec 9 2017 18:52:05 for qtPregen by
+    <li class="footer">Generated on Tue Dec 19 2017 15:30:09 for qtPregen-1.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

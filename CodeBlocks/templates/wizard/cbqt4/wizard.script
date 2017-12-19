@@ -4,7 +4,7 @@
 //
 // Project	: CbQt4 project  :  (with Qt4.x only)
 // Author	: LETARTARE http://forums.codeblocks.org
-// Modified	: LETARTARE February 9 2015  r23
+// Modified	: LETARTARE Decemeber 17 2017
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -17,9 +17,9 @@ QtPathSpecs <- _T("mkspecs") + wxFILE_SEP_PATH + _T("win32-g++") ;
 
 function BeginWizard()
 {
-    local intro_msg = _("Welcome to the new Trolltech CbQt4 project wizard!\n" +
+    local intro_msg = _("Welcome to the new 'Qt Group Plc' CbQt4 project wizard!\n" +
                          "This wizard will guide you to create a new CbQt4 project\n" +
-                         "using the Trolltech Qt4.x cross-platform GUI toolkit\n\n" +
+                         "using the 'Qt Group Plc' Qt4.x cross-platform GUI toolkit\n\n" +
                          "When you're ready to proceed, please click \"Next\"...");
 // -> LETARTARE
 	local  advice_msg =_("This is an experimental wizard, using a plugin\n" +

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>qtPregen: qtPrebuild Class Reference</title>
+<title>qtPregen-1.1: qtPrebuild Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">qtPregen
+   <div id="projectname">qtPregen-1.1
    </div>
   </td>
  </tr>
@@ -100,10 +100,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa62c8b958b4a907298d7565291deec4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10b98f2262131d476c0e295a6fbedb62"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_prebuild.html#a10b98f2262131d476c0e295a6fbedb62">~qtPrebuild</a> ()</td></tr>
 <tr class="separator:a10b98f2262131d476c0e295a6fbedb62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f1e6c380f49c87bdd530007b1f5ffcb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_prebuild.html#a3f1e6c380f49c87bdd530007b1f5ffcb">buildQt</a> (cbProject *prj, bool workspace, bool allbuild)</td></tr>
-<tr class="separator:a3f1e6c380f49c87bdd530007b1f5ffcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acff47282b8c724225786a9bf6d3318c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_prebuild.html#acff47282b8c724225786a9bf6d3318c2">buildFileQt</a> (cbProject *prj, const wxString &amp;fcreator)</td></tr>
-<tr class="separator:acff47282b8c724225786a9bf6d3318c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab15c53643ec0a8030c76b69571daff40"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_prebuild.html#ab15c53643ec0a8030c76b69571daff40">buildAllFiles</a> (cbProject *prj, bool workspace, bool allbuild)</td></tr>
+<tr class="separator:ab15c53643ec0a8030c76b69571daff40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac39d1f1feae7ed4e66681a427ed32fc4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_prebuild.html#ac39d1f1feae7ed4e66681a427ed32fc4">buildOneFile</a> (cbProject *prj, const wxString &amp;fcreator)</td></tr>
+<tr class="separator:ac39d1f1feae7ed4e66681a427ed32fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c2a29f15fb2fef9a78b519389f2be67"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_prebuild.html#a7c2a29f15fb2fef9a78b519389f2be67">isGoodTargetQt</a> (const wxString &amp;nametarget)</td></tr>
 <tr class="separator:a7c2a29f15fb2fef9a78b519389f2be67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf83a0ec2a73b17a993eeae16862cfa0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqt_prebuild.html#acf83a0ec2a73b17a993eeae16862cfa0">removeComplements</a> ()</td></tr>
@@ -258,7 +258,7 @@ Additional Inherited Members</h2></td></tr>
 <p> called by :</p><ol type="1">
 <li><a class="el" href="class_qt_pregen.html#aacfd896f531274f092bd180ce4e8433a">QtPregen::OnAttach()</a>:1, </li>
 </ol>
-<p>!! not use + _T(Slash) !! because Slash = wxT(...) </p>
+<p>!! not use '+ _T(Slash)' !! because Slash = wxT(...) </p>
 
 </div>
 </div>
@@ -293,63 +293,14 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="acff47282b8c724225786a9bf6d3318c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acff47282b8c724225786a9bf6d3318c2">&#9670;&nbsp;</a></span>buildFileQt()</h2>
+<a id="ab15c53643ec0a8030c76b69571daff40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab15c53643ec0a8030c76b69571daff40">&#9670;&nbsp;</a></span>buildAllFiles()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool qtPrebuild::buildFileQt </td>
-          <td>(</td>
-          <td class="paramtype">cbProject *&#160;</td>
-          <td class="paramname"><em>prj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const wxString &amp;&#160;</td>
-          <td class="paramname"><em>fcreator</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Built one file elegible necessary complement </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">prj</td><td>The active project. </td></tr>
-    <tr><td class="paramname">fcreator</td><td>creator file </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if building is correct</dd></dl>
-<hr/>
-<p> Generating one complement file...</p>
-<p>called by :</p><ol type="1">
-<li><a class="el" href="class_qt_pregen.html#a18cf487d899c841d502f75d46168886a">QtPregen::OnPregen(CodeBlocksEvent&amp; event)</a>:1,</li>
-</ol>
-<p>calls to : -# isElegible(const wxString&amp; file):1,</p><ol type="1">
-<li>inProjectFile(const wxString&amp; file):1,</li>
-<li>CompareDate(const wxString&amp;  fileref, const wxString&amp;  filetarget) :1,</li>
-<li>createFileComplement(const wxString&amp; qexe, const wxString&amp; fcreator, const wxString&amp; fout) :1,<ol type="a">
-<li>endMesFileCreate():1, </li>
-</ol>
-</li>
-</ol>
-
-</div>
-</div>
-<a id="a3f1e6c380f49c87bdd530007b1f5ffcb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f1e6c380f49c87bdd530007b1f5ffcb">&#9670;&nbsp;</a></span>buildQt()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool qtPrebuild::buildQt </td>
+          <td class="memname">bool qtPrebuild::buildAllFiles </td>
           <td>(</td>
           <td class="paramtype">cbProject *&#160;</td>
           <td class="paramname"><em>prj</em>, </td>
@@ -390,12 +341,54 @@ Additional Inherited Members</h2></td></tr>
 <p>calls to :</p><ol type="1">
 <li>beginMesBuildCreate():1,</li>
 <li>findGoodfiles():1,</li>
-<li>addRecording():1,</li>
+<li>addAllFiles():1,</li>
 <li>filesTocreate(bool allrebuild) :1,</li>
 <li>createFiles():1,</li>
 <li>vzlidCreated():1,</li>
 <li>endMesBuildCreate():1, </li>
 </ol>
+
+</div>
+</div>
+<a id="ac39d1f1feae7ed4e66681a427ed32fc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac39d1f1feae7ed4e66681a427ed32fc4">&#9670;&nbsp;</a></span>buildOneFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool qtPrebuild::buildOneFile </td>
+          <td>(</td>
+          <td class="paramtype">cbProject *&#160;</td>
+          <td class="paramname"><em>prj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const wxString &amp;&#160;</td>
+          <td class="paramname"><em>fcreator</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Built one file elegible necessary complement </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prj</td><td>The active project. </td></tr>
+    <tr><td class="paramname">fcreator</td><td>creator file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if building is correct</dd></dl>
+<hr/>
+<p> Generating only ONE complement file...</p>
+<p>called by :</p><ol type="1">
+<li><a class="el" href="class_qt_pregen.html#a18cf487d899c841d502f75d46168886a">QtPregen::OnPregen(CodeBlocksEvent&amp; event)</a>:1,</li>
+</ol>
+<p>calls to : -1. beginMesFileCreate():1, -2. isElegible(const wxString&amp; file):1, -3. inProjectFile(const wxString&amp; file):1, -4. CompareDate(const wxString&amp;  fileref, const wxString&amp;  filetarget):1, -5. createFileComplement(const wxString&amp; qexe, const wxString&amp; fcreator, const wxString&amp; fout):1, -6. endMesFileCreate():1, </p>
 
 </div>
 </div>
@@ -605,7 +598,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classqt_prebuild.html">qtPrebuild</a></li>
-    <li class="footer">Generated on Sat Dec 9 2017 18:52:05 for qtPregen by
+    <li class="footer">Generated on Tue Dec 19 2017 15:30:08 for qtPregen-1.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

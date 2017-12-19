@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "qtPregen", "index.html", [
+  [ "qtPregen-1.1", "index.html", [
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -19,7 +19,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_qt_pregen_8h_source.html"
+"annotated.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -11,10 +11,11 @@ var class_qt_pregen =
     [ "GetConfigurationPanel", "class_qt_pregen.html#a1ad10cfc9de93782f102ca4fc3e50bba", null ],
     [ "GetConfigurationPriority", "class_qt_pregen.html#accb6ababb14678a312faff68ba518376", null ],
     [ "GetProjectConfigurationPanel", "class_qt_pregen.html#ae881308d68630a064a76668ea420b40b", null ],
-    [ "OnActivate", "class_qt_pregen.html#aea23437befe36eb9978b2e5da822aa5f", null ],
+    [ "OnActivateProject", "class_qt_pregen.html#aa4bcd564e71b85bb9d1dbffe021b83bf", null ],
     [ "OnAttach", "class_qt_pregen.html#aacfd896f531274f092bd180ce4e8433a", null ],
     [ "OnCleanPregen", "class_qt_pregen.html#a64d0d7c5b55edaa286397ab6aa9769cd", null ],
     [ "OnFileRemovedPregen", "class_qt_pregen.html#aa5db7c94c670b89ee9606a333a313d6f", null ],
+    [ "OnNewProject", "class_qt_pregen.html#a575f3b524427476ef149e864637e6e65", null ],
     [ "OnPregen", "class_qt_pregen.html#a18cf487d899c841d502f75d46168886a", null ],
     [ "OnRelease", "class_qt_pregen.html#aab89031bb695f6ce2922694c677093ed", null ]
 ];
