@@ -1,9 +1,9 @@
 /***************************************************************
  * Name:      qtpre.cpp
- * Purpose:   Code::Blocks plugin	'qtPregen.cbp'   1.0
+ * Purpose:   Code::Blocks plugin	'qtPregen.cbp'   1.1
  * Author:    LETARTARE
  * Created:   2015-02-27
- * Modified:  2017-11-29
+ * Modified:  2017-12-15
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -115,7 +115,7 @@ void qtPre::platForm() {
 		m_TablibQt.Add(_T("qtcore4"),1) ;
 		m_TablibQt.Add(_T("qtguid4"),1) ;
 		m_TablibQt.Add(_T("qtcored4"),1) ;
-		// qt5 
+		// qt5
 		m_TablibQt.Add(_T("qt5gui"),1) ;
 		m_TablibQt.Add(_T("qt5core"),1) ;
 		m_TablibQt.Add(_T("qt5widgets"),1) ;
@@ -181,7 +181,8 @@ bool qtPre::isClean()
 wxString qtPre::complementDirectory() const
 {
 	wxString nameactivetarget = m_project->GetActiveBuildTarget() ;
-	wxString dircomplement = m_dirgen + nameactivetarget + wxString(Slash) ;
+//	wxString dircomplement = m_dirgen + nameactivetarget + wxString(Slash) ;
+	wxString dircomplement = m_dirgen ; // + nameactivetarget + wxString(Slash) ;
 
 	return dircomplement;
 }
@@ -198,7 +199,8 @@ bool qtPre::isComplementFile(wxString & file)
 {
 	// target name
 	m_nameactivetarget = m_project->GetActiveBuildTarget() ;
-	wxString filename = m_dirgen + m_nameactivetarget + wxString(Slash) + file;
+//	wxString filename = m_dirgen + m_nameactivetarget + wxString(Slash) + file;
+	wxString filename = m_dirgen + file ; //+ m_nameactivetarget + wxString(Slash);
 //Mes = filename;
 //printWarn(Mes);
 	int16_t  index = m_Registered.Index (filename);
@@ -277,7 +279,7 @@ bool qtPre::isVirtualTarget(const wxString& nametarget, bool warning)
 /// Search all not virtual target
 ///
 /// called by  :
-///		1. buildFileQt(cbProject * prj, const wxString& fcreator):1;
+///		1. buildOneFile(cbProject * prj, const wxString& fcreator):1;
 ///
 wxArrayString qtPre::listRealsTargets(const wxString& nametarget)
 {
@@ -326,7 +328,7 @@ wxArrayString qtPre::listRealsTargets(const wxString& nametarget)
 ///
 bool qtPre::detectQt(cbProject * prj, bool report)
 {
-Mes = _T("=> 'qtPre::detectQt(...)'") ;
+//Mes = _T("=> 'qtPre::detectQt(...)'") ;
 //printWarn(Mes);
 	m_project = prj;
 	if (!m_project)
@@ -337,16 +339,26 @@ Mes = _T("=> 'qtPre::detectQt(...)'") ;
 //Mes = _T("m_nameproject = ") + m_nameproject;
 //printWarn(Mes);
     m_nameactivetarget = m_project->GetActiveBuildTarget();
+//Mes = _T("m_nameactivetarget = ") + m_nameactivetarget;
+//printWarn(Mes);
+//	if (m_nameactivetarget.IsEmpty())
+//		return false;
+
 /// attention : might be virtual target !
     // peek the first real target
     m_nameactivetarget = listRealsTargets(m_nameactivetarget).Item(0);
-Mes = _T("first real target = ") + m_nameactivetarget;
+//Mes = _T("first real target = ") + m_nameactivetarget;
 //printWarn(Mes);
     ProjectBuildTarget* buildtarget =  m_project->GetBuildTarget(m_nameactivetarget) ;
+    if (!buildtarget)
+		return false;
+
+//Mes = _T("builtarget-> Title = ") + buildtarget->GetFullTitle();
+//printWarn(Mes);
+
 /// option relation target <-> project for compiler
-  //  OptionsRelation rel = m_project->GetOptionRelation(ortCompilerOptions);
     OptionsRelation rel = buildtarget->GetOptionRelation(ortCompilerOptions);
-Mes = _T("rel = ") + (wxString() << (int)rel);
+//Mes = _T("rel = ") + (wxString() << (int)rel);
 //printWarn(Mes);
 /** rel =
     orUseParentOptionsOnly = 0orUseTargetOptionsOnly
@@ -372,7 +384,7 @@ Mes = _T("rel = ") + (wxString() << (int)rel);
          // search libraries to all targets
             ok03 = findLibQtToTargets();
     }
-Mes = _T("ok03 = ") + (wxString() << (int)ok03);
+//Mes = _T("ok03 = ") + (wxString() << (int)ok03);
 //printWarn(Mes);
 
 /// use target only or prepend target to parent ?
@@ -385,8 +397,8 @@ Mes = _T("ok03 = ") + (wxString() << (int)ok03);
         // search libraries to project
             ok12 = hasLibQt(m_project) ;
     }
-Mes = _T("ok12 = ") + (wxString() << (int)ok12);
-// printWarn(mes);
+//Mes = _T("ok12 = ") + (wxString() << (int)ok12);
+//printWarn(Mes);
 
    // bool valid = ok;
 	bool valid = ok03 || ok12;
@@ -512,7 +524,8 @@ bool qtPre::detectComplements(cbProject * prj)
 	bool ok = false;
 	//
 	m_nameactivetarget = prj->GetActiveBuildTarget() ;
-	wxString dirgen = m_dirgen + m_nameactivetarget + wxString(Slash);
+	// wxString dirgen = m_dirgen + m_nameactivetarget + wxString(Slash);
+	wxString dirgen = m_dirgen  ; // + m_nameactivetarget + wxString(Slash);
 //Mes = _T("dirgen = ") + Quote + dirgen + Quote;
 //printWarn(Mes);
 	m_dirproject = prj->GetBasePath();
@@ -532,7 +545,7 @@ bool qtPre::detectComplements(cbProject * prj)
 		size_t n = dir.GetAllFiles(dirgen, &m_Filewascreated );
         if (n)
 		{
-			Mes = Tab + (wxString() << n) ;
+			Mes = Tab + _("with") + Space + (wxString() << n) ;
 			Mes += Space + _("complement files already created on disk in") ;
 			Mes += Space + Quote + dirgen + Quote;
 		}

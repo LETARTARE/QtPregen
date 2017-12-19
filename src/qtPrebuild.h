@@ -1,9 +1,9 @@
 /***************************************************************
  * Name:      qtprebuild.h
- * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.0
+ * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.1
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2017-11-29
+ * Modified:  2017-12-16
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -37,14 +37,14 @@ class qtPrebuild  : public qtPre
 		 * @param allbuild is true -> rebuild complement files.isGoodTargetQt
 		 * @return	true if building is correct
 		 */
-		bool buildQt(cbProject * prj, bool workspace, bool allbuild);
+		bool buildAllFiles(cbProject * prj, bool workspace, bool allbuild);
 
 		/** Built one file elegible necessary complement
 		 * @param prj The active project.
 		 * @param fcreator  creator file
 		 * @return	true if building is correct
 		 */
-		bool buildFileQt(cbProject * prj, const wxString& fcreator);
+		bool buildOneFile(cbProject * prj, const wxString& fcreator);
 
 		/**  Give if target is a Qt target
 		 *	 @param nametarget : target name
@@ -108,10 +108,18 @@ class qtPrebuild  : public qtPre
 		 */
 		bool isElegible(const wxString& file);
 
+		/** Record one file elegible necessary complement
+		 * @param fcreator  creator file
+		 * @param fout  complement file
+		 * @param  nocompile  the complement file (fout) is already included in another
+		 * @return true if building is correct
+		 */
+		bool addOneFile(const wxString& fcreator, const wxString& fout, bool& nocompile) ;
+
 		/**	Records in an internal table to build additional files
 		 * @return	the number of recorded files
          */
-		uint16_t addRecording();
+		uint16_t addAllFiles();
 
 		/**	Searches for files to be created
 		 * @param allrebuild  : true -> rebuild everything, false -> reconstruct
@@ -206,10 +214,21 @@ class qtPrebuild  : public qtPre
 		 *  @return if it's
 		 */
 		bool inProjectFile(const wxString& file) ;
-			//  called by  'indexTarget()'
-			wxString nameCreated(const wxString& file);
 
-		/** Indicates whether the file is already included
+		/** Indicates whether the file is already registered in the target
+		 *  @param target : target name
+		 *  @param file : file name
+		 *  @return if it's
+		 */
+	//	bool inTargetFile(const wxString& target, const wxString& file) ;
+
+		/** Generate the name of the complement file
+		 *	 @param file : file name creator
+		 *   @return file name complement
+		 */
+		wxString nameCreated(const wxString& file);
+
+		/** Indicates whether the file is already included in another
 		 *	 @param file : file name
 		 *   @return true if it's
 		 */

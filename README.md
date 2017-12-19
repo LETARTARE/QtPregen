@@ -1,4 +1,4 @@
-# QtPregen-1.0 December 08, 2017 (for Win32)
+# QtPregen-1.1 December 18, 2017 (for Win32)
 (A Linux-64 version is under study 0...)
 
 Plugin to compile QT applications with 'Code::Blocks'
@@ -33,9 +33,9 @@ It uses a log 'Prebuild log' for all posts plugin.
     4- detects resource files '*.qrc' to generate files
          'qrc_filename.cpp'
 
-3- 'QtPregenForCB-x.y.z' contains :
+3- 'QtPregen' contains :
 
-	1- a plugin project 'QtPregenForCB.cbp' using the directory 'src'
+	1- a plugin project 'QtPregen.cbp' using the directory 'src'
 
 	2- a directory 'patch' containing patchs for versions of 'Code::Blocks'
 	 (10253, 10376, 10474, 10528, 10600, 10703, cb-16.01, 10816, 10856, 10922,
@@ -48,9 +48,9 @@ It uses a log 'Prebuild log' for all posts plugin.
 
     1- first install wizards 'cbqt4' and 'cbqt5',
 
-    2- then the patch 'cb-11246-evPREGEN-1.0.patch' and recompile the modified source of the version 'Code::Blocks-11246',
+    2- then the patch 'cb-11246-evPREGEN-1.1.patch' and recompile the modified source of the version 'Code::Blocks-11246',
 
-	3- then with 'C::B-11246' compile and install the plugin 'qtPregen-xyz' 
+	3- then with 'C::B-11246' compile and install the plugin 'qtPregen' 
         - change the local variable 'CB = $(#cb11246)' in agreement with your global 'cb11246' which should identify sources of 'Code::Blocks'
 
 5- Using

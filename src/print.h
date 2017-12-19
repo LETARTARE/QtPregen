@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      print.h
- * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.0
+ * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.1
  * Author:    LETARTARE
  * Created:   2015-10-17
  * Modified:  2017-11-29

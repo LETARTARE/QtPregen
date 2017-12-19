@@ -1,9 +1,9 @@
 /*************************************************************
  * Name:      qtpre.h
- * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.0
+ * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.1
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2017-11-29
+ * Modified:  2017-12-15
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
@@ -35,6 +35,7 @@ class qtPre
 		/** Constructor
          * @param prj The active project.
          * @param logindex The active log page.
+         * @param nameplugin : name plugin
          */
 		qtPre(cbProject * prj, int logindex, wxString & nameplugin);
 		/** Destructor */

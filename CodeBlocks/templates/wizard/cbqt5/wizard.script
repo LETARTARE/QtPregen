@@ -4,7 +4,7 @@
 //
 // Project	: CbQt5 project  :  (with Qt5.x only)
 // Author	: LETARTARE http://forums.codeblocks.org
-// Modified	: LETARTARE June 06, 2017
+// Modified	: LETARTARE December 17, 2017
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -19,9 +19,9 @@ QtVersion <- _T("");
 
 function BeginWizard()
 {
-    local intro_msg = _("Welcome to the new Trolltech CbQt5 project wizard!\n" +
+    local intro_msg = _("Welcome to the new 'Qt Group Plc' CbQt5 project wizard!\n" +
                          "This wizard will guide you to create a new CbQt5 project\n" +
-                         "using the Trolltech Qt5.x cross-platform GUI toolkit\n\n" +
+                         "using the 'Qt Group Plc' Qt5.x cross-platform GUI toolkit\n\n" +
                          "When you're ready to proceed, please click \"Next\"...");
 /// -> cbqt5
 	local  advice_msg =_("This is an experimental wizard, using a plugin\n" +
@@ -44,7 +44,7 @@ function BeginWizard()
     Wizard.AddGenericSelectPathPage(_T("QtPath"), qtpath_msg, _("Qt's location:"), QtPathDefault5);
 
     Wizard.AddProjectPathPage();
-    Wizard.AddCompilerPage(_T(""), _T("gcc*;qt*"), true, true);
+    Wizard.AddCompilerPage(_T(""), _T("gccBegin*;qt*"), true, true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -164,8 +164,13 @@ function SetupProject(project)
     project.AddLinkerOption (_T("--enable-stcall-fixup") );
     project.AddLinkerOption (_T("--enable-auto-import") );
     project.AddLinkerOption (_T("--enable-runtime-pseudo-reloc") );
-    project.AddLinkerOption (_T("-mconsole") );
-    project.AddLinkerOption (_T("-mwindows") );
+    if (PLATFORM == PLATFORM_MSW) {
+		project.AddLinkerOption (_T("-mconsole") );
+		project.AddLinkerOption (_T("-mwindows") );
+    }
+    else {
+    	/// ...
+    }
 /// <--
     // enable compiler warnings (project-wide)
     WarningsOn(project, idcompiler);
@@ -222,9 +227,7 @@ function SetupProject(project)
         target.SetOutputFilename(Wizard.GetReleaseOutputDir() + Wizard.GetProjectName() + DOT_EXT_EXECUTABLE);
         // enable optimizations for target
         OptimizationsOn(target, Wizard.GetCompilerID());
-
     }
-
 
     return true;
 }
