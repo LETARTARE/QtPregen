@@ -37,7 +37,7 @@ It uses a log 'Prebuild log' for all posts plugin.
 
 	2- a directory 'patch' containing patchs for versions of 'Code::Blocks'
 	 (10253, 10376, 10474, 10528, 10600, 10703, cb-16.01, 10816, 10856, 10922,
-	 11021, 11112, 11176, 11210, 11227, 11246 (=17.12), 11313, 11401, 11428, 11449)
+	 11021, 11112, 11176, 11210, 11227, 11246 (=17.12), 11313, 11401, 11428, 11454)
 
 	3- a directory 'CodeBlocks' containing wizards and files 'cbqt5'
 
