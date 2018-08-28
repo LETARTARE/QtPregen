@@ -1,14 +1,14 @@
 /*************************************************************
  * Name:      qtpre.h
- * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.1
+ * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2017-12-15
+ * Modified:  2018-04-117
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
  */
-#define VERSION_QTP _T("0.9.0")
+#define VERSION_QP _T("2.3.0")  // not used !
 
 #ifndef _QTPRE_H_
 #define _QTPRE_H_
@@ -20,6 +20,7 @@ class cbProject;
 class CompileTargetBase;
 class ProjectBuildTarget;
 class MacrosManager;
+class Manager;
 class ProjectFile;
 class TextCtrlLogger;
 //------------------------------------------------------------------------------
@@ -32,214 +33,295 @@ class qtPre
 {
 	public:
 
-		/** Constructor
+		/** \brief Constructor
          * @param prj The active project.
          * @param logindex The active log page.
-         * @param nameplugin : name plugin
+         * @param nameplugin  The plugin name.
          */
-		qtPre(cbProject * prj, int logindex, wxString & nameplugin);
-		/** Destructor */
+		qtPre(cbProject * prj, int logindex, const wxString & nameplugin);
+		/** Destructor
+		  */
 		virtual ~qtPre();
 
-		/** Plugin name
+		/** \brief Plugin name
 		 * @return name
 		 */
 		wxString namePlugin();
 
-		/** Give complement directory
-		 * @return directory name
-		*/
-		wxString complementDirectory() const;
+		/** \brief Give a full complement filename
+		 * @return a full filename
+		 */
+		wxString fullFilename(const wxString & filename);
 		/**
 		 * @return true : is a complement file
 		 */
-        bool isComplementFile(wxString & filename);
+        bool isComplementFile(const wxString & filename);
         /**
-		 * @return true : is a creator file
+		 * @return true if is a creator file
 		 */
+        bool isCreatorFile(const wxString & filename);
+        /** \brief Generate the name of the complement file
+		 *	 @param file : file name creator
+		 *   @return file name complement
+		 */
+		wxString nameCreated(const wxString& file);
 
-        bool isCreatorFile(wxString & filename);
+        /** \brief Give complement directory
+		 * @return directory name
+		*/
+		wxString complementDirectory() const;
 
         /**
-         * @return true : tables is empty
+         * @return true if tables are empties
          */
         bool isClean();
 
-        /**  Give if target is virtual
+        /** \brief Give if target is virtual
 		 *	 @param nametarget : target name
-
 		 *	 @param warning : indicate a message
 		 *   @return true if it's virtual
 		 */
 		bool isVirtualTarget(const wxString& nametarget, bool warning=false) ;
-
-		/**  Give reals targets list for a virtual target
+		/**  \brief Give reals targets list for a virtual target
 		 *	 @param nametarget : virtual target name
 		 *   @return a table : if not a virtual target -> target name
 		 */
 		wxArrayString listRealsTargets(const wxString& nametarget);
 
-		/** Detects if the current project uses Qt libraries,
+		/** \brief Detects if the project has at least one target using Qt libraries
 		 * refuses QT projects using a 'makefile'
          * @param prj : the active project.
          * @param report : display report if true.
          * @return true : if used
          */
-		bool detectQt(cbProject * prj, bool report= false);
-
-		/** Detects if the current project has complements
+		bool detectQtProject(cbProject * prj, bool report = false);
+		/** \brief Detects if the current target uses Qt libraries,
+         * @param nametarget : the active target.
          * @param prj : the active project.
+         * @return true : if used
          */
-		bool detectComplements(cbProject * prj);
+		bool detectQtTarget(const wxString& nametarget, cbProject * prj);
 
-		/** Get version from 'cbplugin.h'
+		/** \brief Check if the target is independent
+		 * @param prj : the active project.
+		 * @param target : the active target.
+		 * @return true if is an independant target
+		 */
+		bool isIndependentTarget(cbProject * prj, const wxString & target) ;
+
+		/**  \brief Create a new directory, transfer all files to the new directory
+		 * @param newname : the new target name.
+		 * @param oldname : the old target name.
+		 * @return true if is allright
+		 */
+		bool newNameComplementDirTarget(wxString & newname, wxString & oldname) ;
+
+		/** \brief Detects if the project has complements on disk
+         * @param prj : the active project.
+         * @param nametarget : the active target.
+         * @param report : display report if true.
+         * @return true : if complement on disk
+         */
+		bool detectComplementsOnDisk(cbProject * prj, const wxString & nametarget=wxString(), bool report = true);
+
+		/** \brief refresh all tables from 'm_Filewascreated'
+		 * @param debug : display report if true.
+		 * @return true if ok
+		 */
+		bool refreshTables(bool debug= false);
+
+		/** \brief Get SDK version from 'cbplugin.h'
 		 * @return version du SDK ex: "1.19.0" for Code::Blocks 13.12
 		 */
 		wxString GetVersionSDK();
 
-		/**  Set page index to log
+		/**  \brief Set page index to log
 		 */
 		void SetPageIndex(int pageindex);
 
+		/** \brief Abort complement file creating
+		 */
+		void Abort() ;
+
+		/** \brief Startup duration
+         */
+		void beginDuration(const wxString & namefunction = wxString());
+
+		/** \brief End duration
+         */
+		void endDuration(const wxString & namefunction = wxString());
+
 	protected :
 
-		/** Give an array from another
+		/** \brief Give an array from another
          *	@param strarray : array name
+         *	@param nlcopy : number of lines to copy, if 0 -> all
          *	@return a copy, not an adress
          */
-		wxArrayString copyArray (const wxArrayString& strarray)  ;
+		wxArrayString copyArray (const wxArrayString& strarray,  int nlcopy = 0)  ;
 
-		/** Give an array from another
-         *	@param strarray : array name
+		/** \brief give a string of table 'title' for debug
+		  *	@param title : titlr name
+		 *	@param strarray : array name
+		 */
+		wxString allStrTable(const wxString& title, const wxArrayString& strarray);
+
+		/** \brief Construct 'm_FilesCreator' from 'm_Filewascreated'
          *	@return a reverse,
          */
-		wxArrayString reverseFileCreator(const wxArrayString& strarray) ;
+		wxArrayString wasCreatedToCreator() ;
+		/** \brief Give an string from another
+         *	@param fcreated : file created name
+         *	@return a reverse,
+         */
+		wxString toFileCreator(const wxString& fcreated) ;
+		/** \brief Give a full relative name
+         *	@param fcreator : file name
+         *	@return relative name
+         */
+		wxString fullFileCreator(const wxString&  fcreator) ;
+
+		/**  \brief Give a date
+		 *   @return date
+		 */
+		wxString date();
+
+		/**  \brief Give a duration
+		 *   @return duration mS
+		 */
+		wxString duration();
 
 	protected:
-		/** name of plugin
+
+		/** \brief name of plugin
 		 */
 		wxString m_namePlugin;
-		/** platforms Windows
+		/** \brief platforms Windows
 		 */
-		bool m_Win,
-		/** platforms Linux
+		bool m_Win = false,
+		/** \brief platforms Linux
 		 */
-		 m_Linux,
-		/** platforms Mac
+			 m_Linux = false,
+		/** \brief platforms Mac
 		 */
-			 m_Mac;
-		/** the project
+			 m_Mac = false
+			 ;
+		/** \brief the active project
 		 */
-		cbProject * m_project	;
+		cbProject * m_pProject = nullptr;
+		/** \brief the active target
+		 */
+		ProjectBuildTarget * m_pTarget = nullptr;
 
-		/**  project directory
+		/**  \brief project directory absolute path
 		 */
-		wxString  m_dirproject,
-		/**  generation directory
+		wxString  m_dirProject = wxEmptyString,
+		/**  \brief generation directory
 		 */
-				  m_dirgen,
-		/**  project name,
+				  m_dirPreBuild = wxEmptyString,
+		/**  \brief project name,
 		 */
-                  m_nameproject,
-		/** Contains active target name
+                  m_nameProject = wxEmptyString,
+		/** \brief Contains active target name
 		 */
-                  m_nameactivetarget;
-		/**  numbers files projects
+                  m_nameActiveTarget = wxEmptyString;
+		/**  \brief numbers files projects
 		 */
-		uint16_t m_nfilescreated;
-		/** executable name files Qt : 'moc'
+		uint16_t m_nfilesCreated = 0;
+		/** \brief executable name files Qt : 'moc'
 		 */
 		wxString m_Mexe,
-		/** executable name files Qt : 'uic'
+		/** \brief executable name files Qt : 'uic'
 		 */
 				m_Uexe,
-		/** executable name files Qt : 'rcc'
+		/** \brief executable name files Qt : 'rcc'
 		 */
 				m_Rexe,
-		/** executable name files Qt : 'lrelease'
+		/** \brief executable name files Qt : 'lrelease'
 		 */
 				m_Lexe;
-		/** files prefix for 'moc'
+		/** \brief files prefix for 'moc'
 		 */
 		wxString m_Moc,
-        /** files prefix for 'uic'
+        /** \brief files prefix for 'uic'
 		 */
 				 m_UI,
-		/** files prefix for 'rcc'
+		/** \brief files prefix for 'rcc'
 		 */
 				 m_Qrc,
-		/** files extension for 'lrelease'
+		/** \brief files extension for 'lrelease'
 		 */
 				 m_Lm;
 
-		/**  macros manager
+		/**  \brief manager
 		 */
-		MacrosManager  * m_mam;
+		Manager * m_pm = nullptr;
+		/**  \brief macros manager
+		 */
+		MacrosManager  * m_pMam = nullptr;
 
-		/** table contains libray name Qt
+		/** \brief table contains libray name Qt
 		 */
 		wxArrayString  m_TablibQt ;
 
-		/** String with "__nullptr__"
+		/** \brief String with "__nullptr__"
 		 */
-		 const wxString m_Devoid = _T("__nullptr__") ;
+		const wxString m_Devoid = _T("__nullptr__") ;
 
-	/// the tables
-			/**	files registered in the project
-			 */
-		wxArrayString	m_Registered,
-			/** files to be created in the project
-			 */
-			m_Filestocreate,
-			/** files created list
-			 */
-			m_Createdfile,
-			/** creators files
+		/// the tables
+		wxArrayString
+			/** \brief Creators files
 			 */
 			m_Filecreator,
-			/** file was already created
+			/** \brief Files to be created (complement) in the project
+			 */
+			m_Filestocreate,
+			/** \brief Files created list
+			 */
+			m_Createdfile,
+			/**	\brief Files registered in the project
+			 */
+			m_Registered,
+			/** \brief File was already created
 			 */
 			m_Filewascreated
 		;
-		/**  the table is empty
+		/**  \brief the table is empty
 		 */
-		bool m_clean = true;
+		bool m_clean = false;
 
-		/**  messages to console
+		/**  \brief messages to console
 		 */
-		wxString Mes;
+		wxString Mes = wxEmptyString;
 
-		/** log page index
+		/** \brief log page index
 		 */
-		int	m_LogPageIndex;
+		int	m_LogPageIndex = 0;
 
-		/**  calculate duration  mS
+		/**  \brief calculate duration  mS
 		 */
 		clock_t m_start;
 
+		/**  \brief Abort complement file creating
+		 */
+		bool m_abort = false;
+
 	private:
 
-	    /**  Search Qt libraries in targets of m_project
+	    /**  \brief Search Qt libraries in targets of m_pProject
          * @return true if finded
 		 */
 		bool findLibQtToTargets();
 
-        /**  Search Qt libraries in project or target
+        /**  \brief Search Qt libraries in project or target
          * @param container: 'cbProject * Project' or 'ProjectBuildTarget * buildtarget' both inherited of  'CompileTargetBase'
 		 * @return true if finded
          */
 		bool hasLibQt(CompileTargetBase * container) ;
 
-		/**  Adjusts variable depending on the platform
+		/**  \brief Adjusts variable depending on the platform
 		 */
 		void platForm() ;
-
-		/** Set version to 'manifest.xml'
-		 * @param ver version du SDK ex: "1.19.0" for Code::Blocks 13.12
-		 */
-		void SetVersionSDK(const wxString& ver);
-
-
 };
 
 #endif // _QTPRE_H_

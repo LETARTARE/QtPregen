@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['press',['press',['../class_qtest.html#a2b2add3d6c2cb03d35a9dc060bccd305',1,'Qtest::press()'],['../class_qtest.html#a2b2add3d6c2cb03d35a9dc060bccd305',1,'Qtest::press()']]]
+  ['modifydate',['modifyDate',['../classqt_prebuild.html#a95c45aba29108c873abe67a99b404492',1,'qtPrebuild::modifyDate(const wxString &amp;fileref, const wxString &amp;filetarget)'],['../classqt_prebuild.html#a95c45aba29108c873abe67a99b404492',1,'qtPrebuild::modifyDate(const wxString &amp;fileref, const wxString &amp;filetarget)']]]
 ];

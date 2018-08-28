@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['_7eqtest',['~Qtest',['../class_qtest.html#ae07617e6444ca30275d3cc8cb00156d4',1,'Qtest::~Qtest()'],['../class_qtest.html#abd9554d81135d98c7e56abb59549cb1f',1,'Qtest::~Qtest()']]],
-  ['_7eqtpre',['~qtPre',['../classqt_pre.html#a2caa1153b0347d16a77b1b09a4649991',1,'qtPre']]],
-  ['_7eqtprebuild',['~qtPrebuild',['../classqt_prebuild.html#a10b98f2262131d476c0e295a6fbedb62',1,'qtPrebuild']]],
-  ['_7eqtpregen',['~QtPregen',['../class_qt_pregen.html#a51185ddf2bc2b62efa46261bf14c6772',1,'QtPregen']]]
+  ['readfilecontents',['ReadFileContents',['../classqt_prebuild.html#a535116e911b4d197f82423ebf32ed8f9',1,'qtPrebuild::ReadFileContents(const wxString &amp;filename)'],['../classqt_prebuild.html#a535116e911b4d197f82423ebf32ed8f9',1,'qtPrebuild::ReadFileContents(const wxString &amp;filename)']]],
+  ['refreshtables',['refreshTables',['../classqt_pre.html#a45f8cb0770dc2d94b5f689db24840bec',1,'qtPre']]],
+  ['reftargetqt',['refTargetQt',['../classqt_prebuild.html#a28ddbc8f4fd809327d7ee8bc63925e56',1,'qtPrebuild::refTargetQt(const ProjectBuildTarget *buildtarget)'],['../classqt_prebuild.html#a28ddbc8f4fd809327d7ee8bc63925e56',1,'qtPrebuild::refTargetQt(const ProjectBuildTarget *buildtarget)']]],
+  ['removecomplementtodisk',['removeComplementToDisk',['../classqt_prebuild.html#a392cb7d1fd2b2819c70b5ec148ca1318',1,'qtPrebuild::removeComplementToDisk(const wxString &amp;filename, int16_t index)'],['../classqt_prebuild.html#a392cb7d1fd2b2819c70b5ec148ca1318',1,'qtPrebuild::removeComplementToDisk(const wxString &amp;filename, int16_t index)']]],
+  ['removedir',['removeDir',['../classqt_prebuild.html#a8db6eec84a5aff15151691a848a2ec83',1,'qtPrebuild::removeDir(const wxString &amp;dirgen)'],['../classqt_prebuild.html#a8db6eec84a5aff15151691a848a2ec83',1,'qtPrebuild::removeDir(const wxString &amp;dirgen)']]]
 ];

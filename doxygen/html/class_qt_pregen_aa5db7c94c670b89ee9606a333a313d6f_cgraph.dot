@@ -1,0 +1,17 @@
+digraph "QtPregen::OnFileRemovedPregen"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node72 [label="QtPregen::OnFileRemovedPregen",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node72 -> Node73 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node73 [label="qtPre::isComplementFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_pre.html#a2bbcc2089e9adac6526f79b270f9651e"];
+  Node72 -> Node74 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node74 [label="qtPre::isCreatorFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_pre.html#aab35eb407ca7c69b2a8bf9237328231e"];
+  Node72 -> Node75 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node75 [label="qtPrebuild::unregisterProjectFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_prebuild.html#a067e059b7a49c637f05f8285b87fde5c"];
+  Node75 -> Node76 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node76 [label="qtPre::complementDirectory",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_pre.html#adff01c54bf64053550043c754a237844"];
+  Node75 -> Node77 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node77 [label="qtPrebuild::removeComplement\lToDisk",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_prebuild.html#a392cb7d1fd2b2819c70b5ec148ca1318"];
+}

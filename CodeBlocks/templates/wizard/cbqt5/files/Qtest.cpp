@@ -9,6 +9,8 @@
 Qtest::Qtest(QWidget *parent, Qt::WindowFlags  flags)
 	: QWidget(parent, flags)
 {
+	setMinimumSize(140, 40) ;
+
     button = new QPushButton("Test", this);
 
    	connect( button, SIGNAL(clicked()), this, SLOT(press()) );

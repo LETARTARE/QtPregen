@@ -1,0 +1,368 @@
+Index: include/cbplugin.h
+===================================================================
+--- include/cbplugin.h	(révision 11246)
++++ include/cbplugin.h	(copie de travail)
+@@ -37,7 +37,7 @@
+ // this is the plugins SDK version number
+ // it will change when the SDK interface breaks
+ #define PLUGIN_SDK_VERSION_MAJOR   1
+-#define PLUGIN_SDK_VERSION_MINOR   32
++#define PLUGIN_SDK_VERSION_MINOR   33
+ #define PLUGIN_SDK_VERSION_RELEASE 0
+ 
+ // class decls
+Index: include/sdk_events.h
+===================================================================
+--- include/sdk_events.h	(révision 11246)
++++ include/sdk_events.h	(copie de travail)
+@@ -423,6 +423,10 @@
+ extern EVTIMPORT const wxEventType cbEVT_COMPILER_SETTINGS_CHANGED;
+ #define EVT_COMPILER_SETTINGS_CHANGED(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_COMPILER_SETTINGS_CHANGED, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
+ 
++// before compiling, add complement files
++extern EVTIMPORT const wxEventType cbEVT_ADD_COMPLEMENT_FILES;
++#define EVT_ADD_COMPLEMENT_FILES(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_ADD_COMPLEMENT_FILES, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
++
+ // request app to compile a single file
+ extern EVTIMPORT const wxEventType cbEVT_COMPILE_FILE_REQUEST;
+ #define EVT_COMPILE_FILE_REQUEST(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_COMPILE_FILE_REQUEST, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
+@@ -478,6 +482,19 @@
+ 
+ // settings events
+ 
++// Defines the futur current state of the compiler.
++// to use with 'cbEVT_ADD_COMPLEMENT_FILES' with 'm_commandInt'
++enum cbFutureBuild
++{
++    fbNone = 10,
++    fbBuild,
++    fbClean,
++    fbRebuild,
++    fbWorkspaceBuild,
++    fbWorkspaceClean,
++    fbWorkspaceReBuild
++};
++
+ // event.GetInt() returns value of type cbSettingsType::Type indicating which setting group was changed
+ struct cbSettingsType
+ {
+Index: plugins/compilergcc/compilergcc.cpp
+===================================================================
+--- plugins/compilergcc/compilergcc.cpp	(révision 11246)
++++ plugins/compilergcc/compilergcc.cpp	(copie de travail)
+@@ -303,6 +303,7 @@
+     m_LastBuildStep(true),
+     m_RunTargetPostBuild(false),
+     m_RunProjectPostBuild(false),
++    m_Workspace(false), m_AddComplement(false),
+     m_IsWorkspaceOperation(false),
+     m_LogBuildProgressPercentage(false)
+ {
+@@ -343,6 +344,7 @@
+     m_Clean = false;
+     m_Build = false;
+     m_LastBuildStep = true;
++    m_Workspace = false; m_AddComplement = false;
+     m_IsWorkspaceOperation = false;
+ 
+     m_timerIdleWakeUp.SetOwner(this, idTimerPollCompiler);
+@@ -417,8 +419,9 @@
+     Manager::Get()->RegisterEventSink(cbEVT_PROJECT_OPEN,             new cbEventFunctor<CompilerGCC, CodeBlocksEvent>(this, &CompilerGCC::OnProjectLoaded));
+     Manager::Get()->RegisterEventSink(cbEVT_PROJECT_CLOSE,            new cbEventFunctor<CompilerGCC, CodeBlocksEvent>(this, &CompilerGCC::OnProjectUnloaded));
+     Manager::Get()->RegisterEventSink(cbEVT_PROJECT_TARGETS_MODIFIED, new cbEventFunctor<CompilerGCC, CodeBlocksEvent>(this, &CompilerGCC::OnProjectActivated));
+-
+     Manager::Get()->RegisterEventSink(cbEVT_COMPILE_FILE_REQUEST,     new cbEventFunctor<CompilerGCC, CodeBlocksEvent>(this, &CompilerGCC::OnCompileFileRequest));
++    Manager::Get()->RegisterEventSink(wxEVT_COMMAND_MENU_SELECTED,    new cbEventFunctor<CompilerGCC, CodeBlocksEvent>(this, &CompilerGCC::OnDispatcher));
++///
+ }
+ 
+ void CompilerGCC::OnRelease(bool appShutDown)
+@@ -619,7 +622,7 @@
+ {
+     int eventId = event.GetId();
+ 
+-//    Manager::Get()->GetMessageManager()->Log(wxT("Dispatcher")));
++//    Manager::Get()->GetLogManager()->LogWarning(wxT("Dispatcher -> ") + (wxString()<<eventId));
+ 
+     if (eventId == idMenuRun)
+         OnRun(event);
+@@ -654,7 +657,8 @@
+         OnCleanAll(event);
+     else if (eventId == idMenuCleanFromProjectManager)
+         OnClean(event);
+-    else if (eventId == idMenuKillProcess)
++    else
++    if (eventId == idMenuKillProcess)
+         OnKillProcess(event);
+     else if (eventId == idMenuNextError)
+         OnNextError(event);
+@@ -1034,6 +1038,10 @@
+         CodeBlocksLogEvent evtSwitch(cbEVT_SWITCH_TO_LOG_WINDOW, m_pLog);
+         Manager::Get()->ProcessEvent(evtSwitch);
+ 
++        wxString filename = UnixFilename(fname);
++        // fired  cbEVT_ADD_COMPLEMENT_FILES with id == 1
++        AddComplementFile(filename);
++
+         CompileFile( UnixFilename(fname) );
+     }
+ }
+@@ -1441,7 +1449,7 @@
+         // fill the menu and combo
+         for (size_t x = 0; x < m_Targets.GetCount(); ++x)
+         {
+-            if (m_TargetMenu && x < maxTargetInMenus)
++            if (m_TargetMenu && x < static_cast<size_t>(maxTargetInMenus))
+             {
+                 wxString help;
+                 help.Printf(_("Build target '%s' in current project"), GetTargetString(x).wx_str());
+@@ -1451,7 +1459,7 @@
+                 m_pToolTarget->Append(GetTargetString(x));
+         }
+ 
+-        if (m_TargetMenu && m_Targets.size() > maxTargetInMenus)
++        if (m_TargetMenu && m_Targets.size() > static_cast<size_t>(maxTargetInMenus) )
+         {
+             m_TargetMenu->Append(idMenuSelectTargetHasMore, _("More targets available..."),
+                                  _("Use the select target menu item to see them!"));
+@@ -2159,6 +2167,7 @@
+     m_pLastBuildingTarget  = 0;
+     m_BuildingTargetName   = target;
+     m_CommandQueue.Clear();
++    m_Workspace            = job == bjWorkspace;
+ }
+ 
+ void CompilerGCC::ResetBuildState()
+@@ -2358,6 +2367,10 @@
+ 
+         case bsTargetPreBuild:
+         {
++            if (m_Build)
++            // fired  cbEVT_ADD_COMPLEMENT_FILES with id == 1 for 'QtPregen' plugin
++                AddComplementFiles(GetFutureBuild());
++
+             // check if it should build with "All"
+             // run target pre-build steps
+             cmds = dc.GetPreBuildCommands(bt);
+@@ -2395,6 +2408,9 @@
+ 
+         case bsTargetBuild:
+         {
++            // DoAddCOmplement(...) is finish
++            m_AddComplement = false;
++
+             PrintBanner(baBuild, m_pBuildingProject, bt);
+ 
+             // run target build
+@@ -2507,6 +2523,7 @@
+         default:
+             break;
+     }
++
+     m_NextBuildState = GetNextStateBasedOnJob();
+     AddToCommandQueue(cmds);
+     Manager::Yield();
+@@ -2854,8 +2871,16 @@
+ {
+     ResetBuildState();
+     m_RunAfterCompile = false;
+-    if (!IsProcessRunning())
++
++    if (!IsProcessRunning() && ! m_AddComplement)
+         return 0;
++
++    if (m_AddComplement)
++    {
++        LogMessage(_("Aborting add complement..."), cltInfo, ltMessages);
++        m_AddComplement = false;
++    }
++    else
+     if (!m_CommandQueue.LastCommandWasRun())
+         LogMessage(_("Aborting build..."), cltInfo, ltMessages);
+     wxKillError ret = wxKILL_OK;
+@@ -2909,7 +2934,7 @@
+ 
+ bool CompilerGCC::IsRunning() const
+ {
+-    return m_BuildJob != bjIdle || IsProcessRunning() || m_CommandQueue.GetCount();
++    return m_AddComplement || m_BuildJob != bjIdle || IsProcessRunning() || m_CommandQueue.GetCount() ;
+ }
+ 
+ ProjectBuildTarget* CompilerGCC::GetBuildTargetForFile(ProjectFile* pf)
+@@ -3256,7 +3281,10 @@
+ 
+ void CompilerGCC::OnKillProcess(cb_unused wxCommandEvent& event)
+ {
+-    KillProcess();
++    if (IsProcessRunning())
++        KillProcess();
++    else
++        AbortAddComplement(event);
+ }
+ 
+ void CompilerGCC::OnSelectTarget(wxCommandEvent& event)
+@@ -3959,3 +3987,97 @@
+     return wxString::Format(_("%d minute(s), %d second(s)"), mins, secs);
+ #endif // NO_TRANSLATION
+ }
++
++
++cbFutureBuild CompilerGCC::GetFutureBuild()
++{
++    enum cbFutureBuild FBuild = fbNone;
++    if (! m_Workspace)
++    {
++        if (! m_Clean && m_Build)
++            FBuild = fbBuild;
++        else
++        if (m_Clean && ! m_Build)
++            FBuild = fbClean ;
++        else
++        if (m_Clean && m_Build)
++            FBuild = fbRebuild ;
++    }
++    else
++    {
++        if (! m_Clean && m_Build)
++            FBuild = fbWorkspaceBuild;
++        else
++        if (m_Clean && ! m_Build)
++            FBuild = fbWorkspaceClean ;
++        else
++        if (m_Clean && m_Build)
++            FBuild = fbWorkspaceReBuild ;
++    }
++
++    return FBuild;
++}
++
++void CompilerGCC::AddComplementFiles(const cbFutureBuild action)
++{
++    if (m_CommandQueue.GetCount() == 0)
++    {
++        m_AddComplement = true;
++        // update mbar, tbar
++        wxUpdateUIEvent uievent;
++        OnUpdateUI(uievent);
++        // project/target pairs + cbFutureBuild
++        CodeBlocksEvent evt(cbEVT_ADD_COMPLEMENT_FILES, 1, m_pBuildingProject, 0, this);
++        evt.SetBuildTargetName(m_BuildingTargetName);
++        evt.SetInt(static_cast<int>(action));
++    // id menu killprocess
++        evt.SetX(idMenuKillProcess);
++
++        Manager::Get()->ProcessEvent(evt);
++    }
++    Manager::Yield();
++}
++
++void CompilerGCC::AddComplementFile(const wxString& file)
++{
++    if (m_CommandQueue.GetCount() == 0)
++    {
++        m_AddComplement = true;
++    // update mbar, tbar
++        wxUpdateUIEvent uievent;
++        OnUpdateUI(uievent);
++
++        CodeBlocksEvent evt(cbEVT_ADD_COMPLEMENT_FILES, 1, m_pBuildingProject, 0, this);
++        evt.SetString(file);
++        evt.SetInt(static_cast<int>(fbBuild));
++    // id menu killprocess
++        evt.SetX(idMenuKillProcess);
++        Manager::Get()->ProcessEvent(evt);
++    }
++    Manager::Yield();
++}
++
++void CompilerGCC::OnDispatcher(CodeBlocksEvent& event)
++{
++    bool abort = (event.GetId() == idMenuKillProcess) && (event.GetInt() == idMenuKillProcess) ;
++    if (abort)
++    {
++        wxString msg = _T("Aborting add complement files : ") + (wxString()<<event.GetId());
++        Manager::Get()->GetLogManager()->LogWarning(msg);
++        KillProcess() ;
++    }
++    else
++        event.Skip();
++}
++
++void CompilerGCC::AbortAddComplement(wxCommandEvent& event)
++{
++    if (m_CommandQueue.GetCount() == 0)
++    {
++        CodeBlocksEvent evt(cbEVT_COMPILER_FINISHED, 1, m_pProject, 0, this);
++        evt.SetInt(static_cast<int>(fbNone));
++        Manager::Get()->ProcessEvent(evt);
++    }
++    Manager::Yield();
++}
++
+Index: plugins/compilergcc/compilergcc.h
+===================================================================
+--- plugins/compilergcc/compilergcc.h	(révision 11246)
++++ plugins/compilergcc/compilergcc.h	(copie de travail)
+@@ -151,10 +151,13 @@
+         void OnClearErrors(wxCommandEvent& event);
+         void OnUpdateUI(wxUpdateUIEvent& event);
+         void OnConfig(wxCommandEvent& event);
++
+     private:
+         friend class CompilerOptionsDlg;
+ 
+         void Dispatcher(wxCommandEvent& event);
++
++
+         void TextURL(wxTextUrlEvent& event);
+ 
+         bool StopRunningDebugger();
+@@ -179,6 +182,13 @@
+         void SaveOptions();
+         void LoadOptions();
+         void DoRegisterCompilers();
++        // for pre-build
++        cbFutureBuild GetFutureBuild();
++        void AddComplementFiles(const cbFutureBuild action);
++        void AddComplementFile(const wxString& file);
++        void OnDispatcher(CodeBlocksEvent& event);
++        void AbortAddComplement(wxCommandEvent& event) ;
++
+         void DoPrepareQueue(bool clearLog);
+         void NotifyCleanProject(const wxString& target);
+         void NotifyCleanWorkspace();
+@@ -313,7 +323,8 @@
+         // to decide if post-build steps should run
+         bool m_RunTargetPostBuild;
+         bool m_RunProjectPostBuild;
+-
++        bool m_Workspace; // true if Build, Rebuild, Clean workspace
++        bool m_AddComplement;  // true if AddComplementFiles(...) is called, false at his end
+         bool m_IsWorkspaceOperation; // true for workspace commands
+ 
+         wxString   m_BuildLogFilename;
+Index: sdk/manager.cpp
+===================================================================
+--- sdk/manager.cpp	(révision 11246)
++++ sdk/manager.cpp	(copie de travail)
+@@ -107,6 +107,7 @@
+     else if (type==cbEVT_COMPILER_STARTED) name = _T("cbEVT_COMPILER_STARTED");
+     else if (type==cbEVT_COMPILER_FINISHED) name = _T("cbEVT_COMPILER_FINISHED");
+     else if (type==cbEVT_COMPILER_SET_BUILD_OPTIONS) name = _T("cbEVT_COMPILER_SET_BUILD_OPTIONS");
++    else if (type==cbEVT_ADD_COMPLEMENT_FILES) name = _T("cbEVT_ADD_COMPLEMENT_FILES"
+     else if (type==cbEVT_CLEAN_PROJECT_STARTED) name = _T("cbEVT_CLEAN_PROJECT_STARTED");
+     else if (type==cbEVT_CLEAN_WORKSPACE_STARTED) name = _T("cbEVT_CLEAN_WORKSPACE_STARTED");
+     else if (type==cbEVT_DEBUGGER_STARTED) name = _T("cbEVT_DEBUGGER_STARTED");
+Index: sdk/sdk_events.cpp
+===================================================================
+--- sdk/sdk_events.cpp	(révision 11246)
++++ sdk/sdk_events.cpp	(copie de travail)
+@@ -151,6 +151,8 @@
+ const wxEventType cbEVT_CLEAN_PROJECT_STARTED = wxNewEventType();
+ const wxEventType cbEVT_CLEAN_WORKSPACE_STARTED = wxNewEventType();
+ const wxEventType cbEVT_COMPILER_SETTINGS_CHANGED = wxNewEventType();
++// add complement files before compiling
++const wxEventType cbEVT_ADD_COMPLEMENT_FILES = wxNewEventType();
+ // request app to compile a single file
+ const wxEventType cbEVT_COMPILE_FILE_REQUEST = wxNewEventType();
+ // debugger-related events

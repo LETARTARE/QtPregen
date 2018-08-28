@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['message',['message',['../class_qtest.html#a9f243d39202cbb5e134fb9b801a2eff2',1,'Qtest::message()'],['../class_qtest.html#a9f243d39202cbb5e134fb9b801a2eff2',1,'Qtest::message()']]]
+  ['hasincluded',['hasIncluded',['../classqt_prebuild.html#a10aa78ec12bcf3acc76b07935f805bb9',1,'qtPrebuild::hasIncluded(const wxString &amp;fcreator)'],['../classqt_prebuild.html#a10aa78ec12bcf3acc76b07935f805bb9',1,'qtPrebuild::hasIncluded(const wxString &amp;fcreator)']]],
+  ['haslibqt',['hasLibQt',['../classqt_pre.html#a5a71e5bdd08044238fa43384e8d10a3a',1,'qtPre']]]
 ];

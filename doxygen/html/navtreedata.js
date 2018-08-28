@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "qtPregen-1.1", "index.html", [
+  [ "qtPregen-2.30", "index.html", [
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -12,14 +12,21 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Files", null, [
-      [ "File List", "files.html", "files" ]
+      [ "File List", "files.html", "files" ],
+      [ "File Members", "globals.html", [
+        [ "All", "globals.html", null ],
+        [ "Functions", "globals_func.html", null ],
+        [ "Variables", "globals_vars.html", null ],
+        [ "Macros", "globals_defs.html", null ]
+      ] ]
     ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"annotated.html"
+"annotated.html",
+"qt_prebuild_8cpp.html#a5ff51a471958bb07c0e4e612f9350470"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

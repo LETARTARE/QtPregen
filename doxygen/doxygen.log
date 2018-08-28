@@ -1,0 +1,14 @@
+<unknown>:1: warning: the name `U:/Donnees/Svn_Compile/Cb/Tdm492/Extensions/QtPregen/cb11454-q/2.3.0/src/qtprebuild.h' supplied as the second argument in the \file statement matches the following input files:
+   U:/Donnees/Svn_Compile/Cb/Tdm492/Extensions/QtPregen/cb11454-q/2.3.0/src/qtprebuild.h
+   U:/Donnees/Svn_Compile/Cb/Tdm492/Extensions/QtPregen/cb11454-q/2.3.0/src/qtPrebuild.h
+Please use a more specific name by including a (larger) part of the path!
+<unknown>:1: warning: the name `U:/Donnees/Svn_Compile/Cb/Tdm492/Extensions/QtPregen/cb11454-q/2.3.0/src/qtPrebuild.h' supplied as the second argument in the \file statement matches the following input files:
+   U:/Donnees/Svn_Compile/Cb/Tdm492/Extensions/QtPregen/cb11454-q/2.3.0/src/qtprebuild.h
+   U:/Donnees/Svn_Compile/Cb/Tdm492/Extensions/QtPregen/cb11454-q/2.3.0/src/qtPrebuild.h
+Please use a more specific name by including a (larger) part of the path!
+U:/Donnees/Svn_Compile/Cb/Tdm492/Extensions/QtPregen/cb11454-q/2.3.0/src/qtPrebuild.h:76: warning: argument 'complement' of command @param is not found in the argument list of qtPrebuild::unregisterComplementToCB(const wxString &file)
+U:/Donnees/Svn_Compile/Cb/Tdm492/Extensions/QtPregen/cb11454-q/2.3.0/src/qtPrebuild.h:80: warning: The following parameters of qtPrebuild::unregisterComplementToCB(const wxString &file) are not documented:
+  parameter 'file'
+U:/Donnees/Svn_Compile/Cb/Tdm492/Extensions/QtPregen/cb11454-q/2.3.0/src/qtpregen.cpp:288: warning: argument 'indexLog' of command @param is not found in the argument list of QtPregen::SwitchToLog(int indexlog)
+U:/Donnees/Svn_Compile/Cb/Tdm492/Extensions/QtPregen/cb11454-q/2.3.0/src/qtpregen.h:250: warning: The following parameters of QtPregen::SwitchToLog(int indexlog) are not documented:
+  parameter 'indexlog'

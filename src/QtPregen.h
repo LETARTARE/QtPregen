@@ -1,9 +1,9 @@
 /***************************************************************
  * Name:      qtpregen.h
- * Purpose:   Code::Blocks plugin 'qtpregen.cbp'   1.1
+ * Purpose:   Code::Blocks plugin '
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2017-12-19
+ * Modified:  2018-08-25
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -16,7 +16,7 @@
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
-// for "class cbPlugin"  : reference SDK
+// for class cbPlugin
 #include <cbplugin.h>
 //-------------------------------------------------
 class qtPre;
@@ -25,7 +25,6 @@ class TextCtrlLogger;
 //-------------------------------------------------
 /** \class  QtPregen
  * @brief Qt plugin main class
- *
 */
 class QtPregen : public cbPlugin
 {
@@ -33,10 +32,12 @@ class QtPregen : public cbPlugin
     /** Constructor */
     QtPregen();
 
-    /** Destructor      */
+    /** \brief Destructor
+      */
     virtual ~QtPregen() {}
 
-    /** Invoke configuration dialog. */
+    /** \brief Invoke configuration dialog.
+      */
     virtual int Configure() {return 0;}
 
     /** Return the plugin's configuration priority.
@@ -67,7 +68,7 @@ class QtPregen : public cbPlugin
       */
     virtual cbConfigurationPanel* GetProjectConfigurationPanel(wxWindow* parent, cbProject* project){ return 0 ;}
 
-    /** This method is called by Code::Blocks and is used by the plugin
+    /** \brief This method is called by Code::Blocks and is used by the plugin
       * to add any menu items it needs on Code::Blocks's menu bar.\n
       * It is a pure virtual method that needs to be implemented by all
       * plugins. If the plugin does not need to add items on the menu,
@@ -76,7 +77,7 @@ class QtPregen : public cbPlugin
       */
     virtual void BuildMenu(wxMenuBar* menuBar) {};
 
-    /** This method is called by Code::Blocks core modules (EditorManager,
+    /** \brief This method is called by Code::Blocks core modules (EditorManager,
       * ProjectManager etc) and is used by the plugin to add any menu
       * items it needs in the module's popup menu. For example, when
       * the user right-clicks on a project file in the project tree,
@@ -93,7 +94,7 @@ class QtPregen : public cbPlugin
       */
     virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0) {}
 
-    /** This method is called by 'Code::Blocks' and is used by the plugin
+    /** \brief This method is called by 'Code::Blocks' and is used by the plugin
       * to add any toolbar items it needs on Code::Blocks's toolbar.\n
       * It is a pure virtual method that needs to be implemented by all
       * plugins. If the plugin does not need to add items on the toolbar,
@@ -112,7 +113,7 @@ class QtPregen : public cbPlugin
     virtual int Execute() { return 0 ;}
 
   protected:
-    /** Any descendent plugin should override this virtual method and
+    /** \brief Any descendent plugin should override this virtual method and
       * perform any necessary initialization. This method is called by
       * Code::Blocks (PluginManager actually) when the plugin has been
       * loaded and should attach in Code::Blocks. When Code::Blocks
@@ -124,7 +125,7 @@ class QtPregen : public cbPlugin
       */
     virtual void OnAttach();
 
-    /** Any descendent plugin should override this virtual method and
+    /** \brief Any descendent plugin should override this virtual method and
       * perform any necessary de-initialization. This method is called by
       * Code::Blocks (PluginManager actually) when the plugin has been
       * loaded, attached and should de-attach from Code::Blocks.\n
@@ -135,81 +136,150 @@ class QtPregen : public cbPlugin
       */
     virtual void OnRelease(bool appShutDown);
 
-    /** This method called by project activate allows detect project using the
+  /** -------------------- personal methods --------------------------------- */
+
+    /** \brief This method called by end start application
+      * @param event Contains the event which call this method
+      */
+    void OnAppDoneStartup(CodeBlocksEvent& event);
+
+    /** \brief This method called by plugin is manually loaded
+      * @param event Contains the event which call this method
+      */
+    void OnPluginLoaded(CodeBlocksEvent& event);
+
+    /** \brief This method called by loading complete
+      * @param event Contains the event which call this method
+      */
+    void OnPluginLoadingComplete(CodeBlocksEvent& event);
+
+    /** \brief This method called by begin shutdown application
+      * @param event Contains the event which call this method
+      */
+    void OnAppBeginShutDown(CodeBlocksEvent& event);
+
+    /** \brief This method called by
+      * 'cbEVT_PROJECT_OPEN' for notifie open project or
+      * @param event Contains the event which call this method
+      */
+    void OnOpenProject(CodeBlocksEvent& event);
+
+    /** \brief This method called by
+      * 'cbEVT_PROJECT_CLOSE' for notifie close project or
+      * @param event Contains the event which call this method
+      */
+    void OnCloseProject(CodeBlocksEvent& event);
+
+    /** \brief This method called by project activate allows detect project using the
       * Qt libraries
       * @param event Contains the event which call this method
       */
     void OnActivateProject(CodeBlocksEvent& event);
 
-    /** This method called by a new project allows detect active project and
-	  * active target
+    /** \brief This method called by target activate allows detect target using the
+      * Qt libraries
       * @param event Contains the event which call this method
       */
-	void OnNewProject(CodeBlocksEvent& event);
+    void OnActivateTarget(CodeBlocksEvent& event);
 
-    /** This method called by 'cbEVT_COMPILER_STARTED' for
-      * 1- allows pre-build all the additioisGoodTargetQtnal files ...
-      * 2- allows pre-compile one additional file ...
+    /** This method called by a new project allows detect active project and
+	    * active target
+      * @param event Contains the event which call this method
+      */
+    void OnNewProject(CodeBlocksEvent& event);
+
+    /** \brief This method called by
+      * 'cbEVT_PROJECT_RENAMED' for notifie rename project or
+      * 'cbEVT_BUILDTARGET_RENAMED' for notifie rename target
+      * @param event Contains the event which call this method
+      */
+    void OnRenameProjectOrTarget(CodeBlocksEvent& event);
+
+    /** \brief This method called by 'cbEVT_ADD_COMPLEMENT_FILES' for
+      *   1. allows pre-build all the additional files ...
+      *   2. allows pre-compile one additional file ...
       *   required to compile a project using the Qt libraries
       * @param event Contains the event which call this method
       */
-    void OnPregen(CodeBlocksEvent& event);
+    void OnAddComplements(CodeBlocksEvent& event);
 
-    /** This method called by 'cbEVT_CLEAN_PROJECT_STARTED' for
-      * allows remove all the additional files ...
-      * @param event Contains the event which call this method
-      */
-    void OnCleanPregen(CodeBlocksEvent& event);
-
-     /** This method called by 'cbEVT_PROJECT_FILE_REMOVED' for
+    /** \brief This method called by 'cbEVT_PROJECT_FILE_REMOVED' for
       * allows remove complement file
       * @param event Contains the event which call this method
       */
-    void OnFileRemovedPregen(CodeBlocksEvent& event);
+    void onProjectFileRemoved(CodeBlocksEvent& event);
+
+    /** \brief This method called by 'cbEVT_COMPILER_FINISHED' for
+      *   1. abort pre-build all the additional files ...
+      *   2. abort pre-compile one additional file ...
+      * @param event Contains the event which call this method
+      */
+    void OnAbortAdding(CodeBlocksEvent& event);
 
   private:
-    /** project
+    /** \brief project
      */
-    cbProject* m_project;
-    /** pre-Builder for QT
+    cbProject* m_pProject = nullptr;
+    /** \brief pre-Builder for QT
      */
-    qtPrebuild * m_prebuild;
-    /** project type
+    qtPrebuild * m_pPrebuild = nullptr;
+    /** \brief project and target types
       */
-    bool m_qtproject = false;
+    bool m_isQtProject = false
+         ,m_isQtActiveTarget = false
+         ;
     /**  removing complement files
      */
     bool m_removingfirst = true;
-    /** Global used to record different messages for the construction report
+
+    /** \brief Global used to record different messages for the construction report
      */
-    wxString Mes;
+    wxString Mes = wxEmptyString;
 
   private:
-    /**  Append log message to 'PreBuild log'
+    /**  \brief Append log message to 'PreBuild log'
+     *  @param  Text : message to display
+     *  @param  lv : level -> Logger::caption, info, warning, success, error,
+     *               critical, failure, pagetitle, spacer, asterisk
      */
     void AppendToLog(const wxString& Text, Logger::level lv = Logger::info);
 
-    /** Log tab in the message pane
+    /** \brief Show a log
+     *  @param indexLog : page index
      */
-    TextCtrlLogger* m_PregenLog;
+    void SwitchToLog(int indexlog);
 
-    /** Index of our log tab (can this change during run time ??)
+
+    /** \brief Emit an abort for 'CompilerGCC' class
+      * @param idAbort : Abort identificator
      */
-    int m_LogPageIndex,
+    void compilingStop(int idAbort);
+
+  private:
+
+    /** \brief Log tab in the message pane
+     */
+    TextCtrlLogger* m_PregenLog = nullptr;
+
+    /** \brief Index of our log tab (can this change during run time ??)
+     */
+    size_t m_LogPageIndex = 0,
     /**  Last log index
      */
-        m_LastIndex;
+        m_LastIndex = 0
+        ;
 
-    /**   last log
+    /**  \brief last log
      */
-    Logger * m_Lastlog;
+    Logger * m_Lastlog = nullptr;
 
-    /**  Manager log
+    /**  \brief Manager log
      */
-    LogManager* m_LogMan ;
+    LogManager* m_LogMan = nullptr;
 
-
- //DECLARE_EVENT_TABLE();
+    /** \brief valid message to 'Prebuild log'
+     */
+     bool m_WithMessage = false;
 };
 
 #endif // _CBQTPREGEN_H_

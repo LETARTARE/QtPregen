@@ -1,9 +1,9 @@
 /***************************************************************
  * Name:      print.h
- * Purpose:   Code::Blocks plugin	'qtPregen.cbp'  1.1
+ * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2017-11-29
+ * Modified:  2018-01-02
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -23,10 +23,10 @@
 #define		Dquote  wxString(_T("\""))
 #define 	Tab		wxString(_T("\t"))
 #define 	Space	wxString(_T(" "))
-/** text separator
+/** \brief text separator
  */
-#define 	SepD 	13 	// 0xD
-#define 	SepA 	10	// 0xA
+#define 	SepD 	char(13) 	// 0xD, \n
+#define 	SepA 	char(10)	// 0xA, \r
 #define 	Sizesep 2
 
 #include <wx/filefn.h>
@@ -36,13 +36,18 @@
 #define 	Slash 	wxFILE_SEP_PATH
 ///-----------------------------------------------------------------------------
 #include <logmanager.h>
-/** @brief debug messages  -> 'Code::Blocks log'
- */
 #define lm			Manager::Get()->GetLogManager()
+/** @brief messages  -> 'Code::Blocks log'
+ */
 #define Print		lm->Log
 #define PrintLn		lm->Log(_T(""))
 #define PrintWarn	lm->LogWarning
 #define PrintErr	lm->LogError
+/** @brief messages  -> 'Code::Blocks Debug log'
+ */
+#define DPrint		lm->DebugLog
+#define DPrintErr	lm->DebugLogError
+
 /** @brief messages  -> 'PreBuild log'
  */
 #define p               m_LogPageIndex

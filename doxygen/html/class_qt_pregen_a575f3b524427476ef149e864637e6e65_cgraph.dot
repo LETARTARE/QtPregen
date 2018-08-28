@@ -1,0 +1,19 @@
+digraph "QtPregen::OnNewProject"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node78 [label="QtPregen::OnNewProject",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node78 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 [label="qtPre::detectQt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_pre.html#a1cf253174787aa571e6735f050f8268b"];
+  Node79 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 [label="qtPre::listRealsTargets",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_pre.html#a0318da64b4fa1fd8cc742e8c4cb63758"];
+  Node80 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 [label="qtPre::isVirtualTarget",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_pre.html#a98ee0101daa9909cb81179568dff51aa"];
+  Node78 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 [label="qtPre::detectComplements",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_pre.html#a6d84a02b182412456ab206ec54962d3e"];
+  Node82 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="qtPre::copyArray",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_pre.html#a4b2acfe1f32fd66a63cdb535c1581226"];
+  Node82 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 [label="qtPre::reverseFileCreator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classqt_pre.html#a577d940921c140989e2f6c0da7f4b857"];
+}

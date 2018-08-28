@@ -190,7 +190,7 @@ function SetupProject(project)
 			target.AddLinkLib(_T("Qt5Widgetsd"));
 			target.AddLinkLib(_T("Qt5Xmld"));
 		}
-		else {
+		else { // to verify
 			target.AddLinkLib(_T("QtCored"));
 			target.AddLinkLib(_T("QtGuid"));
 			target.AddLinkLib(_T("QtWidgetsd"));
@@ -217,11 +217,11 @@ function SetupProject(project)
 			target.AddLinkLib(_T("Qt5Widgets"));
 			target.AddLinkLib(_T("Qt5Xml"));
 		}
-		else {
+		else { // to verify
 			target.AddLinkLib(_T("QtCore"));
 			target.AddLinkLib(_T("QtGui"));
 			target.AddLinkLib(_T("QtWidgets"));
-			target.AddLinkLib(_T("Qt5Xml"));
+			target.AddLinkLib(_T("QtXml"));
 		}
 /// <--
         target.SetOutputFilename(Wizard.GetReleaseOutputDir() + Wizard.GetProjectName() + DOT_EXT_EXECUTABLE);
