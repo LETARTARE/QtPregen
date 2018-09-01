@@ -1322,11 +1322,10 @@ bool qtPrebuild::addOneFile(const wxString& fcreator, const wxString& fout)
 ///
 bool qtPrebuild::hasIncluded(const wxString& fcreator)
 {
-// search only in '*.cpp'
-	wxString ext = fcreator.AfterLast('.');
-	if (!ext.Matches(EXT_CPP))
-		return false;
-
+//Mes = Tab + Quote + fcreator + Quote ;
+//printWarn(Mes);
+// if 'fcreator' == 'xxxx.h' -> search in 'xxxx.cpp'
+// if 'fcreator' == 'xxxx.cpp'  -> search in 'xxxx.cpp'
 	wxString namefile = fcreator.BeforeLast('.') + DOT_EXT_CPP;
 	if (! wxFileExists(namefile) )
 		 return false  ;
@@ -1336,18 +1335,29 @@ bool qtPrebuild::hasIncluded(const wxString& fcreator)
 	if (source.IsEmpty())
 		return false ;
 
+// ext
+	wxString ext = fcreator.AfterLast('.');
+//Mes = Tab + Tab + _T("ext = ") + Quote + ext + Quote ;
+//print(Mes);
 	namefile = namefile.AfterLast(Slash).BeforeLast('.')  ;
-// search "#include "moc_*.cpp" or "#include "*.moc"
-	//1- search >"moc_namefile.cpp"<
-	wxString txt = _T("moc_") + namefile + DOT_EXT_CPP;
-	// find from end
-	bool include = verifyIncluded(source, txt) ;
-	if (!include)
+	wxString txt = _T("");
+	bool include = false;
+	//1- ext == EXT_H =>  search >"moc_namefile.cpp"<
+	if (ext.Matches(EXT_H))
 	{
-	//2- search >"namefile.moc"<
-		txt = namefile + DOT_EXT_MOC ;
-		include = verifyIncluded(source, txt) ;
+		txt = _T("moc_") + namefile + DOT_EXT_CPP;
 	}
+	else
+	//2- ext == EXT_CPP => search >"namefile.moc"<
+	if (ext.Matches(EXT_CPP) )
+	{
+		txt = namefile + DOT_EXT_MOC ;
+	}
+//Mes = Tab + Tab + _T("txt = ") + Dquote + txt + Dquote ;
+//print(Mes);
+// find from end
+	include = verifyIncluded(source, txt) ;
+
 //Mes = _T("Creator ") + Quote + fcreator + Quote ;
 //Mes += _T(" : hasIncluded(...) -> ") + (wxString() << include);
 //printWarn(Mes);
