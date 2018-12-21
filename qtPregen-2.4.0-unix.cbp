@@ -2,13 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregen-2.3-11508(Unix)" />
+		<Option title="qtPregen-2.4-11530(Unix)" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[use cb11428 sdk 1.3.0
-patch revised 2.3-svn48]]>
+				<![CDATA[use cb11530 sdk 1.3.0
+patch revised 2.4-svn52]]>
 			</notes>
 		</Option>
 		<Build>
@@ -38,11 +38,6 @@ patch revised 2.3-svn48]]>
 				<Environment>
 					<Variable name="cb" value='&quot;$(#cb11499)&quot;' />
 				</Environment>
-			</Target>
-			<Target title="cbqt4">
-				<Option platforms="Unix;" />
-				<Option type="4" />
-				<Option compiler="null" />
 			</Target>
 			<Target title="cbqt5">
 				<Option type="4" />
@@ -76,25 +71,21 @@ patch revised 2.3-svn48]]>
 		</Unit>
 		<Unit filename="manifest.xml">
 			<Option target="default" />
-			<Option target="cbqt4" />
 		</Unit>
-		<Unit filename="src/print.h">
+		<Unit filename="src/defines.h">
 			<Option target="default" />
-			<Option target="cbqt4" />
 		</Unit>
 		<Unit filename="src/qtpre.cpp">
 			<Option target="default" />
 		</Unit>
 		<Unit filename="src/qtpre.h">
 			<Option target="default" />
-			<Option target="cbqt4" />
 		</Unit>
 		<Unit filename="src/qtprebuild.cpp">
 			<Option target="default" />
 		</Unit>
 		<Unit filename="src/qtprebuild.h">
 			<Option target="default" />
-			<Option target="cbqt4" />
 		</Unit>
 		<Unit filename="src/qtpregen.cpp">
 			<Option target="default" />
