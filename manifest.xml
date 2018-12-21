@@ -3,7 +3,7 @@
     <SdkVersion major="1" minor="36" release="0" />
     <Plugin name="QtPregen">
         <Value title="QtPregen" />
-        <Value version="2.3.0-svn48" />
+        <Value version="2.4.0-svn52" />
         <Value description="Compilling Qt software with this plugin (sdk 1.36.0)" />
         <Value author="LETARTARE" />
         <Value authorEmail="" />

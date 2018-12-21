@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregen-2.3-11428(Unix)" />
+		<Option title="qtPregen-2.3-11508(Unix)" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
@@ -36,7 +36,7 @@ patch revised 2.3-svn48]]>
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value="$(#cb11428)" />
+					<Variable name="cb" value='&quot;$(#cb11499)&quot;' />
 				</Environment>
 			</Target>
 			<Target title="cbqt4">

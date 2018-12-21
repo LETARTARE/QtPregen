@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregen-2.3.0-492-cb11454q" />
+		<Option title="qtPregen-2.4.0-492-cb11530q" />
 		<Option platforms="Windows;" />
 		<Option pch_mode="2" />
 		<Option compiler="gnu_gcc_compiler_492" />
@@ -66,7 +66,7 @@ use cb11428 sdk 1.36.0
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value="$(#cb11454_492_28)" />
+					<Variable name="cb" value="$(#cb11530_492_28)" />
 					<Variable name="wx" value="$(#wx28_492)" />
 				</Environment>
 			</Target>
@@ -100,7 +100,7 @@ use cb11428 sdk 1.36.0
 					<Add directory="$qt/lib" />
 				</Linker>
 				<Environment>
-					<Variable name="qt" value="$(#qt59)" />
+					<Variable name="qt" value="$(#qt596)" />
 				</Environment>
 			</Target>
 			<Target title="patchs">
@@ -111,7 +111,7 @@ use cb11428 sdk 1.36.0
 				<Option type="4" />
 				<Option compiler="null" />
 			</Target>
-			<Target title="to_cb11454_28">
+			<Target title="to_cb11530_28">
 				<Option platforms="Windows;" />
 				<Option output="wx28/QtPregen" prefix_auto="0" extension_auto="1" />
 				<Option object_output="wx28/objs" />
@@ -160,11 +160,11 @@ use cb11428 sdk 1.36.0
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value="$(#cb11454_492_28)" />
+					<Variable name="cb" value="$(#cb11530_492_28)" />
 					<Variable name="wx" value="$(#wx28_492)" />
 				</Environment>
 			</Target>
-			<Target title="to_cb11454_30">
+			<Target title="to_cb11530_30">
 				<Option platforms="Windows;" />
 				<Option output="wx30/QtPregen" prefix_auto="0" extension_auto="1" />
 				<Option object_output="wx30/objs" />
@@ -213,11 +213,11 @@ use cb11428 sdk 1.36.0
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value="$(#cb11454_492_30)" />
+					<Variable name="cb" value="$(#cb11530_492_30)" />
 					<Variable name="wx" value="$(#wx30_492)" />
 				</Environment>
 			</Target>
-			<Target title="to_cb11454_31">
+			<Target title="to_cb11530_31">
 				<Option platforms="Windows;" />
 				<Option output="wx31/QtPregen" prefix_auto="0" extension_auto="1" />
 				<Option object_output="wx31/objs" />
@@ -266,7 +266,7 @@ use cb11428 sdk 1.36.0
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value="$(#cb11454_492_31)" />
+					<Variable name="cb" value="$(#cb11530_492_31)" />
 					<Variable name="wx" value="$(#wx31_492)" />
 				</Environment>
 			</Target>
@@ -332,9 +332,9 @@ use cb11428 sdk 1.36.0
 		</Unit>
 		<Unit filename="manifest.xml">
 			<Option target="default" />
-			<Option target="to_cb11454_28" />
-			<Option target="to_cb11454_30" />
-			<Option target="to_cb11454_31" />
+			<Option target="to_cb11530_28" />
+			<Option target="to_cb11530_30" />
+			<Option target="to_cb11530_31" />
 		</Unit>
 		<Unit filename="patch/cb-16-01-evPREGEN-0.8.5.patch">
 			<Option target="patchs" />
@@ -366,47 +366,47 @@ use cb11428 sdk 1.36.0
 		<Unit filename="patch/svn11021-evPREGEN-0.8.7.patch">
 			<Option target="patchs" />
 		</Unit>
-		<Unit filename="src/print.h">
+		<Unit filename="src/defines.h">
 			<Option target="default" />
-			<Option target="to_cb11454_28" />
-			<Option target="to_cb11454_30" />
-			<Option target="to_cb11454_31" />
+			<Option target="to_cb11530_28" />
+			<Option target="to_cb11530_30" />
+			<Option target="to_cb11530_31" />
 		</Unit>
 		<Unit filename="src/qtPrebuild.cpp">
 			<Option target="default" />
-			<Option target="to_cb11454_28" />
-			<Option target="to_cb11454_30" />
-			<Option target="to_cb11454_31" />
+			<Option target="to_cb11530_28" />
+			<Option target="to_cb11530_30" />
+			<Option target="to_cb11530_31" />
 		</Unit>
 		<Unit filename="src/qtPrebuild.h">
 			<Option target="default" />
-			<Option target="to_cb11454_28" />
-			<Option target="to_cb11454_30" />
-			<Option target="to_cb11454_31" />
+			<Option target="to_cb11530_28" />
+			<Option target="to_cb11530_30" />
+			<Option target="to_cb11530_31" />
 		</Unit>
 		<Unit filename="src/qtpre.cpp">
 			<Option target="default" />
-			<Option target="to_cb11454_28" />
-			<Option target="to_cb11454_30" />
-			<Option target="to_cb11454_31" />
+			<Option target="to_cb11530_28" />
+			<Option target="to_cb11530_30" />
+			<Option target="to_cb11530_31" />
 		</Unit>
 		<Unit filename="src/qtpre.h">
 			<Option target="default" />
-			<Option target="to_cb11454_28" />
-			<Option target="to_cb11454_30" />
-			<Option target="to_cb11454_31" />
+			<Option target="to_cb11530_28" />
+			<Option target="to_cb11530_30" />
+			<Option target="to_cb11530_31" />
 		</Unit>
 		<Unit filename="src/qtpregen.cpp">
 			<Option target="default" />
-			<Option target="to_cb11454_28" />
-			<Option target="to_cb11454_30" />
-			<Option target="to_cb11454_31" />
+			<Option target="to_cb11530_28" />
+			<Option target="to_cb11530_30" />
+			<Option target="to_cb11530_31" />
 		</Unit>
 		<Unit filename="src/qtpregen.h">
 			<Option target="default" />
-			<Option target="to_cb11454_28" />
-			<Option target="to_cb11454_30" />
-			<Option target="to_cb11454_31" />
+			<Option target="to_cb11530_28" />
+			<Option target="to_cb11530_30" />
+			<Option target="to_cb11530_31" />
 		</Unit>
 		<Extensions>
 			<envvars set="default" />

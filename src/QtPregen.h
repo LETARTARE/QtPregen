@@ -141,59 +141,59 @@ class QtPregen : public cbPlugin
     /** \brief This method called by end start application
       * @param event Contains the event which call this method
       */
-    void OnAppDoneStartup(CodeBlocksEvent& event);
+    void OnAppDoneStartup(CodeBlocksEvent& _event);
 
     /** \brief This method called by plugin is manually loaded
       * @param event Contains the event which call this method
       */
-    void OnPluginLoaded(CodeBlocksEvent& event);
+    void OnPluginLoaded(CodeBlocksEvent& _event);
 
     /** \brief This method called by loading complete
       * @param event Contains the event which call this method
       */
-    void OnPluginLoadingComplete(CodeBlocksEvent& event);
+    void OnPluginLoadingComplete(CodeBlocksEvent& _event);
 
     /** \brief This method called by begin shutdown application
       * @param event Contains the event which call this method
       */
-    void OnAppBeginShutDown(CodeBlocksEvent& event);
+    void OnAppBeginShutDown(CodeBlocksEvent& _event);
 
     /** \brief This method called by
       * 'cbEVT_PROJECT_OPEN' for notifie open project or
       * @param event Contains the event which call this method
       */
-    void OnOpenProject(CodeBlocksEvent& event);
+    void OnOpenProject(CodeBlocksEvent& _event);
 
     /** \brief This method called by
       * 'cbEVT_PROJECT_CLOSE' for notifie close project or
       * @param event Contains the event which call this method
       */
-    void OnCloseProject(CodeBlocksEvent& event);
+    void OnCloseProject(CodeBlocksEvent& _event);
 
     /** \brief This method called by project activate allows detect project using the
       * Qt libraries
       * @param event Contains the event which call this method
       */
-    void OnActivateProject(CodeBlocksEvent& event);
+    void OnActivateProject(CodeBlocksEvent& _event);
 
     /** \brief This method called by target activate allows detect target using the
       * Qt libraries
       * @param event Contains the event which call this method
       */
-    void OnActivateTarget(CodeBlocksEvent& event);
+    void OnActivateTarget(CodeBlocksEvent& _event);
 
     /** This method called by a new project allows detect active project and
 	    * active target
       * @param event Contains the event which call this method
       */
-    void OnNewProject(CodeBlocksEvent& event);
+    void OnNewProject(CodeBlocksEvent& _event);
 
     /** \brief This method called by
       * 'cbEVT_PROJECT_RENAMED' for notifie rename project or
       * 'cbEVT_BUILDTARGET_RENAMED' for notifie rename target
       * @param event Contains the event which call this method
       */
-    void OnRenameProjectOrTarget(CodeBlocksEvent& event);
+    void OnRenameProjectOrTarget(CodeBlocksEvent& _event);
 
     /** \brief This method called by 'cbEVT_ADD_COMPLEMENT_FILES' for
       *   1. allows pre-build all the additional files ...
@@ -201,20 +201,20 @@ class QtPregen : public cbPlugin
       *   required to compile a project using the Qt libraries
       * @param event Contains the event which call this method
       */
-    void OnAddComplements(CodeBlocksEvent& event);
+    void OnAddComplements(CodeBlocksEvent& _event);
 
     /** \brief This method called by 'cbEVT_PROJECT_FILE_REMOVED' for
       * allows remove complement file
       * @param event Contains the event which call this method
       */
-    void onProjectFileRemoved(CodeBlocksEvent& event);
+    void onProjectFileRemoved(CodeBlocksEvent& _event);
 
     /** \brief This method called by 'cbEVT_COMPILER_FINISHED' for
       *   1. abort pre-build all the additional files ...
       *   2. abort pre-compile one additional file ...
       * @param event Contains the event which call this method
       */
-    void OnAbortAdding(CodeBlocksEvent& event);
+    void OnAbortAdding(CodeBlocksEvent& _event);
 
   private:
     /** \brief project
@@ -238,22 +238,22 @@ class QtPregen : public cbPlugin
 
   private:
     /**  \brief Append log message to 'PreBuild log'
-     *  @param  Text : message to display
-     *  @param  lv : level -> Logger::caption, info, warning, success, error,
+     *  @param  _Text : message to display
+     *  @param  _lv : level -> Logger::caption, info, warning, success, error,
      *               critical, failure, pagetitle, spacer, asterisk
      */
-    void AppendToLog(const wxString& Text, Logger::level lv = Logger::info);
+    void AppendToLog(const wxString& _Text, Logger::level _lv = Logger::info);
 
     /** \brief Show a log
-     *  @param indexLog : page index
+     *  @param _indexLog : page index
      */
-    void SwitchToLog(int indexlog);
+    void SwitchToLog(int _indexlog);
 
 
     /** \brief Emit an abort for 'CompilerGCC' class
-      * @param idAbort : Abort identificator
+      * @param _idAbort : Abort identificator
      */
-    void compilingStop(int idAbort);
+    void compilingStop(int _idAbort);
 
   private:
 

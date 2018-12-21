@@ -4,12 +4,12 @@
 //
 // Project	: CbQt5 project  :  (with Qt5.x only)
 // Author	: LETARTARE http://forums.codeblocks.org
-// Modified	: LETARTARE December 17, 2017
+// Modified	: LETARTARE December 10, 2018
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 // globals
-QtPathDefault5   <- _T("$(#qt5)");
+QtPathDefault5   <- _T("$(#qt59)");
 QtPathDefaultInc <- _T("");
 QtPathDefaultLib <- _T("");
 QtPath5 <- _T("");
@@ -44,7 +44,8 @@ function BeginWizard()
     Wizard.AddGenericSelectPathPage(_T("QtPath"), qtpath_msg, _("Qt's location:"), QtPathDefault5);
 
     Wizard.AddProjectPathPage();
-    Wizard.AddCompilerPage(_T(""), _T("gccBegin*;qt*"), true, true);
+   // Wizard.AddCompilerPage(_T(""), _T("gcc*;qt*"), true, true);
+	Wizard.AddCompilerPage(_T(""), _T("gcc*"), true, true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -139,7 +140,6 @@ function SetupProject(project)
     project.AddCompilerOption (_T("-frtti"));
     project.AddCompilerOption (_T("-DUNICODE"));
     /// qt > 5.6
-  //  project.AddCompilerOption (_T("-DQT_LARGEFILE_SUPPORT"));
 	project.AddCompilerOption (_T("-std=gnu++11"));
 	///
     project.AddCompilerOption (_T("-DQT_GUI_LIB"));
