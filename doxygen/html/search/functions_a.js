@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['modifydate',['modifyDate',['../classqt_prebuild.html#a95c45aba29108c873abe67a99b404492',1,'qtPrebuild::modifyDate(const wxString &amp;fileref, const wxString &amp;filetarget)'],['../classqt_prebuild.html#a95c45aba29108c873abe67a99b404492',1,'qtPrebuild::modifyDate(const wxString &amp;fileref, const wxString &amp;filetarget)']]]
+  ['modifydate',['modifyDate',['../classqt_prebuild.html#a7eaa1278b1892886b02bc1a9af3b68f4',1,'qtPrebuild']]]
 ];

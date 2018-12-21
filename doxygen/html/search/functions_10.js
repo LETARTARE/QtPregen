@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['setpageindex',['SetPageIndex',['../classqt_pre.html#a53a4647b5408ba5b198f722890dba82e',1,'qtPre']]],
-  ['switchtolog',['SwitchToLog',['../class_qt_pregen.html#a94d0d2b53039ceac7838b96ffa3c42b9',1,'QtPregen']]]
+  ['setbuildtarget',['setBuildTarget',['../classqt_pre.html#a812cf8fdaadcc752328865df6882822c',1,'qtPre']]],
+  ['setpageindex',['SetPageIndex',['../classqt_pre.html#a4881fa0a31a53e02e482941bac68a5f9',1,'qtPre']]],
+  ['switchtolog',['SwitchToLog',['../class_qt_pregen.html#a0af6ff3f55064feb2948080a9828db3f',1,'QtPregen']]]
 ];
