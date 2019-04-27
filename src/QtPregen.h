@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin '
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2018-08-25
+ * Modified:  2019-04-27
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -18,6 +18,8 @@
 #endif
 // for class cbPlugin
 #include <cbplugin.h>
+
+#include <wx/event.h>
 //-------------------------------------------------
 class qtPre;
 class qtPrebuild;
@@ -139,59 +141,77 @@ class QtPregen : public cbPlugin
   /** -------------------- personal methods --------------------------------- */
 
     /** \brief This method called by end start application
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void OnAppDoneStartup(CodeBlocksEvent& _event);
 
     /** \brief This method called by plugin is manually loaded
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void OnPluginLoaded(CodeBlocksEvent& _event);
 
     /** \brief This method called by loading complete
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void OnPluginLoadingComplete(CodeBlocksEvent& _event);
 
     /** \brief This method called by begin shutdown application
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void OnAppBeginShutDown(CodeBlocksEvent& _event);
 
     /** \brief This method called by
-      * 'cbEVT_PROJECT_OPEN' for notifie open project or
-      * @param event Contains the event which call this method
+      * 'cbEVT_PROJECT_OPEN' for notifie open project
+      * @param _event Contains the event which call this method
       */
     void OnOpenProject(CodeBlocksEvent& _event);
 
     /** \brief This method called by
-      * 'cbEVT_PROJECT_CLOSE' for notifie close project or
-      * @param event Contains the event which call this method
+      * 'cbEVT_PROJECT_CLOSE' for notifie close project
+      * @param _event Contains the event which call this method
       */
     void OnCloseProject(CodeBlocksEvent& _event);
 
+    /** \brief This method called by
+      * 'cbEVT_PROJECT_SAVE' for notifie save project
+      * @param _event Contains the event which call this method
+      */
+    void OnSaveProject(CodeBlocksEvent& _event);
+
+   /** \brief This method called by
+    * 'cbEVT_EDITOR_SAVE' for notifie save file
+    * @param _event Contains the event which call this method
+    */
+    void OnSaveFileEditor(CodeBlocksEvent& _event);
+
+    /** \brief This method called by
+    * 'wxEVT_COMMAND_MENU_SELECTED' for notifie Parser End
+    * @param _event Contains the event which call this method
+    */
+    void OnParserEnd(CodeBlocksEvent& _event);
+
     /** \brief This method called by project activate allows detect project using the
       * Qt libraries
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void OnActivateProject(CodeBlocksEvent& _event);
 
     /** \brief This method called by target activate allows detect target using the
       * Qt libraries
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void OnActivateTarget(CodeBlocksEvent& _event);
 
     /** This method called by a new project allows detect active project and
 	    * active target
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void OnNewProject(CodeBlocksEvent& _event);
 
     /** \brief This method called by
       * 'cbEVT_PROJECT_RENAMED' for notifie rename project or
       * 'cbEVT_BUILDTARGET_RENAMED' for notifie rename target
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void OnRenameProjectOrTarget(CodeBlocksEvent& _event);
 
@@ -199,25 +219,31 @@ class QtPregen : public cbPlugin
       *   1. allows pre-build all the additional files ...
       *   2. allows pre-compile one additional file ...
       *   required to compile a project using the Qt libraries
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void OnAddComplements(CodeBlocksEvent& _event);
 
     /** \brief This method called by 'cbEVT_PROJECT_FILE_REMOVED' for
       * allows remove complement file
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void onProjectFileRemoved(CodeBlocksEvent& _event);
 
     /** \brief This method called by 'cbEVT_COMPILER_FINISHED' for
       *   1. abort pre-build all the additional files ...
       *   2. abort pre-compile one additional file ...
-      * @param event Contains the event which call this method
+      * @param _event Contains the event which call this method
       */
     void OnAbortAdding(CodeBlocksEvent& _event);
 
+     /** \brief Indicates whether a target has or contains a Qt target
+      *  @param _nameTarget
+      *  @return true if Qt target
+      */
+    bool adviceTypeTarget(const wxString & _nameTarget);
+
   private:
-    /** \brief project
+    /** \brief actual project
      */
     cbProject* m_pProject = nullptr;
     /** \brief pre-Builder for QT
@@ -230,7 +256,13 @@ class QtPregen : public cbPlugin
          ;
     /**  removing complement files
      */
-    bool m_removingfirst = true;
+    bool m_removingIsFirst = true;
+    /** a pseudo event
+     */
+    bool m_pseudoEvent = false;
+    /** app init done
+      */
+    bool m_initDone = false;
 
     /** \brief Global used to record different messages for the construction report
      */
@@ -247,7 +279,7 @@ class QtPregen : public cbPlugin
     /** \brief Show a log
      *  @param _indexLog : page index
      */
-    void SwitchToLog(int _indexlog);
+    void SwitchToLog(int _indexLog);
 
 
     /** \brief Emit an abort for 'CompilerGCC' class

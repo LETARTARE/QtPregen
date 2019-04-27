@@ -1,16 +1,17 @@
-# QtPregen-2.4.0 December 21, 2018 (Win-32, Linux-64)
+# QtPregen-2.4.3 April 04, 2019 (Win-32, Linux-64)
 
 Plugin to compile QT applications with 'Code::Blocks'
 
 **Version for all 'Code::Block, sdk >= 1.25.0, svn >= 10127'**
 
-**Last: sdk = 1.36.0, svn = 11350 -> 11530**
+**Last: sdk = 1.38.0, svn = 11656 -> ...**
 
 It uses a log 'Prebuild log' for all posts plugin.
 
 1- Overview
 
-    It is a plugin to compile C++ Qt5 applications using 'Code::Blocks', in a very similar way as projects 'wxWidgets'.
+    It is a plugin to compile C++ Qt5 applications using 'Code::Blocks', in a 
+	very similar way as projects 'wxWidgets'.
     For now it works on 'Win-32 and Linux-64'.
 
 2- Features
@@ -18,7 +19,8 @@ It uses a log 'Prebuild log' for all posts plugin.
     It does not use the 'Makefile'
 
     This generates additional files the project by the Qt works
-	'moc (.exe)', 'uic (.exe)', 'rcc (.exe)'  in a single directory in the active target :'adding/targetname'
+	'moc (.exe)', 'uic (.exe)', 'rcc (.exe)'  in a single directory in the 
+	active target :'adding/targetname'
 
     1- it detects meta-objects 'Q_OBJECT' and 'QGADGETS' in files
         '*.h, *.hpp, *.cpp' and generates files 'moc_xxxxxx.cpp'
@@ -37,19 +39,22 @@ It uses a log 'Prebuild log' for all posts plugin.
 
 	2- a directory 'patch' containing patchs for versions of 'Code::Blocks'
 	 (10253, 10376, 10474, 10528, 10600, 10703, cb-16.01, 10816, 10856, 10922,
-	 11021, 11112, 11176, 11210, 11227, 11246 (=17.12), 11313, 11401, 11428, 11454, 11530)
+	 11021, 11112, 11176, 11210, 11227, 11246 (=17.12), 11313, 11401, 11428, 
+	 11454, 11530, 11544, 11656)
 
 	3- a directory 'CodeBlocks' containing wizards and files 'cbqt5'
 
 
-4- Installation to 'Code::Blocks 11530'
+4- Installation to 'Code::Blocks 11656'
 
     1- first install wizards 'cbqt5',
 
-    2- then the patch 'cb-11530-evPREGEN-x.x.x.patch' and recompile the modified source of the version 'Code::Blocks-11530',
+    2- then the patch 'qtPregenx.x.x-sdk138.patch' and recompile the modified 
+	source of the version 'Code::Blocks-11656',
 
-	3- then with 'C::B-11530' compile and install the plugin 'qtPregen' 
-        - change the local variable 'cb = $(#cb11530)' in agreement with your global 'cb11530' which should identify sources of 'Code::Blocks'
+	3- then with 'C::B-11656' compile and install the plugin 'qtPregen' 
+        : change the local variable 'cb = $(#cb11656)' in agreement with your 
+        global 'cb11656' which should identify sources of 'Code::Blocks'
 
 5- Using
 

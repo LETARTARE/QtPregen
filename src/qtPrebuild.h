@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2018-20-15
+ * Modified:  2019-02-04
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -21,39 +21,37 @@ class qtPrebuild  : public qtPre
 	public :
 
 		/** \brief Constructor
-         * @param _prj The active project.
-         * @param l_ogindex The active log
-         * @param _nameplugin The plugin name
+         * @param _namePlugin : The plugin name
+         * @param _logIndex : The active log
          */
-		qtPrebuild(cbProject * _prj, int _logindex, wxString & _nameplugin);
+		qtPrebuild(wxString & _namePlugin, int _logIndex);
 
 		/** \brief Destructor
          */
 		virtual ~qtPrebuild();
 
 		/** \brief  Give if target is a Qt target
-		 *	 @param _target : a project target
+		 *	 @param _pBuildTarget : a project target
 		 *   @return true if it's
 		 */
-		bool isGoodTargetQt(const ProjectBuildTarget * _target);
+		bool isGoodTargetQt(const ProjectBuildTarget * _pBuildTarget);
 
 		/** \brief Built all files necessary complements
-		 * @param _prj The active project.
+		 * @param _pProject The active project.
 		 * @param _workspace is true -> no report, no popup messages.
 		 * @param _allbuild is true -> rebuild complement files.isGoodTargetQt
 		 * @return	true if building is correct
 		 */
-		bool buildAllFiles(cbProject * _prj, bool _workspace, bool _allbuild);
+		bool buildAllFiles(cbProject * _pProject, bool _workspace, bool _allbuild);
 		/** \brief Built one file elegible necessary complement
-		 * @param _prj The active project.
+		 * @param _pProject The active project.
 		 * @param _fcreator  creator file
 		 * @return	true if building is correct
 		 */
-		bool buildOneFile(cbProject * _prj, const wxString& _fcreator);
-
+		bool buildOneFile(cbProject * _pProject, const wxString& _fcreator);
 
 		/** \brief Unregister a project file creator to 'qtPregen'
-		 *  @param f_ile : file name  (creator)
+		 *  @param _file : file name  (creator)
 		 *  @param _first : the first call to 'unregisterProjectFile(...)'
 		 *  @return	true if correct
 		 */
@@ -64,17 +62,59 @@ class qtPrebuild  : public qtPre
 		 *  @return	true if correct
 		 */
 		bool unregisterFileComplement(const wxString & _file, bool _first);
-		/**	\brief Remove one complement file to disk directory "adding\"
+		/**	\brief Remove one complement file to disk directory "m_dirPreBuild"
 		 *  @param  _filename : complement file name
 		 *  @param  _first :  it' first complement to remove
 		 * @return	true if correct
          */
 		bool removeComplementToDisk(const wxString & _filename, bool _first);
-		/** \brief Unregister a project file  to 'CB'
-		 *  @param _complement : file name
+		/** \brief Unregister an old target to 'CB'
+		 *  @param _oldTargetName : old target name
+		 *  @param _pProject ; the parent project
+		 *  @param  _first :  it' first complement to remove
 		 *  @return	true if correct
 		 */
-		//bool unregisterComplementToCB(const wxString & _file);
+		bool unregisterAllComplementsToCB(const wxString & _oldtTargetName, cbProject * _pProject,  bool _first);
+		/**	\brief Remove complement directory file to disk directory "m_dirPreBuild"
+		 *  @param  _oldTargetName : target name
+		 *  @return	true if correct
+         */
+		bool removeComplementDirToDisk(const wxString & _oldTargetName);
+
+		/** \brief Remove old path include table for executable
+		 * @param _pContainer:  builtarget
+		 * @param _oldTargetName : old target name
+		 * @return true if correct
+		 */
+		bool removeOldPathtoCB(ProjectBuildTarget* _pContainer, const wxString & _oldTargetName);
+		/** \brief Remove old executable
+		 * @param _pBuildTarget:  builtarget
+		 * @param _oldTargetName : old target name
+		 * @return true if correct
+		 */
+		bool removeOldExecutable(ProjectBuildTarget* _pBuildTarget, const wxString & _oldTargetName);
+
+		/** \brief Recursively deletes non-empty directories
+		 *	 @param _rmDir : dirrectory name
+		 *   @return true if it's
+		 */
+		bool recursRmDir(wxString _rmDir) ;
+
+		/** \brief Total updates of the new target
+		 *			- Unregister old complement files with CB
+		 *			- Unregister old complement files with the plugin (m_Registered, ...)
+		 *			- Remove old path include for new target
+
+		 *			- Removes old complements from the disk in 'm_dirPreBuild\\oldNameTarget\\*.*'
+		 *			- Deletes the old directories from the disk 'm_dirPreBuild\\oldNameTarget'
+		 *			- Removes objects (*.o) from the disk that are no longer used
+		 *			- Removes executables from the disk that are no longer used
+		 * @param _pBuildTarget : new target build
+		 * @param _oldTargetName : old target name
+		 * @return true if correct
+		 */
+		bool updateNewTargetName(ProjectBuildTarget * _pBuildTarget, const wxString & _oldTargetName);
+
 
 	private:
 
@@ -135,23 +175,23 @@ class qtPrebuild  : public qtPre
 		bool validCreated() ;
 
 		/**  \brief Reference string of libQt by target: "" or "4r" or "4d" or "5r" or "5d"
-		 *	 @param _buildtarget : 'ProjectBuildTarget*'
+		 *	 @param _pBuildTarget : 'ProjectBuildTarget*'
 		 *   @return reference string
 		 */
-		wxString refTargetQt(const ProjectBuildTarget * _buildtarget) ;
+		wxString refTargetQt(const ProjectBuildTarget * _pBuildTarget) ;
 
 		/**  \brief Find container path
-		 *	 @param _container : 'cbProject*' or 'ProjectBuildTarget*'
-		 * 	 	both inherited of  'CompileTargetBase'
+		 *	 @param _pContainer : 'cbProject*' or 'ProjectBuildTarget*'
+		 * 	 	both inherited of 'CompileTargetBase'
 		 *   @return path
 		 */
-		wxString pathlibQt(CompileTargetBase * _container) ;
+		wxString pathlibQt(CompileTargetBase * _pContainer) ;
 
 		/**  \brief Is whether the QT executables exist
-		 *	 @param _buildtarget : 'CompileTargetBase*' of used target
+		 *	 @param _pBuildTarget : 'CompileTargetBase*' of used target
 		 *   @return true if they exist all
 		 */
-		bool findTargetQtexe(CompileTargetBase * _buildtarget) ;
+		bool findTargetQtexe(CompileTargetBase * _pBuildTarget) ;
 
 		/**  \brief Read contents file
 		 *	 @param _filename : file name
@@ -222,7 +262,7 @@ class qtPrebuild  : public qtPre
 		 *  @param _arraystr : a table
 		 *  @return if it's
 		 */
-		bool noFile(const wxArrayString& _arraystr) ;
+		bool isNoFile(const wxArrayString& _arraystr) ;
 
 		/** \brief Search the number files to create
 		 *  @param _arraystr : a table
@@ -247,16 +287,16 @@ class qtPrebuild  : public qtPre
 									  const wxString& _fout) ;
 
 		/** \brief Retrieve path include table for executable
-		 * @param _container : receptacle
+		 * @param _pContainer : receptacle
 		 * @return string path include
 		 */
-		wxString pathIncludeMoc(CompileTargetBase * _container);
+		wxString pathIncludeMoc(const CompileTargetBase * _pContainer);
 
 		/** \brief Retrieve all defines table for executables
-		 * @param _container : receptacle
+		 * @param _pContainer : receptacle
 		 * @return string all defines
 		 */
-		wxString definesMoc(CompileTargetBase * _container) ;
+		wxString definesMoc(CompileTargetBase * _pContainer) ;
 
         /**  \brief Launch a command line
          *	 @param _command : command line
