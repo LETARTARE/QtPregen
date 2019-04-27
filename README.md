@@ -1,4 +1,4 @@
-# QtPregen-2.4.3 April 04, 2019 (Win-32, Linux-64)
+# QtPregen-2.4.3 April 27, 2019 (Win-32, Linux-64)
 
 Plugin to compile QT applications with 'Code::Blocks'
 
