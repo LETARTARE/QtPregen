@@ -1,0 +1,35 @@
+<unknown>:1: warning: the name `U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtprebuild.cpp' supplied as the second argument in the \file statement matches the following input files:
+   U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtprebuild.cpp
+   U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp
+Please use a more specific name by including a (larger) part of the path!
+<unknown>:1: warning: the name `U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtprebuild.h' supplied as the second argument in the \file statement matches the following input files:
+   U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtprebuild.h
+   U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.h
+Please use a more specific name by including a (larger) part of the path!
+<unknown>:1: warning: the name `U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp' supplied as the second argument in the \file statement matches the following input files:
+   U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtprebuild.cpp
+   U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp
+Please use a more specific name by including a (larger) part of the path!
+<unknown>:1: warning: the name `U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.h' supplied as the second argument in the \file statement matches the following input files:
+   U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtprebuild.h
+   U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.h
+Please use a more specific name by including a (larger) part of the path!
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:1017: warning: member with no name found.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:1018: warning: member with no name found.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:1020: warning: member with no name found.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:1832: warning: member removeDir belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:1862: warning: member filesTocreate belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:1932: warning: member compareDate belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:1953: warning: member modifyDate belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:1987: warning: member createFiles belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:2150: warning: member isNoFile belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:2168: warning: member nfilesToCreate belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:2191: warning: member createFileComplement belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:2272: warning: member createComplement belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:2309: warning: member pathIncludeMoc belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:2332: warning: member definesMoc belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:2353: warning: member validCreated belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.cpp:2385: warning: member executeAndGetOutputAndError belongs to two different groups. The second one found here will be ignored.
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.h:78: warning: argument '_oldTargetName' of command @param is not found in the argument list of qtPrebuild::unregisterAllComplementsToCB(const wxString &_oldtTargetName, cbProject *_pProject, bool _first)
+U:/Donnees/Svn_Compile/Cb/Tdm5103/Extensions/QtPregen/qtPregen-19/sdk-142/2.6.0/src/qtPrebuild.h:84: warning: The following parameters of qtPrebuild::unregisterAllComplementsToCB(const wxString &_oldtTargetName, cbProject *_pProject, bool _first) are not documented:
+  parameter '_oldtTargetName'

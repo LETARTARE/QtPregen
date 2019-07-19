@@ -2,13 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregen-2.4-11559(Unix)" />
+		<Option title="qtPregen-2.6-sdk142(Unix)" />
+		<Option platforms="Unix;" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[use cb11530 sdk 1.3.0
-patch revised 2.4-svn52]]>
+				<![CDATA[use cb11792 sdk 1.42.0]>
 			</notes>
 		</Option>
 		<Build>
@@ -24,15 +24,14 @@ patch revised 2.4-svn52]]>
 					<Add directory="src" />
 					<Add directory="$cb/include" />
 					<Add directory="$cb/include/tinyxml" />
-					<Add directory="$cb/plugins/compilergcc" />
-					<Add directory="$cb/plugins/codecompletion" />
 					<Add directory="$cb/sdk/wxscintilla/include" />
+					<Add directory="$cb/plugins/codecompletion" />
+					<Add directory="$(#cb11656)/plugins/codecompletion" />
 				</Compiler>
 				<Linker>
 					<Add option="`wx-config --libs  --version=2.8`" />
 					<Add library="codeblocks" />
 					<Add directory="$(cb)/devel" />
-					<Add directory="$cb/devel/share/CodeBlocks/plugins/" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip -j9 $(TARGET_NAME)/QtPregen.zip manifest.xml" />
@@ -40,7 +39,7 @@ patch revised 2.4-svn52]]>
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value='&quot;$(#cb11559)&quot;' />
+					<Variable name="cb" value='&quot;$(#sdk142)&quot;' />
 				</Environment>
 			</Target>
 			<Target title="cbqt5">

@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2019-02-04
+ * Modified:  2019-07-18
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -15,7 +15,7 @@
 ///-----------------------------------------------------------------------------
 /** Version
  */
-#define VERSION_QP _T("2.4.2")  // not used !
+#define VERSION_QP _T("2.5.0")  // not used !
 
 /** @brief end of line for Win/Linux/OX
  */
@@ -32,6 +32,9 @@
 #define 	SepD 	char(13) 	// 0xD, \n
 #define 	SepA 	char(10)	// 0xA, \r
 #define 	SizeSep 2
+/** @brief surrounded by 'Quote'
+ */
+#define 	quote(a)	(Quote + wxString(a) + Quote)
 /** \brief  for print an integer and a boolean
  */
 #define strInt(a)	(wxString()<<a)

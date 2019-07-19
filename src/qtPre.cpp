@@ -1,9 +1,9 @@
-/***************************************************************
+﻿/***************************************************************
  * Name:      qtpre.cpp
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-02-27
- * Modified:  2019-03-30
+ * Modified:  2019-07-18
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -33,7 +33,6 @@
 ///
 qtPre::qtPre(const wxString & _nameplugin, int _logindex)
 	: m_namePlugin(_nameplugin),
-	//  m_Mexe(_T("")), m_Uexe(_T("")), m_Rexe(_T("")), m_Lexe(_T("")),
 	  m_pm(Manager::Get()),
 	  m_pMam(Manager::Get()->GetMacrosManager() ),
 	  m_LogPageIndex(_logindex)
@@ -46,8 +45,7 @@ qtPre::qtPre(const wxString & _nameplugin, int _logindex)
 	m_Mac = true; m_Win = m_Linux = false;
 #endif
 	platForm();
-	//
-	//m_Moc = _T("moc"); m_UI = _T("ui"); m_Qrc = _T("qrc"); m_Lm = _T("qm") ;
+	Mes = wxEmptyString;
 }
 ///-----------------------------------------------------------------------------
 ///	Destructor
@@ -95,9 +93,10 @@ wxString qtPre::duration()
 void qtPre::beginDuration(const wxString & _namefunction)
 {
 // date
-	Mes = _T("start of ") + _namefunction  + _T(" : ") + date()  ;
-	printError(Mes);
+	Mes = Lf + _T("==> Start of ") + quote(_namefunction) + _T(" : ") + date()  ;
+	printWarn(Mes);
 	m_start = clock();
+	Mes.Clear();
 }
 
 ///-----------------------------------------------------------------------------
@@ -105,14 +104,16 @@ void qtPre::beginDuration(const wxString & _namefunction)
 ///
 void qtPre::endDuration(const wxString & _namefunction)
 {
-	Mes = _T("end of ") + _namefunction  + _T(" : ") + date() + _T(" -> ") + duration();
-	printError(Mes);
+	Mes = _T("<== End of ") + quote( _namefunction  ) + _T(" : ") + date();
+	Mes += _T(" -> ") + duration();
+	//printError(Mes);
+	printWarn(Mes);
+	Mes.Clear();
 }
 ///-----------------------------------------------------------------------------
 /// Give internal plugin name
 ///
-/// Called by :
-///		1. QtPregen::OnPrebuild(CodeBlocksEvent& event):1,
+/// Called by : none
 ///
 wxString qtPre::namePlugin()
 {
@@ -141,13 +142,17 @@ void qtPre::platForm()
 		m_TablibQt.Add(_T("qt5gui"),1) ;
 		m_TablibQt.Add(_T("qt5core"),1) ;
 		m_TablibQt.Add(_T("qt5widgets"),1) ;
+		m_TablibQt.Add(_T("qt5opengl"),1) ;
 		m_TablibQt.Add(_T("qt5printsupport"),1);
+		m_TablibQt.Add(_T("qt5serialport"),1) ;
 		m_TablibQt.Add(_T("qt5xml"),1) ;
 		// qt5
 		m_TablibQt.Add(_T("qt5guid"),1) ;
 		m_TablibQt.Add(_T("qt5cored"),1) ;
 		m_TablibQt.Add(_T("qt5widgetsd"),1);
+		m_TablibQt.Add(_T("qt5opengld"),1) ;
 		m_TablibQt.Add(_T("qt5printsupportd"),1);
+		m_TablibQt.Add(_T("qt5serialportd"),1) ;
 		m_TablibQt.Add(_T("qt5xmld"),1) ;
 	}
 
@@ -164,13 +169,17 @@ Mes = _T("Platform is 'Win'");
 		m_TablibQt.Add(_T("qt5gui"),1) ;
 		m_TablibQt.Add(_T("qt5core"),1) ;
 		m_TablibQt.Add(_T("qt5widgets"),1) ;
+		m_TablibQt.Add(_T("qt5opengl"),1) ;
 		m_TablibQt.Add(_T("qt5printsupport"),1);
+		m_TablibQt.Add(_T("qt5serialport"),1) ;
 		m_TablibQt.Add(_T("qt5xml"),1) ;
 			// <= qt5.9
 		m_TablibQt.Add(_T("qt5guid"),1) ;
 		m_TablibQt.Add(_T("qt5cored"),1) ;
 		m_TablibQt.Add(_T("qt5widgetsd"),1);
+		m_TablibQt.Add(_T("qt5opengld"),1) ;
 		m_TablibQt.Add(_T("qt5printsupportd"),1);
+		m_TablibQt.Add(_T("qt5serialportd"),1) ;
 		m_TablibQt.Add(_T("qt5xmld"),1) ;
 	}
 	else
@@ -203,16 +212,15 @@ wxString qtPre::GetVersionSDK()
 	uint16_t major 	= PLUGIN_SDK_VERSION_MAJOR
 			,minor 	= PLUGIN_SDK_VERSION_MINOR
 			,release= PLUGIN_SDK_VERSION_RELEASE;
-	Mes =  strInt(major) + _T(".") + strInt(minor) + _T(".") + strInt(release);
 
-    return  Mes ;
+    return  strInt(major) + _T(".") + strInt(minor) + _T(".") + strInt(release);
 }
 
 ///-----------------------------------------------------------------------------
 /// test clean
 ///
-///  Called by :
-///		none
+///  Called by :none
+///
 
 bool qtPre::isClean()
 {
@@ -247,9 +255,7 @@ void qtPre::setAbort()
 ///		2. QtPregen::onProjectFileRemoved(CodeBlocksEvent& _event):1,
 ///
 /// Calls to :
-/// 	1. qtPre::isVirtualTarget(const wxString& _nametarget, bool _warning=false):1,
-///		2. qtpre::listRealsTargets(const wxString& _nametarget):1,
-
+///
 void qtPre::setProject(cbProject * _pProject)
 {
 	bool good = _pProject != nullptr ;
@@ -257,22 +263,21 @@ void qtPre::setProject(cbProject * _pProject)
 	{
 		m_pProject = _pProject;
 		m_nameProject = m_pProject->GetTitle();
-		/// active target is perhaps virtual !!
+
 		m_nameActiveTarget = m_pProject->GetActiveBuildTarget();
-		if (isVirtualTarget(m_nameActiveTarget))
-			m_nameActiveTarget = listRealsTargets(m_nameActiveTarget).Item(0);
-//Mes = _T("Project name = ") + m_nameProject ;
-//Mes += _T(", first real m_nameActiveTarget = ") + Quote + m_nameActiveTarget + Quote;
-//print(Mes);
 		ProjectBuildTarget * pBuildTarget = m_pProject->GetBuildTarget(m_nameActiveTarget);
 		if (pBuildTarget)   setBuildTarget(pBuildTarget);
+		/// active target is virtual !!
+		else
+		//...
+			;
 	}
 	else
 		printError(_T(" Error in 'qtPre::setProject(_pProject == null)'") );
 }
 
 ///-----------------------------------------------------------------------------
-/// Set Set 'm_pBuildTarget'
+/// Set 'm_pBuildTarget'
 ///
 /// Called by :
 ///		1. qtPre::setProject(cbProject * _pProject):1,
@@ -281,15 +286,12 @@ void qtPre::setBuildTarget(ProjectBuildTarget * _pBuildTarget)
 {
 	if (_pBuildTarget)
 	{
-//Mes = _T(" setBuildTarget ... ") + _pBuildTarget->GetFullTitle() ;
-//print(Mes);
 		m_pBuildTarget = _pBuildTarget;
+	/// NO for a virtaual target
 		m_dirObjects =  m_pBuildTarget->GetObjectOutput();
-//Mes = _T("Before From target :: m_dirObjects = ") + Quote + m_dirObjects + Quote ;
-//printWarn(Mes);
         m_pMam->ReplaceMacros(m_dirObjects);
-//Mes = _T("From target :: m_dirObjects = ") + Quote + m_dirObjects + Quote ;
-//printWarn(Mes);
+        if (!m_dirObjects.Last() != Slash )
+				m_dirObjects += Slash;
 	}
 	else
 		printError(_T(" Error in 'qtPre::setBuildTarget(_pbuildtarget == null)'") );
@@ -336,14 +338,17 @@ wxString qtPre::complementDirectory() const
 ///
 bool qtPre::isComplementFile(const wxString & _file)
 {
-//Mes = _T("isComplementFile -> ") + _file ;
+//Mes = _T("isComplementFile ? -> ") + _file ;
 //printWarn(Mes);
 //print(allStrTable(_T("m_Registered"), m_Registered));
 
 // target name
 	m_nameActiveTarget = m_pProject->GetActiveBuildTarget() ;
+// if it is a virtual target, replace it with its first real target
+	virtualToFirstRealTarget(m_nameActiveTarget );
+
 	wxString filename = m_dirPreBuild + fullFilename(_file) ;
-//Mes = filename;
+//Mes = _T(" qtPre::isComplementFile : filename = ") + quote(filename);
 //printWarn(Mes);
 	int16_t  index = m_Registered.Index (filename);
 	bool ok = index != wxNOT_FOUND;
@@ -385,7 +390,7 @@ bool qtPre::isCreatorFile(const wxString & _file)
 ///
 /// Called by  :
 ///		1. qtPrebuild::buildOneFile(cbProject * _pProject, const wxString& _fcreator):1,
-///		2. qtPrebuild::unregisterFileComplement(const wxString & file, bool _creator, bool _first):1,
+///		2. qtPrebuild::unregisterComplementFile(const wxString & file, bool _creator, bool _first):1,
 ///		3. qtPrebuild::addAllFiles():1,
 ///
 wxString qtPre::nameCreated(const wxString& _file)
@@ -430,51 +435,121 @@ void qtPre::SetPageIndex(int _logindex)
 {
 	m_LogPageIndex = _logindex;
 }
+///-----------------------------------------------------------------------------
+/// Gives if a target is a command target
+///
+///	Called by :
+///
+///		1. qtPre::isCommandTarget(const wxString& _nametarget):1,
+///		2. qtPre::compileableProjectTargets():1,
+///		3. qtPre::compileableVirtualTargets(const wxString& _virtualtarget):1,
+///
+bool qtPre::isCommandTarget(const ProjectBuildTarget * _pBuildTarget)
+{
+	// virtual target ?
+	if (!_pBuildTarget)		return false;
+
+	return _pBuildTarget->GetTargetType() == ::ttCommandsOnly;
+}
+///-----------------------------------------------------------------------------
+/// Gives if a target is a command target
+///
+///	Called by :
+///
+///  	1. qtPre::detectQtTarget(const wxString& _nametarget, bool _report):1,
+///		2. qtPre::fullFileCreator(const wxString&  _fcreator, wxString _creatortarget):1,
+///		3. QtPregen::OnRenameProjectOrTarget(CodeBlocksEvent& _event):1,
+///
+bool qtPre::isCommandTarget(const wxString& _nametarget)
+{
+	return isCommandTarget(m_pProject->GetBuildTarget(_nametarget) );
+}
 
 ///-----------------------------------------------------------------------------
-/// Search virtual target
+/// Search virtual Qt target
 ///
 /// Called by  :
-///		1. listRealsTargets(const wxString& _nametarget):1,
-///		2. detectQtProject(cbProject * _pProject, bool _report):1,
-///		3. detectQtTarget(const wxString& _nametarget, cbProject * _pProject)
-///		4. qtPrebuild::findGoodfilesTarget():1,
-///		5. qtPrebuild::findGoodfiles():1,
+///		1. qtPre::detectQtTarget(const wxString& _nametarget, bool _report):1
 ///
-bool qtPre::isVirtualTarget(const wxString& _nametarget, bool _warning)
+bool qtPre::isVirtualQtTarget(const wxString& _namevirtualtarget, bool _warning)
 {
-	bool ok = m_pProject->HasVirtualBuildTarget(_nametarget);
-/*  NOT USED ...
-	if (_warning) {
-			Mes = _T("'") + namevirtualtarget + _T("'") ;
-			Mes += _(" is a virtual target !!") ;
-			Mes += Lf + _("NOT YET IMPLEMENTED...") ;
-			Mes += Lf + _("... you must use the real targets instead.")  ;
-			printError(Mes);
-			cbMessageBox(Mes, m_namePlugin + Space + _("plugin"), wxICON_ERROR)  ;
+	bool ok = m_pProject->HasVirtualBuildTarget(_namevirtualtarget);
+	if (ok)
+	{
+		//ProjectBuildTarget * pBuildTarget ;
+		wxArrayString realtargets = compileableVirtualTargets(_namevirtualtarget);
+		// search the first Qt targets
+		for (wxString target : realtargets)
+		{
+			ok = hasLibQt(m_pProject->GetBuildTarget(target));
+			if (ok) break;
+		}
+		if (ok && _warning)
+		{
+			Mes = quote(_namevirtualtarget) + _(" is a virtual 'Qt' target !!") ;
+			print(Mes);
+		}
 	}
-*/
 
 	return ok  ;
 }
 
 ///-----------------------------------------------------------------------------
-/// Search all not virtual target
+/// Search all not compileable target for project
+///	or Search all not compileable target for virtual project
 ///
 /// Called by  :
 ///		1. detectQtProject(cbProject * _pProject, bool _report):1,
-///		2. qtPrebuild::buildOneFile(cbProject * _pProject, const wxString& _fcreator):1,
 ///
-wxArrayString qtPre::listRealsTargets(const wxString& _nametarget)
+wxArrayString qtPre::compileableProjectTargets()
 {
-	wxArrayString realsTargets;
-	bool ok = m_pProject->HasVirtualBuildTarget(_nametarget);
-	if (ok)
-		realsTargets = m_pProject->GetExpandedVirtualBuildTargetGroup(_nametarget);
-	else
-	    realsTargets.Add(_nametarget);
+	wxArrayString compilTargets;
+	ProjectBuildTarget * pBuildTarget ;
+	uint16_t ntarget = m_pProject->GetBuildTargetsCount();
+	while (--ntarget)
+	{
+		pBuildTarget = m_pProject->GetBuildTarget(ntarget);
+		// virtual target ?
+		if(!pBuildTarget) continue;
+		// real command target ?
+		if (isCommandTarget(pBuildTarget) ) continue;
+		// a compileable target
+		compilTargets.Add(pBuildTarget->GetTitle());
+	}
 
-	return realsTargets;
+	return compilTargets;
+}
+
+///-----------------------------------------------------------------------------
+/// Search all not compileable target for project
+///	or Search all not compileable target for virtual project
+///
+/// Called by  :
+///		1. qtPre::detectQtProject(cbProject * _pProject, bool _report):1,
+///		2. qtPre::detectComplementsOnDisk(cbProject * _pProject, const wxString & _nametarget,  bool _report):1,
+///		3. qtPre::detectComplementsOnDisk(cbProject * _pProject, const wxString & _nametarget,  bool _report):1,
+///		4. qtPrebuild::buildOneFile(cbProject * _pProject, const wxString& _fcreator):1,
+///
+wxArrayString qtPre::compileableVirtualTargets(const wxString& _virtualtarget)
+{
+	wxArrayString compilTargets, realTargets;
+	ProjectBuildTarget * pBuildTarget ;
+	// search real targets : if is not a virtual target 'compilTargets' is empty
+	realTargets = m_pProject->GetExpandedVirtualBuildTargetGroup(_virtualtarget);
+	// the table may contain non-compileable targets
+	for (wxString target : realTargets)
+	{
+		// search 'ttCommandOnly' type
+		pBuildTarget = m_pProject->GetBuildTarget(target);
+		if (!pBuildTarget) 	continue;
+		// real command target ?
+		if (isCommandTarget(pBuildTarget) ) continue ;
+
+		// good target
+		compilTargets.Add(pBuildTarget->GetTitle());
+	}
+
+	return compilTargets;
 }
 
 ///-----------------------------------------------------------------------------
@@ -487,185 +562,145 @@ wxArrayString qtPre::listRealsTargets(const wxString& _nametarget)
 ///		4. QtPregen::OnAddComplements(CodeBlocksEvent& _event):1,
 ///
 /// Calls to :
-///		1. isVirtualTarget(const wxString& _nametarget, bool _warning=false):1,
-///		2. listRealsTargets(const wxString& _nametarget):1,
-///		3. findLibQtToTargets():2,
-///		4. hasLibQt(CompileTargetBase * _pContainer):1,
+///		1. hasLibQt(CompileTargetBase * _pContainer):1,
+///		// 2. qtPre::detectQtTarget(const wxString& _nametarget, bool _report)
 ///
 bool qtPre::detectQtProject(cbProject * _pProject, bool _report)
 {
-//Mes = _T("=> 'qtPre::detectQtProject(...)'") ;
-//printWarn(Mes);
-	if (! _pProject)
-		return false;
+	if (! _pProject)	return false;
 
-// project name
+// libraries Qt in project and targets
 	m_pProject = _pProject;
-	m_nameProject = m_pProject->GetTitle() ;
-//Mes = _T("m_nameProject = ") + m_nameProject;
-//printWarn(Mes);
-    m_nameActiveTarget = m_pProject->GetActiveBuildTarget();
-/// TO REVIEW ...
-// attention : might be virtual target !
-	if (isVirtualTarget(m_nameActiveTarget))
-    // peek the first real target
-		m_nameActiveTarget = listRealsTargets(m_nameActiveTarget).Item(0);
-//Mes = _T("first real target = ") + m_nameActiveTarget;
-//printWarn(Mes);
-    ProjectBuildTarget* pBuildTarget =  m_pProject->GetBuildTarget(m_nameActiveTarget) ;
-    if (!pBuildTarget)
-		return false;
+	bool isQtProject =  hasLibQt(m_pProject);
+	// search in compileable targets
+	if (!isQtProject)
+		for( wxString target: compileableProjectTargets())
+			if (isQtProject = hasLibQt(m_pProject->GetBuildTarget(target)))
+				break;
 
-//Mes = _T("pBuiltarget-> Title = ") + pBuildtarget->GetFullTitle();
-//printWarn(Mes);
-// option relation target <-> project for compiler
-    OptionsRelation rel = pBuildTarget->GetOptionRelation(ortCompilerOptions);
-//Mes = _T("rel = ") + strInt((int)rel);
-//printWarn(Mes);
-/** rel =
- *   orUseParentOptionsOnly = 0,
- *   orUseTargetOptionsOnly = 1,   : independent target
- *   orPrependToParentOptions = 2,
- *   orAppendToParentOptions = 3,
- */
-    bool ok03 = false, ok12 = false;
-// use parent only or append target to parent ?
-    // 0 or 3
-    if (rel == orUseParentOptionsOnly || rel == orAppendToParentOptions)
-    {
-        // search libraries to project
-        ok03 = hasLibQt(m_pProject) ;
-        if (!ok03 && rel == orAppendToParentOptions)
-         // search libraries to all targets
-            ok03 = findLibQtToTargets();
-    }
-//Mes = _T("ok03 = ") + strInt((int)ok03);
-//printWarn(Mes);
-
-// use target only or prepend target to parent ?
-    // 1 or 2
-    if (rel == orUseTargetOptionsOnly || rel == orPrependToParentOptions)
-    {
-         // search libraries to targets
-        ok12 = findLibQtToTargets();
-//Mes = _T("ok12 = ") + strInt((int)ok12);
-//printWarn(Mes);
-        if (!ok12 && rel == orPrependToParentOptions)
-        // search libraries to project
-            ok12 = hasLibQt(m_pProject) ;
-    }
-//Mes = _T("ok12 = ") + strInt((int)ok12);
-//printWarn(Mes);
-	bool valid = ok03 || ok12;
-	if (valid)
+	if (isQtProject)
 	{
 		if (_report)
 		{
-			wxString  title = _("The project") + Space + m_nameProject + Space + _("uses Qt libraries !") ;
-			Mes = Quote + m_namePlugin + Quote + Space + _("will generate the complements files...") ;
-			InfoWindow::Display(title, Mes, 5000);
-			// to Code::Blocks log
-			//Print(title + Space + Mes) ;
+			wxString nametarget = m_pProject->GetTitle() ;
+			wxString title = _("The project") + Space + quote(m_nameProject) + Space + _("uses Qt libraries !") ;
+			wxString txt = Space + quote( m_namePlugin ) + Space + _("will generate the complements files...") ;
+			// also to Code::Blocks log
+			InfoWindow::Display(title, txt, 5000);
 		}
-
-		bool usemake = m_pProject->IsMakefileCustom() ;
-		if(usemake)
+		// usemake ?
+		if( m_pProject->IsMakefileCustom())
 		{
 			Mes = _T("... but please, DISABLE using of custom makefile");
-			Mes += Lf + Quote + m_namePlugin + Quote + _T(" not use makefile.");
+			Mes += Lf + quote(m_namePlugin) + _T(" not use makefile.");
 			print(Mes);
-
 			Mes += Lf + _("CAN NOT CONTINUE !") ;
 			cbMessageBox(Mes, _("Used makefile !!"), wxICON_WARNING ) ;
-			valid = false;
+
 			Mes = m_namePlugin + _T(" -> ") + _("end") + _T(" ...");
 			printWarn(Mes);
-			return valid ;
+			isQtProject = false;
 		}
 	}
 
-	return valid;
+	return isQtProject;
 }
+
 ///-----------------------------------------------------------------------------
-/// Detection of a 'Qt' Target
+/// If virtual target give the real fist target
 ///
 /// Called by  :
-///		1. QtPregen::OnActivateProject(CodeBlocksEvent& _event):1,
-///		2. QtPregen::OnNewProject(CodeBlocksEvent& _event):1,
+///		1. qtPrebuild::findGoodfiles():1,
+///		2. qtPre::isComplementFile(const wxString & _file):1,
+///
+bool qtPre::virtualToFirstRealTarget(wxString& _virtualtarget, bool _warning)
+{
+	// verify if it'a a virtual target
+	if (!m_pProject->HasVirtualBuildTarget(_virtualtarget)) return false;
+	// the first real target not command target
+	_virtualtarget = compileableVirtualTargets(_virtualtarget).Item(0);
+	if (_warning) {
+			Mes = quote( _virtualtarget );
+			Mes += _(" it is a virtual target, ");
+			Mes += _("that is replaced by his first real target ") ;
+			Mes += quote( _virtualtarget );
+			printWarn(Mes);
+	}
+//Mes = _T(" _virtualtarget =  ") + quote(_virtualtarget);
+//print(Mes);
+
+	return !_virtualtarget.IsEmpty();
+}
+
+///-----------------------------------------------------------------------------
+/// Detection of a 'Qt' target
+///
+/// Called by  :
+///		1. qtPre::detectComplementsOnDisk(cbProject * _pProject, const wxString & _nametarget,  bool _report):1,
+///		2. QtPregen::OnActivateTarget(CodeBlocksEvent& _event):1,
 ///		3. QtPregen::OnRenameProjectOrTarget(CodeBlocksEvent& _event):1,
-///		4. QtPregen::OnActivateTarget(CodeBlocksEvent& _event):1,
+///		4. QtPregen::OnNewProject(CodeBlocksEvent& _event):1,
 ///
 /// Calls to :
-///		1. isVirtualTarget(const wxString& _nametarget, bool _warning):1,
+///		1. qtPre::hasLibQt(CompileTargetBase * _pContainer):1,
 ///
-bool qtPre::detectQtTarget(const wxString& _nametarget, cbProject * _pProject)
+bool qtPre::detectQtTarget(const wxString& _nametarget, bool _report)
 {
-	bool ok = false;
-	if(!_pProject || _nametarget.IsEmpty())
-		return ok;
-// is virtual target ?
-	if (isVirtualTarget(_nametarget, WITH_WARNING))
-		return ok;
-//Mes =  Tab + Quote + nametarget + Quote + _T(" is NOT virtual") ;
-//printWarn(Mes);
+	bool ok = false ;
+	if(!m_pProject)  return ok;
+	if (isCommandTarget(_nametarget)) 	return ok;
 
-	m_pProject = _pProject;
-// is a real target
-	ProjectBuildTarget * pBuildTarget = m_pProject->GetBuildTarget(_nametarget);
-	if (! pBuildTarget)
-		return ok;
-//Mes =  Tab + Quote + nametarget + Quote + _T(" exists") ;
+//Mes = _T("qtpre::detectQtTarget -> ") + quote( _nametarget ) ;
 //printWarn(Mes);
-	ok = hasLibQt(pBuildTarget);
-	if (!ok)
+	// is one virtual target
+	bool virtQt = isVirtualQtTarget(_nametarget);
+	wxArrayString compilTargets;	//
+	if (virtQt)
 	{
-		// search into project libraries only, not others targets
-
+		compilTargets =  compileableVirtualTargets(_nametarget);
+		if (_report)
+		{
+			Mes = Tab + quote(_T("::") + _nametarget) + Space;
+			Mes += _("is a virtual 'Qt' target that drives ...");
+			printWarn(Mes);
+		}
 	}
-//Mes = _T("detectQtTarget(...) = ") + strBool(ok);
-//printWarn(Mes);
+	else
+		compilTargets.Add(_nametarget) ;
 
-	return ok;
-}
+/// all compileable targets
+	bool goodQt = false;
+	for (wxString target : compilTargets)
+	{
+//Mes = _T("compare : ") + quote( target) +  _T(", ") + quote( _nametarget);
+//print(Mes);
+		ok = hasLibQt(m_pProject->GetBuildTarget(target));
+//Mes = strBool(ok) ; printError(Mes);
+		if (_report)
+		{
+			if (virtQt) 	Mes = Tab ;
+			else			Mes = wxEmptyString;
+		//Mes += _T("qtpre::detectQtTarget ->");
+			Mes += Tab + quote( _T("::") + target) + Space;
+		// advices
+			Mes += _("is") + Space;
+			if(!ok)		Mes += _("NOT") + Space;
+			Mes += _("a Qt target.");
+			print(Mes);
+		}
+		goodQt = goodQt || ok ;
+	}
+//Mes = strBool(goodQt) ; printError(Mes);
 
-///-----------------------------------------------------------------------------
-/// Return true if find library QT in targets of 'm_pProject'
-///
-/// Called by  :
-///		1. detectQtProject(cbProject * _pProject, bool _report = false):2,
-///
-///	Calls to :
-///		1. hasLibQt(CompileTargetBase * _pContainer):1,
-///
-bool qtPre::findLibQtToTargets()
-{
-    bool ok = false ;
-// search library to targets
-    ProjectBuildTarget* pBuildTarget;
-    uint16_t nt = 0 , ntargets = m_pProject->GetBuildTargetsCount() ;
-    while (nt < ntargets && ! ok )
-    {
-    // retrieve the target libraries  'ProjectBuildTarget* pBuildTarget'
-        pBuildTarget = m_pProject->GetBuildTarget(nt++) ;
-        if (!pBuildTarget)
-            continue ;
-//Mes = strInt(nt) + _T(" -> ") + Quote + buildtarget->GetTitle() + Quote;
-//printWarn(Mes);
-        ok = hasLibQt(pBuildTarget) ;
-        if (ok)
-            break;
-    }
-//Mes = _T("findLibQtToTargets() = ") + strBool(ok);
-//printWarn(Mes);
-
-    return ok;
+	return goodQt;
 }
 
 ///-----------------------------------------------------------------------------
 /// Return true if good  'CompileTargetBase* container'
 ///
 /// Called by  :
-///		1. detectQtProject(cbProject * _pProject, bool _report = false):2,
+///		1. qtPre::detectQtProject(cbProject * _pProject, bool _report = false):1,
+///		2. qtPre::detectQtTarget(const wxString& _nametarget, bool _report):1,
 ///		2. findLibQtToTargets():1,
 ///
 bool qtPre::hasLibQt(CompileTargetBase * _pContainer)
@@ -673,8 +708,7 @@ bool qtPre::hasLibQt(CompileTargetBase * _pContainer)
 //Mes = _T("into 'qtPre::hasLibQt(...)'") ;
 //printWarn(Mes);
 	bool ok = false;
-	if (!_pContainer)
-		return ok;
+	if (!_pContainer) 	return ok;
 
 	wxArrayString tablibs = _pContainer->GetLinkLibs() ;
 	uint16_t nlib = tablibs.GetCount() ;
@@ -689,7 +723,7 @@ bool qtPre::hasLibQt(CompileTargetBase * _pContainer)
 		{
 			// lower, no extension
 			namelib = tablibs.Item(u++).Lower().BeforeFirst('.') ;
-//Mes = strInt(u) + _T(" -> ") + Quote + namelib + Quote;
+//Mes = strInt(u) + _T(" -> ") + quote( namelib );
 //printWarn(Mes);
 			// no prefix "lib"
 			pos = namelib.Find(_T("lib")) ;
@@ -699,8 +733,7 @@ bool qtPre::hasLibQt(CompileTargetBase * _pContainer)
 			pos = namelib.Find(_T("qt")) ;
 //Mes = _T("pos 'qt' = ") + strInt(pos);
 //printWarn(Mes);
-			if (pos != 0)
-				continue ;
+			if (pos != 0) 		continue ;
 			// find
 /// ATTENTION : the table should then contain all Qt libraries !!
 			index = m_TablibQt.Index(namelib);
@@ -719,81 +752,6 @@ bool qtPre::hasLibQt(CompileTargetBase * _pContainer)
 }
 
 ///-----------------------------------------------------------------------------
-/// Create a new directory,transfer all files to the new directory, delete old
-///	directory
-///
-/// calle by :
-///		1. QtPregen::OnRenameProjectOrTarget(CodeBlocksEvent& _event):1,
-/*
-bool qtPre::newNameComplementDirTarget(wxString & _newname, wxString & _oldname)
-{
-/// _oldname NOT USED ??
-	m_dirProject = m_pProject->GetBasePath();
-	wxFileName::SetCwd (m_dirProject);
-//Mes = _T("dirproject = ") + Quote + m_dirProject + Quote;
-//printWarn(Mes);
-	wxString complementDir = m_dirPreBuild + _oldname ;
-	bool ok = wxFileName::DirExists(complementDir);
-	if (ok)
-	{
-Mes = _T("this old repertory exists :") + Quote +  complementDir  + Quote;
-printWarn(Mes);
-      //  wxFileName filesystem;
-		//filesystem.AssignDir(m_dirPreBuild);
-		ok = ::wxRenameFile( complementDir, m_dirPreBuild + _newname);
-		if (ok)
-		{
-			complementDir = m_dirPreBuild + _newname ;
-			ok = wxFileName::DirExists(complementDir);
-			if (ok)
-			{
-				Mes = _T("this new repertory exists :") + Quote +  complementDir  + Quote;
-				printWarn(Mes);
-			}
-		}
-		else
-		{
-			Mes = _T("this repertory NOT exists : ") + Quote + complementDir + Quote;
-			printError(Mes);
-		}
-
-	}
-
-	return ok;
-}
-*/
-///-----------------------------------------------------------------------------
-/// Change old to new directory of complements
-///
-/// calle by :
-///		1. QtPregen::OnRenameProjectOrTarget(CodeBlocksEvent& _event):1,
-/*
-bool qtPre::renameDirTargetComplements(wxString & _oldname, wxString & _newname)
-{
-/// _oldname NOT USED ??
-	m_dirProject = m_pProject->GetBasePath();
-	wxFileName::SetCwd (m_dirProject);
-Mes = _T("m_dirproject = ") + Quote + m_dirProject + Quote;
-Mes += _T(", m_dirPreBuild = ") + Quote + m_dirPreBuild + Quote;
-printWarn(Mes);
-	bool ok = wxFileName::DirExists(m_dirPreBuild);
-	if (ok)
-	{
-        wxFileName filesystem;
-		filesystem.AssignDir(m_dirPreBuild);
-	// create a new directory
-		ok = filesystem.Mkdir(_newname);
-	// copy old directory
-		if (ok)
-		{
-			//
-		}
-
-	}
-	return ok;
-}
-*/
-///-----------------------------------------------------------------------------
 /// Detects already existing complement files in the project and
 ///	populates complement tables with existing files
 ///
@@ -803,65 +761,116 @@ printWarn(Mes);
 ///		3. QtPregen::OnAddComplements(CodeBlocksEvent& _event):1,
 ///
 /// Calls to :
-///		1. refreshTables():1,
+///		1. qtPre::refreshTables():1,
 
 bool qtPre::detectComplementsOnDisk(cbProject * _pProject, const wxString & _nametarget,  bool _report)
 {
 /// DEBUG
-//* **********************************
+//* *********************************************************
 //	beginDuration(_T("qtPre::detectComplementsOnDisk(...)"));
-//* *********************************
-	if (!_nametarget.IsEmpty())
-		m_nameActiveTarget = _nametarget;
+//* *********************************************************
 	m_dirProject = _pProject->GetBasePath();
 	wxFileName::SetCwd (m_dirProject);
-	wxString diradding = m_dirPreBuild + m_nameActiveTarget ;
-//Mes = _T("diradding  = ") + Quote + diradding  + Quote;
-//printWarn(Mes);
-	bool ok = wxDirExists(diradding);
+
+	size_t n ;
+	bool ok = wxDirExists(m_dirPreBuild);
+//Mes = _T("m_dirPreBuild = ") + quote( m_dirPreBuild ) + _T(",  ok = ") +  strBool(ok);
+//print(Mes);
+	// it's an old project already compiled once
 	if (ok)
 	{
+	// deregister all old complement
 		m_Filewascreated.Clear();
-	// register all complement files in 'm_Filewascreated'
-		size_t n = wxDir::GetAllFiles(m_dirPreBuild, &m_Filewascreated );
-	// complement files in target
-		wxArrayString  filewascreated;
-		n = wxDir::GetAllFiles(diradding, &filewascreated );
-		Mes = Tab + _(", with") + Space;
-		if (_report)
-		{
-			if (n)
-			{
-				Mes += strInt(n) ;
-				Mes += Space + _("complement files already created on disk in") ;
-				Mes += Space + Quote + diradding + Quote;
-			}
-			else
-			{
-				Mes += _("no complement file to disk.") ;
-			}
-			print(Mes);
-		}
-		Mes = wxEmptyString;
-		ok = ! m_Filewascreated.IsEmpty();
-	// rebuild all tables
+	// register all new complement files in 'm_Filewascreated'
+		n = wxDir::GetAllFiles(m_dirPreBuild, &m_Filewascreated );
+//Mes = _T(" n = ") + strInt(n) ;
+//print(Mes);
+		ok = n && !m_Filewascreated.IsEmpty();
 		if (ok)
 		{
+		// initializes all other tables
 			refreshTables();
+			//refreshTables(WITH_DEBUG);
+		// we have to do it for compileable targets Qt
+			wxArrayString compilTargets;
+			bool virt = m_pProject->HasVirtualBuildTarget(_nametarget);
+			if (virt)
+				compilTargets = compileableVirtualTargets(_nametarget);
+			else
+				compilTargets.Add(_nametarget);
+
+			bool isQtTarget;
+			for (wxString target : compilTargets)
+			{
+				isQtTarget = detectQtTarget(target, NO_REPORT) ;
+	//	Mes = _T("target = ") + quote(target) + _T(", isQtTarget:") + strBool(isQtTarget);
+	//	print(Mes);
+				if (!isQtTarget) 	continue;
+
+				wxString diradding = m_dirPreBuild + target ;
+	//	Mes = _T("diradding  = ") + quote( diradding  );
+	//	printWarn(Mes);
+				ok = wxDirExists(diradding);
+				if (ok)
+				{
+					wxArrayString  filewascreated;
+					n = wxDir::GetAllFiles(diradding, &filewascreated );
+					if (_report)
+					{
+						if (virt)	Mes = Tab;
+						else 		Mes = wxEmptyString;
+						Mes +=  Tab + quote(_T("::") + target) + Space;
+						// advices
+						Mes += _("is") + Space;
+						if(!ok)		Mes += _("NOT") + Space;
+						Mes += _("a Qt target");
+						Mes +=  _(", with") + Space;
+						if (n)
+						{
+							Mes += strInt(n) ;
+							Mes += Space + _("complement files already created on disk in") ;
+							Mes += Space + quote( diradding );
+						}
+						else
+						{
+							Mes += _("no complement file to disk.") ;
+						}
+						print(Mes);
+					}
+				}
+				else
+				if (_report)
+				{
+					Mes =  _("The directory ") + quote(diradding);
+					Mes += _(" no exists !!");
+					printError(Mes) ;
+				}
+			} // end for
 		}
-	// error complements ?
-		else
-		{
-			// advice ?
-		//	Mes =  _("Complements detected error !!");
-		//	printError(Mes) ;
+		else{
+			Mes =  Tab+ _T("=> ") + _("The directory ") + quote(m_dirPreBuild);
+			Mes += Space + _("is empty") ;
+			Mes += _T(" !! ,");
+			Mes += _("you need to 'Rebuild' the project.");
+			printWarn(Mes) ;
 		}
+	}
+	else
+	// it's a new project or people has deleted 'm_dirPreBuild' !
+	if (_report)
+	{
+		//Mes = _T("qtPre::detectComplementsOnDisk -> ");
+		Mes =  Tab+ _T("=> ") + _("The directory of complements does not exist") ;
+		Mes += _T(" ! ,");
+		Mes += _("you need to 'Rebuild' the project.");
+		printError(Mes);
 	}
 
 /// DEBUG
-//* **********************************
+//* *******************************************************
 //	endDuration(_T("qtPre::detectComplementsOnDisk(...)"));
-//* *********************************
+//* *******************************************************
+	Mes.Clear();
 
 	return ok;
 }
@@ -870,19 +879,18 @@ bool qtPre::detectComplementsOnDisk(cbProject * _pProject, const wxString & _nam
 ///	Refresh all the tables
 ///
 ///	Called by :
-///		-# detectComplementsOnDisk(cbProject * _pProject, const wxString & çnametarget,  bool çreport):1,
+///		1. detectComplementsOnDisk(cbProject * _pProject, const wxString & çnametarget,  bool çreport):1,
+///
 ///	Calls to :
 ///		1. copyArray (const wxArrayString& _strrarray, int _nlcopy = 0):2,
 ///		2. wasCreatedToCreator(const wxArrayString& _strarray):1,
 ///
 bool qtPre::refreshTables(bool _debug)
 {
-//Mes = _T("qtPre::refreshTables(...)");
-//print(Mes);
 /// DEBUG
-//* **********************************
+//* ***********************************************
 //	beginDuration(_T("qtPre::refreshTables(...)"));
-//* *********************************
+//* ***********************************************
 	bool ok = true;
 
 	m_Registered.Clear();
@@ -919,9 +927,11 @@ bool qtPre::refreshTables(bool _debug)
 	}
 
 /// DEBUG
-//* **********************************
+//* *********************************************
 //	endDuration(_T("qtPre::refreshTables(...)"));
-//* *********************************
+//* *********************************************
+	Mes.Clear();
+
 	return ok;
 }
 
@@ -965,8 +975,8 @@ wxString qtPre::allStrTable(const wxString& _title, const wxArrayString& _strarr
 //Mes = _T("qtPre::allStrTable ...");
 //printError(Mes);
 	wxString mes = _T("--------- debug --------------");
-	mes += Lf + Quote + m_dirProject + Quote ;
-	mes += Lf +_T("=> ") + Quote + _title + Quote ;
+	mes += Lf + quote( m_dirProject ) ;
+	mes += Lf +_T("=> ") + quote( _title ) ;
 	uint16_t nl = _strarray.GetCount();
 	mes += _T(" : ") + strInt(nl) + Space + _("files") ;
 	for (uint16_t u = 0; u < nl; u++)
@@ -974,7 +984,7 @@ wxString qtPre::allStrTable(const wxString& _title, const wxArrayString& _strarr
 	// read strarray line from  '1' ... 'nl'
 		mes += Lf + strInt(u+1) + _T("- ") + _strarray.Item(u) ;
 	}
-	mes +=  Lf + _T("---------end  debug ------------") ;
+	mes +=  Lf + _T("--------- end  debug ------------") ;
 
 	return mes;
 }
@@ -984,9 +994,10 @@ wxString qtPre::allStrTable(const wxString& _title, const wxArrayString& _strarr
 /// reverse a 'wxArrayString' to an another
 ///
 /// Called by  :
-///		1. refreshTables():1,
+///		1. qtPre::refreshTables():1,
+///
 ///	Calls to :
-///		1. toFileCreator(const wxString& _fcreated):n,
+///		1. qtPre::toFileCreator(const wxString& _fcreated):n,
 ///
 wxArrayString qtPre::wasCreatedToCreator()
 {
@@ -996,32 +1007,47 @@ wxArrayString qtPre::wasCreatedToCreator()
 	wxString fullnameCreator;
 	for (wxString fcreated: m_Filewascreated)
 	{
-		fullnameCreator = toFileCreator(fcreated.AfterLast(Slash))  ;
+//Mes = _T("	fcreated = ") + quote(fcreated) ;
+//printWarn(Mes);
+		fullnameCreator = toFileCreator(fcreated)  ;
 	//add to array
 		tmp.Add(fullnameCreator);
 	}
 
 	return tmp;
 }
-
 ///-----------------------------------------------------------------------------
 /// For create  'creator files' from  'created files'
 /// reverse a (string' to an another
 ///
 /// Called by  :
-///		1. wasCreatedToCreator():1,
-///	Calls to :
-///		1. fullFileCreator(const wxString& _fcreator):1,
+///		1. qtPre::wasCreatedToCreator():1,
 ///
-wxString qtPre::toFileCreator(const wxString& _fcreated)
+///	Calls to :
+///		1. qtPre::fullFileCreator(const wxString& _fcreator):1,
+///
+wxString qtPre::toFileCreator(const wxString &_fcreated)
 {
-	wxString fcreator , prepend, ext, name, fullname;
-//Mes = _T(" fcreated = ") + Quote + fcreated + Quote ;
-//printWarn(Mes);
-	prepend = _fcreated.BeforeFirst('_') ;
-	name = _fcreated.AfterFirst('_') ;
+	wxString target, fcreated, fcreator , prepend, ext, name, fullname;
+//Mes = _T(" ::toFileCreator :: _fcreated = ") + quote(_fcreated ) ; printWarn(Mes);
+	target = _fcreated.AfterFirst(Slash).BeforeFirst(Slash);
+//Mes = _T(" target = ") + quote(target) ; printWarn(Mes);
+	fcreated = _fcreated.AfterLast(Slash);
+//Mes = _T(" fcreated = ") + quote(fcreated ) ; printWarn(Mes);
+	if (fcreated.Contains(_T("_")) )
+	{
+		prepend = fcreated.BeforeFirst('_') ;
+		name = fcreated.AfterFirst('_') ;
+	}
+	/// 'xxx.moc'
+	else
+	{
+		name = fcreated;
+	}
+//Mes = _T(" 		prepend = ") + quote(prepend) ; printWarn(Mes);
+//Mes = _T(" 		name = ") + quote(name) ; printWarn(Mes);
 	name = name.BeforeFirst('.');
-	ext = _fcreated.AfterLast('.');
+	ext = fcreated.AfterLast('.');
 //1- file 'ui_uuu.h'  (forms)  -> 'uuu.ui'
 	if ( prepend.Matches(m_UI) && ext.Matches(EXT_H))
 		fcreator =  name + DOT_EXT_UI ;
@@ -1033,13 +1059,14 @@ wxString qtPre::toFileCreator(const wxString& _fcreated)
 //4- file 'moc_mmm.cpp'  -> 'mmm.h'
 	if (prepend.Matches(m_Moc) )
 		fcreator =  name + DOT_EXT_H ;
+	else
 //5- file 'xxx.moc'  -> 'xxx.cpp'
-	if (ext.Matches(m_Moc) )
+	if (prepend.IsEmpty() && ext.Matches(m_Moc) )
 		fcreator =  name + DOT_EXT_CPP ;
 //6- full name
-	fullname = fullFileCreator(fcreator);
-//Mes = _T(" fcreator = ") + Quote + fcreator + Quote ;
-//Mes += _T(" ->  fullname = ") + Quote + fullname + Quote ;
+	fullname = fullFileCreator(fcreator, target);
+//Mes = _T(" fcreator = ") + quote( fcreator ) ;
+//Mes += _T(" ->  fullname = ") + quote( fullname ) ;
 //printWarn(Mes);
 
 	return fullname;
@@ -1050,59 +1077,45 @@ wxString qtPre::toFileCreator(const wxString& _fcreated)
 ///		example 'parserfile.h' => 'src/parser/parserfile.h'
 ///
 /// Called by  :
-///		1. toFileCreator(const wxString& _fcreated):1,
+///		1. qtPre::toFileCreator(const wxString& _fcreated):1,
 ///
-
-wxString qtPre::fullFileCreator(const wxString&  _fcreator)
+wxString qtPre::fullFileCreator(const wxString&  _fcreator, wxString _creatortarget)
 {
 	wxString fullname = wxEmptyString ;
-	if (!m_pProject || !m_pBuildTarget)
+	if (!m_pProject)
 		return fullname;
-//Mes = Tab + _T(" ==> search fcreator = ") + Quote + fcreator + Quote ;
-// all files project
-	uint16_t nfproject = m_pProject->GetFilesCount();
-	if (!nfproject)
-		return fullname;
-
+//Mes = Tab + _T(" ==> search _fcreator = ") + quote( _fcreator ) ;
+//Mes += _T(" of target :") + quote(_creatortarget);
+//printWarn(Mes);
 	ProjectFile * prjfile ;
-	ProjectBuildTarget* pBuildTarget;
-	wxArrayString tabtargets ;
 	bool good = false;
-	for (uint16_t  nf = 0; nf < nfproject ; nf++)
+	// all files of the project
+	for (uint16_t  nf = 0; nf < m_pProject->GetFilesCount() ; nf++)
 	{
+		// get a file of the project
 		prjfile = m_pProject->GetFile(nf);
-        if (!prjfile)
-			continue;
-        // all real build targets
-		tabtargets = prjfile->GetBuildTargets() ;
-		for ( wxString nametarget : tabtargets)
-		{
-			if(nametarget.Matches(m_nameActiveTarget) )
-			{
-				pBuildTarget = m_pProject->GetBuildTarget(nametarget);
-				if (pBuildTarget->GetTargetType() == ttCommandsOnly)
-				   continue;
-//wxString mes = _("nametarget = ") + Quote + nametarget + Quote;
-				fullname  = prjfile->relativeToCommonTopLevelPath ;
-				if (fullname.IsEmpty() || fullname.StartsWith(m_dirPreBuild) )
-					continue;
-//mes += _(" => fullname = ") + Quote + fullname+ Quote;
-//printWarn(mes);
-				good = fullname.Contains(_fcreator);
-				if (good)
-					break;
-			}
-		}
+        if (!prjfile) 	continue;
+        // search in all the real targets of the file
+		if (prjfile->GetBuildTargets().Index(_creatortarget) == wxNOT_FOUND)	continue;
+		// is a command target : it's possible ?
+		if (isCommandTarget(_creatortarget) )	continue;
+
+		// read the relative file name
+		fullname = prjfile->relativeToCommonTopLevelPath ;
+		// we found the file ?
+		good = fullname.AfterLast(Slash).Matches(_fcreator);
 		if (good)
 			break;
 	}
+
 	if (!good)
 	{
-		Mes = _T("The") + Space + Quote + _fcreator + Quote ;
+		Mes = _T("The") + Space + quote( _fcreator ) ;
 		Mes += Space + _T("file is missing in the CB project !");
 		printError(Mes);
 		fullname = wxEmptyString ;
 	}
+//Mes = _(" => fullname = ") + quote( fullname);print(Mes);
 
 	return fullname;
 }

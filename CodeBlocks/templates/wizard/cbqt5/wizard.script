@@ -4,23 +4,25 @@
 //
 // Project	: CbQt5 project  :  (with Qt5.x only)
 // Author	: LETARTARE http://forums.codeblocks.org
-// Modified	: LETARTARE December 10, 2018
+// Modified	: LETARTARE June 18, 2019
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 // globals
-QtPathDefault5   <- _T("$(#qt59)");
+QtPathDefault5   <- _T("$(#qt5)");
 QtPathDefaultInc <- _T("");
 QtPathDefaultLib <- _T("");
 QtPath5 <- _T("");
 QtPathSpecs <- _T("mkspecs") + wxFILE_SEP_PATH + _T("win32-g++") ;
 // not used here
 QtVersion <- _T("");
+// local
+QtLocalPathQt	 <- _T("qt");
 
 function BeginWizard()
 {
     local intro_msg = _("Welcome to the new 'Qt Group Plc' CbQt5 project wizard!\n" +
-                         "This wizard will guide you to create a new CbQt5 project\n" +
+                         "This wizard will guide you to create a new 'CbQt5' project\n" +
                          "using the 'Qt Group Plc' Qt5.x cross-platform GUI toolkit\n\n" +
                          "When you're ready to proceed, please click \"Next\"...");
 /// -> cbqt5
@@ -44,8 +46,8 @@ function BeginWizard()
     Wizard.AddGenericSelectPathPage(_T("QtPath"), qtpath_msg, _("Qt's location:"), QtPathDefault5);
 
     Wizard.AddProjectPathPage();
-   // Wizard.AddCompilerPage(_T(""), _T("gcc*;qt*"), true, true);
-	Wizard.AddCompilerPage(_T(""), _T("gcc*"), true, true);
+
+    Wizard.AddCompilerPage(_T(""), _T("gcc*"), true, true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -77,6 +79,12 @@ function OnLeave_QtPath(fwd)
         if (PLATFORM == PLATFORM_MSW
             && !VerifyFile(dir_nomacro_inc + wxFILE_SEP_PATH + _T("QtWidgets"), _T("QApplication"), _("Qt's include")))
             return false;
+		else
+		{
+		//if (PLATFORM != PLATFORM_MSW && !VerifyFile(dir_nomacro_inc + wxFILE_SEP_PATH + _T("QtWidgets"), _T("QApplication"), _("Qt's include")))
+        //    return false
+            ;
+		}
 
         // verify library dependencies
         local dir_nomacro_lib = GetCompilerLibDir(dir, QtPathDefault5, QtPathDefaultLib);
@@ -86,12 +94,12 @@ function OnLeave_QtPath(fwd)
 
         if (PLATFORM == PLATFORM_MSW && !VerifyLibFile(dir_nomacro_lib, _T("Qt5Core"), _T("Qt's")))
             return false;
-        else
+        else //
         if (PLATFORM != PLATFORM_MSW && !VerifyLibFile(dir_nomacro_lib, _T("QtCore"), _T("Qt's")))
             return false;
 
         // Remember the original selection.
-        QtPath5 = dir;
+       // QtPath5 = dir;
 
         local is_macro = _T("");
 
@@ -126,6 +134,22 @@ function GetFilesDir()
 // setup the already created project
 function SetupProject(project)
 {
+/// qt = $(#qt5)
+	project.SetVar(QtLocalPathQt, QtPathDefault5, false);
+/// replace $(#qt5) by $qt ( or $(qt)
+	local dir ;
+	QtPathDefaultInc.Replace(QtPathDefault5, _T("$") + QtLocalPathQt);
+	//dir =  ReplaceMacros(QtPathDefaultInc, true);
+	//ShowMessage(_T("QtPathDefaultInc = ") + QtPathDefaultInc);
+	//ShowMessage(_T("dir = ") + dir);
+	//dir = VerifyDirectory(QtPathDefaultInc);
+	//if (dir.IsEmpty())
+	//	return false;
+	QtPathDefaultLib.Replace(QtPathDefault5, _T("$") + QtLocalPathQt);
+	//dir = VerifyDirectory(QtPathDefaultLib);
+	//if (dir.IsEmpty())
+	//	return false;
+
     project.AddIncludeDir(QtPathDefaultInc);
     project.AddIncludeDir(QtPathDefaultInc + wxFILE_SEP_PATH + _T("QtGui"));
 /// --> cbqt5
@@ -140,6 +164,7 @@ function SetupProject(project)
     project.AddCompilerOption (_T("-frtti"));
     project.AddCompilerOption (_T("-DUNICODE"));
     /// qt > 5.6
+  //  project.AddCompilerOption (_T("-DQT_LARGEFILE_SUPPORT"));
 	project.AddCompilerOption (_T("-std=gnu++11"));
 	///
     project.AddCompilerOption (_T("-DQT_GUI_LIB"));
@@ -155,7 +180,8 @@ function SetupProject(project)
     local idcompiler = Wizard.GetCompilerID();
 	CppExceptionsOn(project, idcompiler);
 //print(idcompiler);
-	if (idcompiler.Find(_T("gcc")) != -1) {
+	if (idcompiler.Find(_T("gcc")) != -1)
+	{
 		project.AddCompilerOption(_T("-mthreads")) ;
 		project.AddCompilerOption (_T("-DQT_THREAD_SUPPORT"));
 		project.AddLinkerOption (_T("-mthreads") );
@@ -164,7 +190,8 @@ function SetupProject(project)
     project.AddLinkerOption (_T("--enable-stcall-fixup") );
     project.AddLinkerOption (_T("--enable-auto-import") );
     project.AddLinkerOption (_T("--enable-runtime-pseudo-reloc") );
-    if (PLATFORM == PLATFORM_MSW) {
+    if (PLATFORM == PLATFORM_MSW)
+	{
 		project.AddLinkerOption (_T("-mconsole") );
 		project.AddLinkerOption (_T("-mwindows") );
     }

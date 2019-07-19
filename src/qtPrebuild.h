@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2019-02-04
+ * Modified:  2019-07-18
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -55,19 +55,26 @@ class qtPrebuild  : public qtPre
 		 *  @param _first : the first call to 'unregisterProjectFile(...)'
 		 *  @return	true if correct
 		 */
-		bool unregisterFileCreator(const wxString & _file, bool _first);
+		bool unregisterCreatorFile(wxString & _file, bool _first);
 		/** \brief Unregister a project file complement to 'qtPregen'
 		 *  @param _file : file name  (complement)
 		 *  @param _first : the first call to 'unregisterProjectFile(...)'
 		 *  @return	true if correct
 		 */
-		bool unregisterFileComplement(const wxString & _file, bool _first);
+		bool unregisterComplementFile(wxString & _file, bool _first);
+
 		/**	\brief Remove one complement file to disk directory "m_dirPreBuild"
 		 *  @param  _filename : complement file name
-		 *  @param  _first :  it' first complement to remove
+		 *  @param  _first :  it's first complement to remove
 		 * @return	true if correct
          */
 		bool removeComplementToDisk(const wxString & _filename, bool _first);
+		/**	\brief Remove one complement objet file to disk directory m_ditObject'
+		 *  @param  _filename : complement file name
+		 * @return	true if correct
+         */
+		bool removeComplementObjToDisk(const wxString & _filename);
+
 		/** \brief Unregister an old target to 'CB'
 		 *  @param _oldTargetName : old target name
 		 *  @param _pProject ; the parent project

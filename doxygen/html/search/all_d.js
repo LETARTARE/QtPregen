@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['ok',['ok',['../qt_prebuild_8cpp.html#ab73fdaa1fb7669da760b49600c45d9be',1,'qtPrebuild.cpp']]],
+  ['ok',['ok',['../qtprebuild_8cpp.html#a1d67bd6634a9002df97231d8c8dbc66c',1,'ok():&#160;qtPrebuild.cpp'],['../qtprebuild_8cpp.html#ab73fdaa1fb7669da760b49600c45d9be',1,'ok():&#160;qtPrebuild.cpp']]],
   ['onabortadding',['OnAbortAdding',['../class_qt_pregen.html#ab84bd9ae6b3699d6050a500883c1f3cc',1,'QtPregen']]],
   ['onactivateproject',['OnActivateProject',['../class_qt_pregen.html#ad9e98d5503badcdb9b3659ec6d311b64',1,'QtPregen']]],
   ['onactivatetarget',['OnActivateTarget',['../class_qt_pregen.html#a1b11f2e8345dc03e09a7d142bbc3a25b',1,'QtPregen']]],
@@ -11,9 +11,12 @@ var searchData=
   ['oncloseproject',['OnCloseProject',['../class_qt_pregen.html#a854d4211fa3031a678e065d7000f080b',1,'QtPregen']]],
   ['onnewproject',['OnNewProject',['../class_qt_pregen.html#ae65996bf8bf482a68e28c18b9d828c05',1,'QtPregen']]],
   ['onopenproject',['OnOpenProject',['../class_qt_pregen.html#aa8bab7dba92d680b66fa6f02b63f6866',1,'QtPregen']]],
+  ['onparserend',['OnParserEnd',['../class_qt_pregen.html#a6c0165d378331cfe514006bf51752edf',1,'QtPregen']]],
   ['onpluginloaded',['OnPluginLoaded',['../class_qt_pregen.html#ae1eb31a9e242f26bb451f0cb7de677c9',1,'QtPregen']]],
   ['onpluginloadingcomplete',['OnPluginLoadingComplete',['../class_qt_pregen.html#a0d52426af893097e02deb8874e39b992',1,'QtPregen']]],
   ['onprojectfileremoved',['onProjectFileRemoved',['../class_qt_pregen.html#aad96b8b5e16387b6f18ff4f73cfe716a',1,'QtPregen']]],
   ['onrelease',['OnRelease',['../class_qt_pregen.html#aab89031bb695f6ce2922694c677093ed',1,'QtPregen']]],
-  ['onrenameprojectortarget',['OnRenameProjectOrTarget',['../class_qt_pregen.html#a1f68451559573cde747a2957d3d1dade',1,'QtPregen']]]
+  ['onrenameprojectortarget',['OnRenameProjectOrTarget',['../class_qt_pregen.html#a1f68451559573cde747a2957d3d1dade',1,'QtPregen']]],
+  ['onsavefileeditor',['OnSaveFileEditor',['../class_qt_pregen.html#a3ff43fd13f330d6f983c01b537ec86c3',1,'QtPregen']]],
+  ['onsaveproject',['OnSaveProject',['../class_qt_pregen.html#a4fada463b114c9f481c87117e849c3e6',1,'QtPregen']]]
 ];

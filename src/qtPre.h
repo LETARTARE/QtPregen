@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2019-02-04
+ * Modified:  2019-06-14
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
@@ -86,17 +86,34 @@ class qtPre
          */
         bool isClean();
 
-        /** \brief Give if target is virtual
+		/** \brief Give if target is command only
 		 *	 @param _nametarget : target name
+		 *   @return true if it's command target
+		 */
+		bool isCommandTarget(const wxString& _nametarget) ;
+		bool isCommandTarget(const ProjectBuildTarget * _pBuildTarget) ;
+        /** \brief Give if target is virtual Qt
+		 *	 @param _namevirtualtarget : target name
 		 *	 @param _warning : indicate a message
 		 *   @return true if it's virtual
 		 */
-		bool isVirtualTarget(const wxString& _nametarget, bool _warning=false) ;
-		/**  \brief Give reals targets list for a virtual target
-		 *	 @param _nametarget : virtual target name
-		 *   @return a table : if not a virtual target -> target name
+		bool isVirtualQtTarget(const wxString& _namevirtualtarget, bool _warning=false) ;
+
+		/**  \brief Give compileable targets list for project or virtual target
+		 *   @return a table : of compileable target name
 		 */
-		wxArrayString listRealsTargets(const wxString& _nametarget);
+		wxArrayString compileableProjectTargets();
+		/**  \brief Give compileable targets list for project or virtual target
+		 *	 @param _virtualtarget : a virtual target name
+		 *   @return a table : of compileable target name
+		 */
+		wxArrayString compileableVirtualTargets(const wxString& _virtualtarget);
+		/** \brief If it is a virtual target, replace it with its first real target
+		 *	 @param _virtualtarget : target name
+		 *	 @param _warning : indicate a message
+		 *   @return true if it's virtual
+		 */
+		bool virtualToFirstRealTarget(wxString& _virtualtarget, bool _warning=false) ;
 
 		/** \brief Detects if the project has at least one target using Qt libraries
 		 * refuses QT projects using a 'makefile'
@@ -107,18 +124,10 @@ class qtPre
 		bool detectQtProject(cbProject * _pProject, bool _report = false);
 		/** \brief Detects if the current target uses Qt libraries,
          * @param _nametarget : the active target.
-         * @param _pProject : the active project.
+         * @param _report : display report if true.
          * @return true : if used
          */
-		bool detectQtTarget(const wxString& _nametarget, cbProject * _pProject);
-
-		/**  \brief Create a new directory, transfer all files to the new directory
-		 * @param _newname : the new target name.
-		 * @param _oldname : the old target name.
-		 * @return true if is allright
-		 */
-		bool newNameComplementDirTarget(wxString & _newname, wxString & _oldname) ;
-		bool renameDirTargetComplements(wxString & _oldname, wxString & _newname) ;
+		bool detectQtTarget(const wxString& _nametarget, bool _report = false);
 
 		/** \brief Detects if the project has complements on disk
          * @param _pProject : the active project.
@@ -126,7 +135,9 @@ class qtPre
          * @param _report : display report if true.
          * @return true : if complement on disk
          */
-		bool detectComplementsOnDisk(cbProject * _pProject, const wxString & _nametarget=wxString(), bool _report = true);
+		bool detectComplementsOnDisk(cbProject * _pProject,
+										const wxString & _nametarget=wxEmptyString,
+										bool _report = true);
 
 		/** \brief refresh all tables from 'm_Filewascreated'
 		 * @param _debug : display report if true.
@@ -182,22 +193,24 @@ class qtPre
          *	@param _fcreated : file created name
          *	@return a reverse,
          */
-		wxString toFileCreator(const wxString& _fcreated) ;
+		wxString toFileCreator(const wxString & _fcreated) ;
 		/** \brief Give a full relative name
          *	@param _fcreator : file name
+         *	@param _creatortarget 	: creator target
          *	@return relative name
          */
-		wxString fullFileCreator(const wxString&  _fcreator) ;
-
-		/**  \brief Give a date
-		 *   @return date
-		 */
-		wxString date();
+		wxString fullFileCreator(const wxString&  _fcreator, wxString _creatortarget=wxEmptyString) ;
 
 		/**  \brief Give a duration
 		 *   @return duration mS
 		 */
 		wxString duration();
+
+	public:
+		/**  \brief Give a date
+		 *   @return date
+		 */
+		wxString date();
 
 	protected:
 
@@ -303,7 +316,8 @@ class qtPre
 
 		/**  \brief messages to console
 		 */
-		wxString Mes = wxEmptyString;
+		wxString Mes = wxEmptyString
+				,SaveMes = wxEmptyString;
 
 		/** \brief log page index
 		 */
@@ -317,12 +331,13 @@ class qtPre
 		 */
 		bool m_abort = false;
 
-	private:
+	//private:
+	public:
 
 	    /** \brief Search Qt libraries in targets of m_pProject
          *  @return true if finded
 		 */
-		bool findLibQtToTargets();
+	//	bool findLibQtToTargets();
 
         /** \brief Search Qt libraries in project or target
          *  @param _pContainer: 'cbProject * Project' or 'ProjectBuildTarget * buildtarget'

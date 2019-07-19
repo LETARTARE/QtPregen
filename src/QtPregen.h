@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin '
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2019-04-27
+ * Modified:  2019-06-18
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -188,7 +188,8 @@ class QtPregen : public cbPlugin
     * 'wxEVT_COMMAND_MENU_SELECTED' for notifie Parser End
     * @param _event Contains the event which call this method
     */
-    void OnParserEnd(CodeBlocksEvent& _event);
+   // void OnParserEnd(CodeBlocksEvent& _event);
+    void OnParserEnd(wxCommandEvent& _event);
 
     /** \brief This method called by project activate allows detect project using the
       * Qt libraries
@@ -236,11 +237,6 @@ class QtPregen : public cbPlugin
       */
     void OnAbortAdding(CodeBlocksEvent& _event);
 
-     /** \brief Indicates whether a target has or contains a Qt target
-      *  @param _nameTarget
-      *  @return true if Qt target
-      */
-    bool adviceTypeTarget(const wxString & _nameTarget);
 
   private:
     /** \brief actual project
@@ -253,6 +249,7 @@ class QtPregen : public cbPlugin
       */
     bool m_isQtProject = false
          ,m_isQtActiveTarget = false
+         ,m_isNewProject = false
          ;
     /**  removing complement files
      */
@@ -266,7 +263,8 @@ class QtPregen : public cbPlugin
 
     /** \brief Global used to record different messages for the construction report
      */
-    wxString Mes = wxEmptyString;
+    wxString Mes = wxEmptyString
+				    ,SaveMes = wxEmptyString;
 
   private:
     /**  \brief Append log message to 'PreBuild log'
@@ -280,7 +278,6 @@ class QtPregen : public cbPlugin
      *  @param _indexLog : page index
      */
     void SwitchToLog(int _indexLog);
-
 
     /** \brief Emit an abort for 'CompilerGCC' class
       * @param _idAbort : Abort identificator
@@ -311,7 +308,7 @@ class QtPregen : public cbPlugin
 
     /** \brief valid message to 'Prebuild log'
      */
-     bool m_WithMessage = false;
+    bool m_WithMessage = false;
 };
 
 #endif // _CBQTPREGEN_H_

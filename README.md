@@ -1,10 +1,10 @@
-# QtPregen-2.4.3 April 27, 2019 (Win-32, Linux-64)
+# QtPregen-2.6.0 July 19, 2019 (Win-32, Linux-64)
 
 Plugin to compile QT applications with 'Code::Blocks'
 
-**Version for all 'Code::Block, sdk >= 1.25.0, svn >= 10127'**
+**Versions for all 'Code::Block, sdk >= 1.25.0, svn >= 10127'**
 
-**Last: sdk = 1.38.0, svn = 11656 -> ...**
+**Last: sdk = 1.42.0, svn = 11792 -> ...**
 
 It uses a log 'Prebuild log' for all posts plugin.
 
@@ -37,24 +37,24 @@ It uses a log 'Prebuild log' for all posts plugin.
 
 	1- a plugin project 'QtPregen.cbp' using the directory 'src'
 
-	2- a directory 'patch' containing patchs for versions of 'Code::Blocks'
-	 (10253, 10376, 10474, 10528, 10600, 10703, cb-16.01, 10816, 10856, 10922,
-	 11021, 11112, 11176, 11210, 11227, 11246 (=17.12), 11313, 11401, 11428, 
-	 11454, 11530, 11544, 11656)
+	2- a directory 'patch' containing patchs for versions of 'Code::Blocks'(sdk_rev)
+	(before_sdk130, sdk130_from10735_16.01, sdk131_from11135,  sdk133_from11227_17.12, 
+	sdk136_from11350, sdk137_from11543, sdk138_from11656, sdk139_from11761, sdk140_from11768,
+	sdk141_from11770, sdk142_from11792)
 
 	3- a directory 'CodeBlocks' containing wizards and files 'cbqt5'
 
 
-4- Installation to 'Code::Blocks 11656'
+4- Installation to 'Code::Blocks 11792' (sdk-1.42.0)
 
     1- first install wizards 'cbqt5',
 
-    2- then the patch 'qtPregenx.x.x-sdk138.patch' and recompile the modified 
-	source of the version 'Code::Blocks-11656',
+    2- then the patch 'qtPregenx.x.x-sdk142.patch' and recompile the modified 
+	source of the version 'Code::Blocks-11792',
 
-	3- then with 'C::B-11656' compile and install the plugin 'qtPregen' 
-        : change the local variable 'cb = $(#cb11656)' in agreement with your 
-        global 'cb11656' which should identify sources of 'Code::Blocks'
+	3- then with 'C::B-11792' compile and install the plugin 'qtPregen' 
+        : change the local variable 'cb = $(#sdk142)' in agreement with your 
+        global 'sdk142' which should identify sources of 'Code::Blocks-11792'
 
 5- Using
 

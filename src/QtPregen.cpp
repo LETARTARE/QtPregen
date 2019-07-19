@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2019-04-27
+ * Modified:  2019-07-18
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
@@ -43,6 +43,10 @@ QtPregen::QtPregen()
 	wxString zip = NamePlugin + _T(".zip");
 	if(!Manager::LoadResource(zip))
 		NotifyMissingFile(zip);
+
+	// in 'NativeParser'  constructor
+	//Connect(ParserCommon::idParserEnd,   wxEVT_COMMAND_MENU_SELECTED,
+	//				wxCommandEventHandler(QtPregen::OnParserEnd));
 }
 ///-----------------------------------------------------------------------------
 /// Create handlers event and creating the pre-builders
@@ -101,7 +105,7 @@ void QtPregen::OnAttach()
 //11- a project is renommed
 	cbEventFunctor<QtPregen, CodeBlocksEvent>* functorRenameProject =
 		new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnRenameProjectOrTarget);
-	pm->RegisterEventSink(cbEVT_PROJECT_RENAMED, functorRenameProject);
+//	pm->RegisterEventSink(cbEVT_PROJECT_RENAMED, functorRenameProject);
 //12- a target is renommed
 	cbEventFunctor<QtPregen, CodeBlocksEvent>* functorRenameTarget =
 		new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnRenameProjectOrTarget);
@@ -117,15 +121,15 @@ void QtPregen::OnAttach()
 		new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnSaveProject);
 	//pm->RegisterEventSink(cbEVT_PROJECT_SAVE, functorSaveProject);
 //13-2 editor save a file
-	/// NOT USED HERE
+	/// USED HERE for debug
 	cbEventFunctor<QtPregen, CodeBlocksEvent>* functorSaveFileEditor =
 		new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnSaveFileEditor);
-	// pm->RegisterEventSink(cbEVT_EDITOR_SAVE, functorSaveFileEditor);
-//13.3
-	/// NOT USED HERE
-	 cbEventFunctor<QtPregen, CodeBlocksEvent>* functorParserEnd =
-	     new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnParserEnd);
-	 //pm->RegisterEventSink(wxEVT_COMMAND_MENU_SELECTED, functorParserEnd);
+	pm->RegisterEventSink(cbEVT_EDITOR_SAVE, functorSaveFileEditor);
+//13.3 parser end
+/// NOT USED HERE for debug
+	// cbEventFunctor<QtPregen, CodeBlocksEvent>* functorParserEnd =
+	//     new cbEventFunctor<QtPregen, CodeBlocksEvent>(this, &QtPregen::OnParserEnd);
+	// pm->RegisterEventSink(wxEVT_COMMAND_MENU_SELECTED, functorParserEnd);
 
 //14- construct a new log
 	m_LogMan = pm->GetLogManager();
@@ -152,13 +156,13 @@ void QtPregen::OnAttach()
 	m_pPrebuild = new qtPrebuild(NamePlugin, m_LogPageIndex);
 	if (m_pPrebuild)
 	{
-		Mes = _T("sdk => ") + Quote + m_pPrebuild->GetVersionSDK() + Quote;
+		Mes = _T("sdk => ") + quote(m_pPrebuild->GetVersionSDK());
 		print(Mes);
 /// for debug : none activated project
 /*
 		Mes = _T("onAttach() : ");
 		if (m_pProject)
-			Mes += _T("Active project = ") + Quote + m_pProject->GetTitle() + Quote ;
+			Mes += _T("Active project = ") + quote(m_pProject->GetTitle());
 		else
 			Mes += _T(" no active project !!");
 		print(Mes);
@@ -166,13 +170,14 @@ void QtPregen::OnAttach()
 	}
 	else
 	{
-		Mes = _("Error to create ") ;
+		Mes = _("Error to create") + Space;
 		Mes += _T("m_pPrebuild") + Lf;
 		Mes += _("The plugin is not operational !!");
 	    printError(Mes);
 	///  release plugin
 	    OnRelease(false);
 	}
+	Mes.Clear();
 }
 
 ///-----------------------------------------------------------------------------
@@ -191,8 +196,7 @@ void QtPregen::OnPluginLoaded(CodeBlocksEvent& _event)
 /*
 	Mes = _T("QtPregen::OnPluginLoaded(...) -> ");
 	Mes +=  _T(" 'qtPregen' is manually loaded");
-	Mes += Space + _T("-> m_initDone = ") + strBool(m_initDone) ;
-	printWarn(Mes) ;
+	Mes += Space + _T("-> m_initDone = ") + strBool(m_initDone) ; printWarn(Mes) ;
 */
 // the active project
 	m_pProject = Manager::Get()->GetProjectManager()->GetActiveProject();
@@ -204,6 +208,7 @@ void QtPregen::OnPluginLoaded(CodeBlocksEvent& _event)
 		OnActivateProject(evt);
 	}
 
+	Mes.Clear();
 /// The event processing system continues searching
 	_event.Skip();
 }
@@ -223,9 +228,9 @@ void QtPregen::OnPluginLoadingComplete(CodeBlocksEvent& _event)
 /*
 	Mes = _T("QtPregen::OnPluginLoadingComplete(...) -> ");
 	Mes += _("all plugins are loaded");
-	Mes += Space + _T("m_initDone = ") + strBool(m_initDone) ;
-	printWarn(Mes) ;
+	Mes += Space + _T("m_initDone = ") + strBool(m_initDone) ; printWarn(Mes) ;
 */
+	Mes.Clear();
 /// The event processing system continues searching
 	_event.Skip();
 }
@@ -238,10 +243,10 @@ void QtPregen::OnPluginLoadingComplete(CodeBlocksEvent& _event)
 ///
 void QtPregen::OnAppBeginShutDown(CodeBlocksEvent& _event)
 {
-//Mes = _T("QtPregen::OnAppBeginShutDown(...) ...");
-//printWarn(Mes) ;
+//Mes = _T("QtPregen::OnAppBeginShutDown(...) ..."); printWarn(Mes) ;
 	m_WithMessage = false;
 
+	Mes.Clear();
 /// The event processing system continues searching
 	_event.Skip();
 }
@@ -329,14 +334,6 @@ void QtPregen::OnActivateProject(CodeBlocksEvent& _event)
 	{
 		_event.Skip() ; return;
 	}
-/// just for debug
-/*
-	Mes = NamePlugin + _T("::OnActivateProject(CodeBlocksEvent& event) -> ");
-	if (m_pseudoEvent) 	Mes += _("local call : ");
-	else 				Mes += _("app call : ");
-	Mes += _("app init done -> ") + Space + strBool(m_initDone);
-	printWarn(Mes);
-*/
 // wait for message validation
 	if (!m_WithMessage)
 	{
@@ -344,7 +341,6 @@ void QtPregen::OnActivateProject(CodeBlocksEvent& _event)
 		m_pseudoEvent = false;
 		return;
 	}
-
 // the active project
 	cbProject *prj = _event.GetProject();
 	if(!prj)
@@ -356,20 +352,17 @@ void QtPregen::OnActivateProject(CodeBlocksEvent& _event)
 		return;
 	}
 
-	Mes = wxEmptyString;
 // actualize the project here
 	m_pProject = prj;
 /// DEBUG
 //* *********************************************************
 //	m_pPrebuild->beginDuration(_T("OnActivateProject(...)"));
 //* *********************************************************
-
 // detect Qt project ... with report : feed 'qtpre::m_pProject'
-	m_isQtProject = m_pPrebuild->detectQtProject(prj, WITH_REPORT);
-//Mes = _T("m_qtproject = ") + strBool(m_isQtProject);
-//printWarn(Mes);
+	m_isQtProject = m_pPrebuild->detectQtProject(m_pProject, WITH_REPORT);
+//Mes = _T("m_qtproject = ") + strBool(m_isQtProject); printWarn(Mes);
 	// advice
-	Mes = Quote + prj->GetTitle() + Quote + Space;
+	Mes = _T("The project") + Space + quote(m_pProject->GetTitle()) + Space;
 	if (m_isQtProject)	Mes += _("has at least one target using Qt libraries...");
 	else				Mes += _("is NOT a Qt project !!");
 	printWarn(Mes);
@@ -380,24 +373,28 @@ void QtPregen::OnActivateProject(CodeBlocksEvent& _event)
 		return;
 	}
 
-/// detect if active target is QT or has a Qt target
+/// here : project has a Qt target
+	// virtual target ?
 	wxString nametarget = m_pProject->GetActiveBuildTarget();
-	m_isQtActiveTarget = adviceTypeTarget(nametarget);
-
-/// complements exists already ?
-//	if (m_isQtActiveTarget)
-	{
-		m_pPrebuild->detectComplementsOnDisk(m_pProject, nametarget, WITH_REPORT);
+	m_isQtActiveTarget = m_pPrebuild->detectQtTarget(nametarget);
+//Mes =  _T("OnActivateProject :: active name target ") + quote(nametarget); print(Mes);
+//Mes = _T("QtPregen::OnActivateProject() : m_isQtActiveTarget = ") + strBool(m_isQtActiveTarget); print(Mes);
+	/// search if complements exists already on disk ?
+		// ok = true => files Qt exists on disk
+		bool ok = m_pPrebuild->detectComplementsOnDisk(m_pProject, nametarget, !m_isNewProject);
 		m_removingIsFirst = true;
-	}
+		// it' now an old project
+	//	m_isNewProject = false;
+
 /// The event processing system continues searching if not a pseudo event
 	_event.Skip(!m_pseudoEvent);
 	m_pseudoEvent = false ;
 
 /// DEBUG
-//* **********************************
+//* *******************************************************
 //	m_pPrebuild->endDuration(_T("OnActivateProject(...)"));
-//* *********************************
+//* *******************************************************
+	Mes.Clear();
 }
 
 ///-----------------------------------------------------------------------------
@@ -424,15 +421,15 @@ void QtPregen::OnActivateTarget(CodeBlocksEvent& _event)
 	{
 		_event.Skip(); return;
 	}
-	Mes = wxEmptyString;
-/// just for debug
-	//Mes = NamePlugin + _T("::OnActivateTarget(CodeBlocksEvent& _event) -> ");
 
+/// just for debug
+//Mes = NamePlugin + _T("::OnActivateTarget(CodeBlocksEvent& _event) -> "); printError(Mes);
+///
 // the active project
 	cbProject *prj = _event.GetProject();
 	if(!prj)
 	{
-		Mes += _("no project supplied !!");
+		Mes += Space + _("no project supplied !!");
 		printError(Mes);
 		_event.Skip();
 		return;
@@ -442,13 +439,17 @@ void QtPregen::OnActivateTarget(CodeBlocksEvent& _event)
 	if ( m_pProject != prj)
 	{
 /// just for debug
-	//	Mes += Quote + prj->GetTitle() + Quote + _T(" : ") ;
-	//	Mes += _("event project is not the current project !!");
-	//	printWarn(Mes);
+	//	Mes += quote(prj->GetTitle()) + _T(" : ") ;
+	//	Mes += _("event project is not the current project !!"); 	printWarn(Mes);
 /// <=
 		_event.Skip();
 		return;
 	}
+
+/// DEBUG
+//* *********************************************************
+//	m_pPrebuild->beginDuration(_T("OnActivateTarget(...)"));
+//* *********************************************************
 
 // the active target
 	wxString nametarget  =  _event.GetBuildTargetName() ;
@@ -457,63 +458,33 @@ void QtPregen::OnActivateTarget(CodeBlocksEvent& _event)
 	/// test if the project is open
 		if (Manager::Get()->GetProjectManager()->IsProjectStillOpen(m_pProject))
 		{
-			Mes += _("!! no target supplied !!");
+			Mes += Space + _("no target supplied !!");
 			printError(Mes);
 		}
 		_event.Skip();
 		return;
 	}
-	// an advice
-	m_isQtActiveTarget = adviceTypeTarget(nametarget);
+	// is a command target
+	if (m_pPrebuild-> isCommandTarget(nametarget))
+	{
+		Mes =  Tab + quote(_T("::") + nametarget) + Space +  _T("is a command target !!") ;
+		printWarn(Mes);
+		_event.Skip();
+		return;
+	}
+	// all targets : real and virtual ...
+	m_isQtActiveTarget = m_pPrebuild->detectQtTarget(nametarget, WITH_REPORT);
+//Mes = _T("QtPregen::OnActivateTarget() : m_isQtActiveTarget = ") + strBool(m_isQtActiveTarget); print(Mes);
 
+	Mes.Clear();
 /// The event processing system continues searching
 	_event.Skip();
+
+/// DEBUG
+//* *******************************************************
+//	m_pPrebuild->endDuration(_T("OnActivateTarget(...)"));
+//* *******************************************************
 }
-
-///-----------------------------------------------------------------------------
-/// Give if a target is or has a type Qt target
-///
-/// Called by :
-///		1. QtPregen::OnActivateProject(CodeBlocksEvent& _event):1,
-///		2. QtPregen::OnActivateTarget(CodeBlocksEvent& _event):1,
-///
-/// Calls to :
-///		1. qtprebuild::detectQtTarget(const wxString& _nametarget, cbProject * _pProject);
-///
-bool QtPregen::adviceTypeTarget(const wxString & _nameTarget)
-{
- 	// reals targets
-	wxArrayString realsTargets;
-	bool isQtTarget ;
-// is a virtual target ?
-	Mes = Tab + Quote + _T("::") + _nameTarget + Quote + Space;
-	bool virtualtarget = m_pProject->HasVirtualBuildTarget(_nameTarget);
-	if (virtualtarget)
-	{
-		Mes += _("(virtual target)");
-		// search all real targets
-		realsTargets =  m_pProject->GetExpandedVirtualBuildTargetGroup(_nameTarget);
-		printWarn(Mes);
-	}
-	// is one real target
-	else	realsTargets.Add(_nameTarget);
-
-// all real targets ...
-	for (wxString target : realsTargets)
-	{
-		if (virtualtarget)
-			Mes =  Tab + Tab + _T(" => ") + Quote + _T("::") + target + Quote + Space;
-	// detect Qt target
-		isQtTarget= m_pPrebuild->detectQtTarget(target, m_pProject) ;
-		// advices
-		Mes += _("is") + Space;
-		if(!isQtTarget)	Mes += _("NOT") + Space;
-		Mes += _("a Qt target.");
-		print(Mes);
-	}
-
-	return isQtTarget;
- }
 
 ///-----------------------------------------------------------------------------
 /// Create a new project
@@ -532,60 +503,58 @@ void QtPregen::OnNewProject(CodeBlocksEvent& _event)
 	{
 		_event.Skip(); return;
 	}
-	Mes = wxEmptyString;
 /// just for debug
-	// Mes = NamePlugin + _T("::OnNewProject(CodeBlocksEvent& event) -> ");
-
+	Mes = NamePlugin + _T("::OnNewProject(CodeBlocksEvent& event) -> ");
+	//printError(Mes);
 // the new project
-	cbProject *prj = _event.GetProject();
-	if(!prj)
+	cbProject *pProject = _event.GetProject();
+	if(!pProject)
 	{
 		Mes += _("no project supplied !!");
 		printError(Mes);
-		_event.Skip();
-		return;
+		_event.Skip(); return;
 	}
 
 // actualize the project
-	m_pProject = prj;
-
+	m_pProject = pProject;
+	m_isNewProject = true;
 // just project created ?
-	wxString nametarget = prj->GetActiveBuildTarget();
+	wxString nametarget = m_pProject->GetActiveBuildTarget();
 	if (nametarget.IsEmpty() )
 	{
 		Mes += _("no target supplied !!");
 		printError(Mes);
-		_event.Skip();
-		return;
+		_event.Skip(); return;
 	}
-//Mes = _T("project name ") + Quote + prj->GetTitle() + Quote ;
-//Mes +=  Space + _T("nametarget = ") + Quote + nametarget + Quote ;
-//printWarn(Mes);
+//Mes = _T("project name ") + quote(m_pProject->GetTitle()) ;
+//Mes +=  Space + _T("nametarget = ") + quote(nametarget); printWarn(Mes);
 
 // detect Qt project ... with report
-	m_isQtProject = m_pPrebuild->detectQtProject(prj, WITH_REPORT);
-//Mes = _T("m_isQtProject = ") + strBool(m_isQtProject);
-//printWarn(Mes);
+	m_isQtProject = m_pPrebuild->detectQtProject(m_pProject, WITH_REPORT);
 	// advice
-	Mes += Quote + prj->GetTitle() + Quote + Space;
+	Mes = _T("The New project") + Space + quote(m_pProject->GetTitle()) + Space;
 	if (m_isQtProject)	Mes += _("has at least one target using Qt libraries...");
 	else				Mes += _("is NOT a Qt project !!");
 	printWarn(Mes);
 
 // detect Qt active Target ...
-	m_isQtActiveTarget = m_pPrebuild->detectQtTarget(nametarget, prj);
+	m_isQtActiveTarget = m_pPrebuild->detectQtTarget(nametarget, NO_REPORT);
 	// advice
-	Mes = Tab + Quote + prj->GetTitle() + _T("::") + nametarget + Quote + Space ;
-	if(m_isQtActiveTarget)	Mes += _("is a Qt target...");
-	else					Mes += _("is NOT a Qt target !!");
-	printWarn(Mes);
+	Mes = Tab + quote( _T("::") + nametarget ) + Space ;
+	Mes += _("is") + Space;
+	if(!m_isQtActiveTarget)		Mes += _("NOT") + Space;
+	Mes += _("a Qt target");
+	print(Mes);
 
+	Mes.Clear();
 /// The event processing system continues searching
 	_event.Skip();
 }
 
 ///-----------------------------------------------------------------------------
 /// Receive a renaming of a project or a target
+///		at CB start we receive "cbEVT_PROJECT_RENAMED" for each registered project !!!
+///		after all plugins are loaded and before the first project activation
 ///
 /// Called by :
 ///		1. event 'cbEVT_PROJECT_RENAMED'
@@ -601,8 +570,17 @@ void QtPregen::OnNewProject(CodeBlocksEvent& _event)
 ///
 void QtPregen::OnRenameProjectOrTarget(CodeBlocksEvent& _event)
 {
+	// no project is activated yet
+	if (!m_pProject)
+	{
+/// Debug
 //Mes = NamePlugin + _T("::OnRenameProjectOrTarget(CodeBlocksEvent& event) -> ");
-//printWarn(Mes);
+//Mes +=  quote(_event.GetProject()->GetTitle()) + _T(" : ") ;
+//Mes += _T(" but 'm_pProject' is null !! ") ; printWarn(Mes);
+/// <=
+		_event.Skip(); return;
+	}
+
 // the project used
 	cbProject *prj = _event.GetProject();
 	if (!prj)
@@ -614,10 +592,10 @@ void QtPregen::OnRenameProjectOrTarget(CodeBlocksEvent& _event)
 // it's not the current project !
 	if ( m_pProject != prj)
 	{
-/// just for debug
-	//	Mes = Quote + prj->GetTitle() + Quote + _T(" : ") ;
-	//	Mes += _("event project is not the current project !!");
-	//	printError(Mes);
+/// Debugdebug
+//	Mes += quote(prj->GetTitle()) + _T(" : ") ;
+//		Mes += _("event project is not the current project !!");
+//		printError(Mes);
 /// <==
 		_event.Skip();
 		return;
@@ -630,40 +608,47 @@ void QtPregen::OnRenameProjectOrTarget(CodeBlocksEvent& _event)
 	}
 	// global
 	Mes = wxEmptyString;
-
-// the name target :  new name ?
-	wxString targetname = _event.GetBuildTargetName()
-			,oldtargetname = _event.GetOldBuildTargetName()
+/// virtual target ??
+	// the name target :  new name ?
+	wxString nametarget = _event.GetBuildTargetName()
+			,oldnametarget = _event.GetOldBuildTargetName()
 			;
-//Mes  = _T("!!! nameProject =") + Quote + prj->GetTitle() + Quote;
-//Mes += _T(", newtarget =") + Quote + targetname + Quote;
-//Mes += _T(", oldtarget =") + Quote + oldntargetname + Quote;
-//printWarn(Mes);
+//Mes  = _T("!!! nameProject =") + quote(prj->GetTitle());
+//Mes += _T(", newtarget =") + quote(nametarget);
+//Mes += _T(", oldtarget =") + quote(oldnametarget); printWarn(Mes);
+
+	// it's a command target
+	if (m_pPrebuild-> isCommandTarget(nametarget))
+	{
+		Mes =  Tab + quote( nametarget ) + Space +  _T("is a command target !!") ;
+		printWarn(Mes);
+		_event.Skip();
+		return;
+	}
+
 	bool okqt = false;
 /// //////////////////////////
 /// it's a new name project
 /// //////////////////////////
-	if (targetname.IsEmpty() && oldtargetname.IsEmpty())
+	if (nametarget.IsEmpty() && oldnametarget.IsEmpty())
 	{
 		// detect Qt project ... with report
-		m_isQtProject = m_pPrebuild->detectQtProject(prj, WITH_REPORT);
-//Mes = _T("==> m_isQtProject = ") + strBool(m_isQtProject);
-//printWarn(Mes);
+		m_isQtProject = m_pPrebuild->detectQtProject(m_pProject, WITH_REPORT);
+//Mes = _T("==> m_isQtProject = ") + strBool(m_isQtProject); printWarn(Mes);
 		if (!m_isQtProject)
 		{
-			_event.Skip();
-			return;
+			_event.Skip(); return;
 		}
 		Mes = _T("===") + Space + _("A new name project") ;
-		Mes += Space + Quote + prj->GetTitle() + Quote;
+		Mes += Space + quote(m_pProject->GetTitle());
 		printWarn(Mes);
-		Mes = Quote + prj->GetTitle() + Quote;
+		Mes = quote(prj->GetTitle());
 		if (m_isQtProject)
 		{ // advice
 			Mes += Space + _("has at least one target using Qt libraries...");
 			printWarn(Mes);
 			// complements exists already ?
-			m_pPrebuild->detectComplementsOnDisk(prj, targetname, WITH_REPORT);
+			m_pPrebuild->detectComplementsOnDisk(m_pProject, nametarget, !m_isNewProject);
 			// init
 			m_removingIsFirst = true;
 		}
@@ -672,42 +657,44 @@ void QtPregen::OnRenameProjectOrTarget(CodeBlocksEvent& _event)
 /// it's a new name target
 /// ////////////////////////
 	else
-	if (!targetname.IsEmpty() )
+	if (!nametarget.IsEmpty() )
 	{
 		m_pProject = prj;
 	// verify target
-		wxString actualtarget = prj->GetActiveBuildTarget() ;
-	Mes = _T("!! actualtarget = ") + Quote + actualtarget + Quote;;
+		wxString actualtarget = m_pProject->GetActiveBuildTarget() ;
+//Mes = _T("!! actualtarget = ") + quote(actualtarget);
 		// update m_pProject, ..., m_pBuildTarget
-		m_pPrebuild->setProject(prj);
+		m_pPrebuild->setProject(m_pProject);
 
 	// new active target ?
-		wxString activetarget = prj->GetActiveBuildTarget() ;
-	Mes += _T("!! activetarget = ") + Quote + activetarget + Quote;
-	Mes += _T(", targetname = ") + Quote + targetname + Quote;;
-	printWarn(Mes);
+		wxString activetarget = m_pProject->GetActiveBuildTarget() ;
+//Mes += _T("!! activetarget = ") + quote(activetarget);
+//Mes += _T(", nametarget = ") + quote(nametarget); printWarn(Mes);
 
 		// advice
 		Mes = _T("===") + Space + _("Old target name") + Space ;
-		Mes += Quote + oldtargetname + Quote + _T(" => ") ;
-		Mes += _("New target name") + Space + Quote + targetname+ Quote;
+		Mes += quote(oldnametarget) + _T(" => ") ;
+		Mes += _("New target name") + Space + quote(nametarget);
 		printWarn(Mes);
 
-		if (!activetarget.Matches(targetname))
+		if (!activetarget.Matches(nametarget))
 		{
 		// detect Qt target ...
-			okqt = m_pPrebuild->detectQtTarget(targetname, prj);
-			Mes = Quote + _T(":: ") + targetname + Quote + Space;
-			if(okqt)	Mes += _("is a Qt target...");
-			else		Mes += _("is NOT a Qt target !!");
+			okqt = m_pPrebuild->detectQtTarget(nametarget, NO_REPORT);
+			Mes = quote(_T("::") + nametarget) + Space;
+			Mes += _("is") + Space;
+			if(!okqt)		Mes += _("NOT") + Space;
+			Mes += _("a Qt target");
+			printWarn(Mes);
 		}
 	/// updates of the new target :
 		// new build target
-		ProjectBuildTarget * pBuildTarget = prj->GetBuildTarget(targetname);
-		bool ok = m_pPrebuild->updateNewTargetName(pBuildTarget, oldtargetname);
+		ProjectBuildTarget * pBuildTarget = m_pProject->GetBuildTarget(nametarget);
+		bool ok = m_pPrebuild->updateNewTargetName(pBuildTarget, oldnametarget);
 		/// ... TO FINISH
 
 	}
+	Mes.Clear();
 /// The event processing system continues searching
 	_event.Skip();
 }
@@ -720,8 +707,7 @@ void QtPregen::OnRenameProjectOrTarget(CodeBlocksEvent& _event)
 
 void QtPregen::compilingStop(int _idAbort)
 {
-//Mes = _T("QtPregen::compilingStop(") + strInt(_idAbort) + _T(")");
-//printError(Mes);
+//Mes = _T("QtPregen::compilingStop(") + strInt(_idAbort) + _T(")"); printError(Mes);
 	CodeBlocksEvent evtMenu(wxEVT_COMMAND_MENU_SELECTED, _idAbort);
 	// if comes from 'QtPregen' for 'CompilerGCC' !
 	evtMenu.SetInt(_idAbort);
@@ -734,8 +720,8 @@ void QtPregen::compilingStop(int _idAbort)
 ///  Abort compiling complement files from 'CompilerGCC'
 ///
 /// Called by :
-///		1. event 'cbEVT_COMPILER_FINISH' from 'CompilerGCC::AbortPreBuild()' with
-///	       bouton-menu
+///		1. event 'cbEVT_COMPILER_FINISH' from 'CompilerGCC::AbortPreBuild()'
+///	       with button-menu
 ///		2. 'setAbort'
 ///
 ///	Call to :
@@ -756,7 +742,7 @@ void QtPregen::OnAbortAdding(CodeBlocksEvent& _event)
 	//Mes = wxEmptyString;
 /// just for debug
 	Mes = NamePlugin + _T("::OnAbortAdding(CodeBlocksEvent& event) -> ");
-
+///
 // the active project
 	cbProject *prj = _event.GetProject();
 	// no project !!
@@ -770,8 +756,7 @@ void QtPregen::OnAbortAdding(CodeBlocksEvent& _event)
 /// just for debug
 	if (m_pProject != prj)
 	{
-	//	Mes += _("event project target is not the current project !!");
-	//	printError(Mes);
+//Mes += _("event project target is not the current project !!");	printError(Mes);
 		_event.Skip();
 		return;
 	}
@@ -779,6 +764,7 @@ void QtPregen::OnAbortAdding(CodeBlocksEvent& _event)
 	m_pPrebuild->setAbort();
 // cleaning plugin  : TODO
 	/// ...
+	Mes.Clear();
 }
 
 ///-----------------------------------------------------------------------------
@@ -823,8 +809,7 @@ void QtPregen::OnAbortAdding(CodeBlocksEvent& _event)
 ///
 void QtPregen::OnAddComplements(CodeBlocksEvent& _event)
 {
-//Mes = _T("QtPregen::OnAddComplements(...)");
-//printWarn(Mes);
+//Mes = _T("QtPregen::OnAddComplements(...)"); printError(Mes);
 // not a Qt current project  :: TO REVIEW !!
 	if (!m_isQtProject)
 	{
@@ -839,21 +824,21 @@ void QtPregen::OnAddComplements(CodeBlocksEvent& _event)
 	{
 		_event.Skip(); return;
 	}
+//Mes = _T("QtPregen::OnAddComplements(...):m_isQtActiveTarget : ") + strBool(m_isQtActiveTarget);
+//printError(Mes);
 
 /// DEBUG
-//* **********************************
-//	m_pPrebuild->beginDuration(_T("OnAddComplements(...)"));
-//* *********************************
-//  debug
+//* ********************************************************
+	m_pPrebuild->beginDuration(_T("OnAddComplements(...)"));
+//* ********************************************************
+///  Debug
 	// _event.Getint() == 0 ?
 //Mes = Lf + _T("Call 'OnAddComplements' ...");
 //Mes += _T(" eventId = ") + strInt(_event.GetId());
 //Mes += _T(", eventInt = ") + strInt(_event.GetInt());
-//Mes += _T(", target name = ") + _event.GetBuildTargetName();
-//printWarn(Mes);
-
+//Mes += _T(", target name = ") + _event.GetBuildTargetName(); printWarn(Mes);
+/// <=
 	Mes = NamePlugin + _T("::OnAddComplements(CodeBlocksEvent& event) -> ");
-
 // the active project
 	cbProject * prj = m_pProject ; //event.GetProject();
 	// no project !!
@@ -875,9 +860,8 @@ void QtPregen::OnAddComplements(CodeBlocksEvent& _event)
 		return;
 	}
 
-//Mes = _T("project name ") + Quote + prj->GetTitle() + Quote ;
-//Mes +=  Space + _T("nametarget = ") + Quote + nametarget + Quote ;
-//printWarn(Mes);
+//Mes = _T("project name ") + quote(prj->GetTitle()) ;
+//Mes +=  Space + _T("nametarget = ") + quote(nametarget) ; printWarn(Mes);
 
 // detect Qt project, no report
 	bool valid = m_pPrebuild->detectQtProject(prj, NO_REPORT);
@@ -887,8 +871,11 @@ void QtPregen::OnAddComplements(CodeBlocksEvent& _event)
 		_event.Skip(); return;
 	}
 // allright !
-	// complements exists already ?
-	m_pPrebuild->detectComplementsOnDisk(prj, nametarget, NO_REPORT);
+//Mes = _T("m_isNewProject is ") + strBool(m_isNewProject);
+	// verify if complements exists already
+	m_pPrebuild->detectComplementsOnDisk(prj, nametarget, !m_isNewProject);
+	// it' now an old project with complement files on disk
+	m_isNewProject = false;
 	// init
 	m_removingIsFirst = false;
 
@@ -911,18 +898,15 @@ void QtPregen::OnAddComplements(CodeBlocksEvent& _event)
 	bool CompileOneFile = !file.IsEmpty()
 		,CompileAllFiles = !CompileOneFile && (eventInt > fbNone)
 		;
-///
-  //debug
+/// debug
 //Mes = Lf + _T("Call 'OnAddComplements' ...");
 //Mes += _T(" eventId = ") + strInt(eventId) ;
-//Mes += _T(" eventInt = ") + strInt(eventInt);
-//printWarn(Mes);
+//Mes += _T(" eventInt = ") + strInt(eventInt); printWarn(Mes);
 
 //Mes =  _T(", CompileOneFile = ") ;
-//Mes += CompileOneFile ? _T("true -> '") + file + Quote : _T("false");
-//Mes += _T(", CompileAllFiles = ") + strBool(CompileAllFiles);
-//printWarn(Mes);
-///
+//Mes += CompileOneFile ? _T("true -> ") + quote(file) : _T("false");
+//Mes += _T(", CompileAllFiles = ") + strBool(CompileAllFiles); printWarn(Mes);
+/// <==
 	if (!CompileOneFile && !CompileAllFiles)
 	{
 		_event.Skip(); return ;
@@ -934,14 +918,14 @@ void QtPregen::OnAddComplements(CodeBlocksEvent& _event)
 	bool Clean 	 = FBuild == fbClean || FBuild == fbRebuild ; //|| fbWorkspaceClean;
 	bool Rebuild = FBuild == fbRebuild  ;//|| FBuild == fbWorkspaceReBuild;
 	bool WsBuild = FBuild == fbWorkspaceBuild || FBuild == fbWorkspaceReBuild;
-  //debug
-/*
-Mes = _T(" FBuild = ") + strBool(FBuild);
-Mes += _T(", Build(11) = ") + strBool(Build);
-Mes += _T(", Clean(12) = ") + strBool(Clean);
-Mes += _T(", Rebuild(13) = ") + strBool(Rebuild);
-printWarn(Mes);
-*/
+
+/// Debug
+//Mes = _T(" FBuild = ") + strBool(FBuild);
+//Mes += _T(", Build(11) = ") + strBool(Build);
+//Mes += _T(", Clean(12) = ") + strBool(Clean);
+//Mes += _T(", Rebuild(13) = ") + strBool(Rebuild);
+//printWarn(Mes);
+/// <==
 // last build log
 	CodeBlocksLogEvent evtGetActive(cbEVT_GET_ACTIVE_LOG_WINDOW);
 	Manager::Get()->ProcessEvent(evtGetActive);
@@ -966,26 +950,29 @@ printWarn(Mes);
 	// event.GetX()
 		idMenuKillProcess = _event.GetX();
 //Mes = Lf + _T("Call 'OnAddComplements' ...");
-//Mes += _T(" eventX = ") + strInt(idMenuKillProcess);
-//printWarn(Mes);
+//Mes += _T(" eventX = ") + strInt(idMenuKillProcess); printWarn(Mes);
 
 		if (Build)
 		{
 		// real target
-            wxString targetname = _event.GetBuildTargetName() ;
-			prj->SetActiveBuildTarget(targetname);
-			ProjectBuildTarget * pBuildTarget = prj->GetBuildTarget(targetname);
+            wxString nametarget = _event.GetBuildTargetName() ;
+			prj->SetActiveBuildTarget(nametarget);
+			ProjectBuildTarget * pBuildTarget = prj->GetBuildTarget(nametarget);
 			// verify Qt target
 			bool ok = m_pPrebuild->isGoodTargetQt(pBuildTarget);
+			// if a virtual target !! => '!pBuildTarget' => ok = false
 			if (ok)
             {
-			// only preBuild when date complements < date creator
-				ok = m_pPrebuild->buildAllFiles(prj, WsBuild, NO_ALLBUILD);
+				// prebuil all complements
+				if (Rebuild)
+					ok = m_pPrebuild->buildAllFiles(prj, WsBuild, ALLBUILD);
+				// only preBuild when date complements < date creator
+				else
+					ok = m_pPrebuild->buildAllFiles(prj, WsBuild, NO_ALLBUILD);
                 if (! ok)
                 {
                 //	Mes = Tab + _T("m_pPrebuild->buildAllFiles(...) => ");
-                //  Mes += _("Error 'PreBuild' !!!");
-                //  printError(Mes);
+                //  Mes += _("Error 'PreBuild' !!!");   printError(Mes);
                     valid = false;
                 }
             }
@@ -1006,7 +993,7 @@ printWarn(Mes);
 	{
 		if (Rebuild && !Build)
 		{
-			Mes = _(" CompileOnefile && Rebuild ") + Space + Quote + file + Quote;
+			Mes = _(" CompileOnefile && Rebuild ") + Space + quote(file);
 			printError(Mes);
 			// clean
 			Clean = true;
@@ -1046,16 +1033,17 @@ printWarn(Mes);
 	}
 
 /// DEBUG
-//* **********************************
-//	m_pPrebuild->endDuration(_T("OnAddComplements(...)"));
-//* *********************************
-
+//* ******************************************************
+	m_pPrebuild->endDuration(_T("OnAddComplements(...)"));
+//* ******************************************************
+	Mes.Clear();
 // The event processing system continues searching
 	_event.Skip();
 }
 
 ///-----------------------------------------------------------------------------
 /// Unregister complement file for Qt
+///	==> The file is already removed of the project
 ///
 /// Called by
 ///		1. event 'cbEVT_PROJECT_FILE_REMOVED'
@@ -1067,13 +1055,15 @@ printWarn(Mes);
 ///
 ///	Calls to
 ///		1. qtPre::isComplementFile(const wxString & _file):1,
+///		2. qtPrebuild::unregisterComplementFile(wxString & _file, bool _first):1,
 ///		2. qtPre::isCreatorFile(const wxString & _file):1,
-///		3. qtPrebuild::unregisterProjectFile(const wxString & _file, bool _complement, bool _first):1,
+///		3. qtPrebuild::unregisterCreatorFile(wxString & _file, bool _first):1,
 ///
 void QtPregen::onProjectFileRemoved(CodeBlocksEvent& _event)
 {
-//Mes = _T("\nQtPregen::onProjectFileRemoved(...)");
-//printWarn(Mes);
+/// just for debug
+//Mes = _T("\nQtPregen::onProjectFileRemoved(...)");printError(Mes);
+///
 	// the project used
 	cbProject *prj = _event.GetProject();
 	if (!prj)
@@ -1083,15 +1073,16 @@ void QtPregen::onProjectFileRemoved(CodeBlocksEvent& _event)
 // it's not the current project !
 	if ( m_pProject != prj)
 	{
-/// just for debug
-//	Mes = Quote + prj->GetTitle() + Quote + _T(" : ") ;
-//	Mes += _("event project is not the current project !!");
-//	printError(Mes);
+/// Debug
+//	Mes = quote(prj->GetTitle()) + _T(" : ") ;
+//	Mes += _("event project is not the current project !!");  printError(Mes);
+/// <==
 		_event.Skip();	return;
 	}
 
 // actualize the project
 	m_pProject = prj;
+	// call  setBuildTarget(...)
 	m_pPrebuild->setProject(prj);
 
 	// the removed file ( absolute path )
@@ -1105,29 +1096,27 @@ void QtPregen::onProjectFileRemoved(CodeBlocksEvent& _event)
     SwitchToLog(m_LogPageIndex);
 // only name less path
 	wxString file = filename.AfterLast(Slash) ;
-//Mes = _T("filename = ") + Quote + filename + Quote;
-//Mes += _T(" ,file = ") + Quote + file  + Quote;
-//print(Mes);
+//Mes = Lf + _T("filename = ") + quote(filename);
+//Mes += _T(" ,file = ") + quote(file); print(Mes);
 	bool ok = false;
-	Mes = Lf;
+	Mes = wxEmptyString;
 // it's a complement file ?
 	if (m_pPrebuild->isComplementFile(file))
 	{
 	// unregisterer one complement file
-		ok = m_pPrebuild->unregisterFileComplement(filename,  m_removingIsFirst) ;
+		ok = m_pPrebuild->unregisterComplementFile(filename,  m_removingIsFirst) ;
 		if (!ok)
-			Mes += _("Complement ") + Quote + file + Quote;;
+			Mes = Lf + _("Complement") + Space;
 	}
 	else
 // it's a creator file ?
 	if (m_pPrebuild->isCreatorFile(file))
 	{
-	//Mes = _T("file = ") + Quote + file + Quote + _T(" is a creator file");
-	//print(Mes);
+//Mes = _T("file = ") + quote(file) + _T(" is a creator file"); print(Mes);
 	// unregisterer one creator file and its complement file
-		ok = m_pPrebuild->unregisterFileCreator(filename, m_removingIsFirst) ;
+		ok = m_pPrebuild->unregisterCreatorFile(filename, m_removingIsFirst) ;
 		if (!ok)
-			Mes =  _("Creator ") + Quote + file + Quote;
+			Mes = Lf + _("Creator" + Space);
 	}
 // it's an another file
 	else
@@ -1138,14 +1127,13 @@ void QtPregen::onProjectFileRemoved(CodeBlocksEvent& _event)
 
 	if (!ok)
 	{
-		Mes += Space + _(" file was NOT removed from project !!!") ;
+		Mes += quote(filename) + Space + _(" file was NOT removed from project !!!") ;
 		printError(Mes);
-		Mes = Tab + Quote + filename + Quote;
-		print(Mes);
+//Mes = Tab + quote(filename); print(Mes);
 	}
 
 	m_removingIsFirst = false;
-
+	Mes.Clear();
 /// The event processing system continues searching
 	_event.Skip();
 }
@@ -1161,9 +1149,10 @@ void QtPregen::OnAppDoneStartup(CodeBlocksEvent& _event)
 	m_WithMessage = true;
 	//m_initDone = true;
 /// just for debug
-	Mes = _T("QtPregen::OnAppDoneStartup(...) ... ");
-	Mes +=  _("app done startup");
-	Mes += Space + _T("-> m_initDone = ") + strBool(m_initDone) ;
+//	Mes = _T("QtPregen::OnAppDoneStartup(...) ... ");
+//	Mes +=  _("app done startup");
+//	Mes += Space + _T("-> m_initDone = ") + strBool(m_initDone) ;
+/// <=
 
 	// ***********************************
 	// this line hang code completion ??
@@ -1178,11 +1167,12 @@ void QtPregen::OnAppDoneStartup(CodeBlocksEvent& _event)
 	}
 
 	if (m_pProject)
-		Mes +=  Lf + Tab + _T("Active project = ") + Quote + m_pProject->GetTitle() + Quote ;
+		Mes +=  Lf + Tab + _T("Active project = ") + quote(m_pProject->GetTitle() );
 	else
 		Mes +=  Lf + Tab + _T("No active project !!");
 	//printWarn(Mes) ;
 
+	Mes.Clear();
 /// The event processing system continues searching
 	_event.Skip();
 }
@@ -1203,9 +1193,10 @@ void QtPregen::OnOpenProject(CodeBlocksEvent& _event)
 	{
 		_event.Skip(); return;
 	}
-/// just for debug
-	Mes = NamePlugin + _T("::OnOpenProject(CodeBlocksEvent& event) -> ");
-	printWarn(Mes);
+/// Debug
+//	Mes = NamePlugin + _T("::OnOpenProject(CodeBlocksEvent& event) -> ");
+//	printError(Mes);
+/// <=
 // the active project
 	cbProject *prj = _event.GetProject();
 	if(!prj)
@@ -1221,27 +1212,28 @@ void QtPregen::OnOpenProject(CodeBlocksEvent& _event)
 //* *****************************************************
 // active target
 	wxString nametarget = prj->GetActiveBuildTarget();
-	Mes += Quote + prj->GetTitle() ;
+	Mes += quote(prj->GetTitle()) ;
 	if (nametarget.IsEmpty() )
 	{
-		Mes += Quote + Space + _("no target supplied !!");
+		Mes += Space + _("no target supplied !!");
 		printError(Mes);
 		_event.Skip();
 		return;
 	}
 
 // messages
-	Mes = Quote + prj->GetTitle() + _T("::") ;
-	Mes += nametarget + Quote + Space + _("is opened !!");
+	Mes = quote(prj->GetTitle() + _T("::") + nametarget);
+	Mes += Space + _("is opened !!");
 	printWarn(Mes);
 
 /// The event processing system continues searching
 	_event.Skip();
 
 /// DEBUG
-//* **********************************
+//* ***************************************************
 //	m_pPrebuild->endDuration(_T("OnOpenProject(...)"));
-//* *********************************
+//* ***************************************************
+	Mes.Clear();
 }
 
 ///-----------------------------------------------------------------------------
@@ -1272,16 +1264,17 @@ void QtPregen::OnSaveProject(CodeBlocksEvent& _event)
 		return;
 	}
 /// messages
-	Mes += Quote + prj->GetTitle() + Quote + Space + _("is saved !!");
+	Mes += quote(prj->GetTitle()) + Space + _("is saved !!");
 	printWarn(Mes);
 
 /// The event processing system continues searching
 	_event.Skip();
 
 /// DEBUG
-//* **********************************
+//* ***************************************************
 //	m_pPrebuild->endDuration(_T("OnSaveProject(...)"));
-//* *********************************
+//* ***************************************************
+	Mes.Clear();
 }
 ///-----------------------------------------------------------------------------
 /// Editor save a file
@@ -1305,9 +1298,10 @@ void QtPregen::OnSaveFileEditor(CodeBlocksEvent& _event)
 		printError(Mes);
 		_event.Skip(); return;
 	}
-/// just for debug
-	Mes = NamePlugin + _T("::OnSaveFileEditor(CodeBlocksEvent& event) -> ");
+/// Debug
+//	Mes = NamePlugin + _T("::OnSaveFileEditor(CodeBlocksEvent& event) -> ");
 //	printWarn(Mes);
+/// <=
 // the editor
 	EditorManager * em = EditorManager::Get();
 	cbEditor * ed = em->GetBuiltinEditor(_event.GetEditor());
@@ -1321,20 +1315,23 @@ void QtPregen::OnSaveFileEditor(CodeBlocksEvent& _event)
 	wxString filename = ed->GetFilename();
 
 /// messages
-	Mes += Quote + ed->GetTitle() + Quote + Space + _(" is saved") ;
-	//Mes += Space + Quote + filename + Quote;
+	Mes += quote(ed->GetTitle()) + Space + _("is saved") ;
+	//Mes += Space + quote(filename);
+	Mes += _T(" : ") + m_pPrebuild->date();
 	printWarn(Mes);
 
 /// The event processing system continues searching
 	_event.Skip();
 
 /// DEBUG
-//* **********************************
+//* ******************************************************
 //	m_pPrebuild->endDuration(_T("OnSaveFileEDitor(...)"));
-//* *********************************
+//* ******************************************************
+	Mes.Clear();
 }
 
 ///-----------------------------------------------------------------------------
+/// NOT USED ...
 /// Parser End
 ///
 /// Called by :
@@ -1342,7 +1339,8 @@ void QtPregen::OnSaveFileEditor(CodeBlocksEvent& _event)
 ///
 /// Calls to : none
 ///
-void QtPregen::OnParserEnd(CodeBlocksEvent& _event)
+//void QtPregen::OnParserEnd(CodeBlocksEvent& _event)
+void QtPregen::OnParserEnd(wxCommandEvent& _event)
 {
 	Mes = NamePlugin + _T("::OnParserEnd(CodeBlocksEvent& event)");
 	printError(Mes);
@@ -1356,10 +1354,10 @@ void QtPregen::OnParserEnd(CodeBlocksEvent& _event)
     if (state == ParserCommon::ptCreateParser)
 	{
 		Mes = NamePlugin + _T("::OnParserEnd(CodeBlocksEvent& event) -> ");
-		Mes += job + Space + _("in project") + Space + Quote + prj + Quote;
+		Mes += job + Space + _("in project") + Space + quote(prj);
 		print(Mes);
 	}
-
+	Mes.Clear();
 /// The event processing system continues searching
 	_event.Skip();
 }
@@ -1379,9 +1377,10 @@ void QtPregen::OnCloseProject(CodeBlocksEvent& _event)
 	{
 		_event.Skip(); return;
 	}
-/// just for debug
-	Mes = NamePlugin + _T("::OnCloseProject(CodeBlocksEvent& event) -> ");
-	printWarn(Mes);
+/// Debug
+//	Mes = NamePlugin + _T("::OnCloseProject(CodeBlocksEvent& event) -> ");
+//	printWarn(Mes);
+/// <==
 // the project
 	cbProject *prj = _event.GetProject();
 	if(!prj)
@@ -1392,15 +1391,16 @@ void QtPregen::OnCloseProject(CodeBlocksEvent& _event)
 		return;
 	}
 /// messages
-	Mes = Quote + prj->GetTitle() + Quote + Space + _("is closed !!");
+	Mes = quote(prj->GetTitle()) + Space + _("is closed !!");
 	printWarn(Mes);
 
 /// The event processing system continues searching
 	_event.Skip();
 
 /// DEBUG
-//* **********************************
+//* ****************************************************
 //	m_pPrebuild->endDuration(_T("OnCloseProject(...)"));
-//* *********************************
+//* ****************************************************
+	Mes.Clear();
 }
 ///-----------------------------------------------------------------------------

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['unregisterfilecomplement',['unregisterFileComplement',['../classqt_prebuild.html#a3734a84ecff4165225a7e9d5dca9f2e3',1,'qtPrebuild']]],
-  ['unregisterfilecreator',['unregisterFileCreator',['../classqt_prebuild.html#a64663c904cb14d91e8852f20f2c50ca9',1,'qtPrebuild']]]
+  ['unregisterallcomplementstocb',['unregisterAllComplementsToCB',['../classqt_prebuild.html#aeb24b1398a94f234a8c9ea6c3e9f8950',1,'qtPrebuild::unregisterAllComplementsToCB(const wxString &amp;_oldtTargetName, cbProject *_pProject, bool _first)'],['../classqt_prebuild.html#aeb24b1398a94f234a8c9ea6c3e9f8950',1,'qtPrebuild::unregisterAllComplementsToCB(const wxString &amp;_oldtTargetName, cbProject *_pProject, bool _first)']]],
+  ['unregistercomplementfile',['unregisterComplementFile',['../classqt_prebuild.html#a87dfaba7565329f73b8080a48ccc7c27',1,'qtPrebuild::unregisterComplementFile(wxString &amp;_file, bool _first)'],['../classqt_prebuild.html#a87dfaba7565329f73b8080a48ccc7c27',1,'qtPrebuild::unregisterComplementFile(wxString &amp;_file, bool _first)']]],
+  ['unregistercreatorfile',['unregisterCreatorFile',['../classqt_prebuild.html#a25d04ba8fcc4ac116b8788b2ab58366e',1,'qtPrebuild::unregisterCreatorFile(wxString &amp;_file, bool _first)'],['../classqt_prebuild.html#a25d04ba8fcc4ac116b8788b2ab58366e',1,'qtPrebuild::unregisterCreatorFile(wxString &amp;_file, bool _first)']]],
+  ['updatenewtargetname',['updateNewTargetName',['../classqt_prebuild.html#ac23c4702e777cad7e163f572c0acba40',1,'qtPrebuild::updateNewTargetName(ProjectBuildTarget *_pBuildTarget, const wxString &amp;_oldTargetName)'],['../classqt_prebuild.html#ac23c4702e777cad7e163f572c0acba40',1,'qtPrebuild::updateNewTargetName(ProjectBuildTarget *_pBuildTarget, const wxString &amp;_oldTargetName)']]]
 ];
