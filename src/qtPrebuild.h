@@ -66,9 +66,11 @@ class qtPrebuild  : public qtPre
 		/**	\brief Remove one complement file to disk directory "m_dirPreBuild"
 		 *  @param  _filename : complement file name
 		 *  @param  _first :  it's first complement to remove
+		 *  @param  _withobject :  a compiled file exists
 		 * @return	true if correct
          */
-		bool removeComplementToDisk(const wxString & _filename, bool _first);
+		//bool removeComplementToDisk(const wxString & _filename, bool _first);
+		bool removeComplementToDisk(const wxString & _filename, bool _first, bool _withobject = false);
 		/**	\brief Remove one complement objet file to disk directory m_ditObject'
 		 *  @param  _filename : complement file name
 		 * @return	true if correct

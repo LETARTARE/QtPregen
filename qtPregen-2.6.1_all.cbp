@@ -2,24 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregen-2.6.0-510-sdk142" />
+		<Option title="qtPregen-2.6.1-510-sdk142" />
 		<Option platforms="Windows;" />
 		<Option pch_mode="2" />
 		<Option compiler="gnu_gcc_compiler_5103" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[use cb11400 sdk 1.36.0
-
-the versions wx28, wx30, wx31 are grouped in the same project
-
-use cb11428 sdk 1.36.0
-
-2.4.2-svn53 : use cb11562-q sdk 1.37.0
-2.4.3-svn53 : use cb11562-q sdk 1.38.0
-
-2.5.0-svn54: use cb11703-q sdk138
-
-2.6.0-svn58 use cb11783-q sdk141
+				<![CDATA[2.6.1-svn56 use cb11792-q sdk142
 ]]>
 			</notes>
 		</Option>

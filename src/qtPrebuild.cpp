@@ -1181,7 +1181,7 @@ Mes += Space + quote( _oldTargetName ) + _T(")"); printWarn(Mes);
 	int index;
 // begin remove files
 	_pProject->BeginRemoveFiles();
-	bool toDelete;
+	bool withObject;
 	/// all complement are registerd to 'm_Registered'
 	for (wxString fregistered : m_Registered)
 	{
@@ -1194,7 +1194,7 @@ Mes += Space + quote( _oldTargetName ) + _T(")"); printWarn(Mes);
 			filename = prjfile->relativeFilename ;
 			if (filename.IsEmpty())		continue  ;
 			// memorize compiled complement before remove from project...
-			toDelete	= prjfile->compile || prjfile->link;
+			withObject	= prjfile->compile || prjfile->link;
 			// unregister file from CB
 			ok = _pProject->RemoveFile(prjfile);
 			if (!ok)
@@ -1214,7 +1214,7 @@ Mes += Space + quote( _oldTargetName ) + _T(")"); printWarn(Mes);
 			// also remove file from disk
 //Mes = _T(" file = ") + quote( file ) ; print(Mes);
 				//ok = removeComplementToDisk(filename, _first, compiledOrLinked);
-				ok = removeComplementToDisk(filename, _first);
+				ok = removeComplementToDisk(filename, _first, withObject);
 				if (_first)
 					_first = false;
 				if (!ok)
@@ -1247,7 +1247,8 @@ Mes += Space + quote( _oldTargetName ) + _T(")"); printWarn(Mes);
 ///		1. unregisterComplementFile(const wxString & _file, bool _creator, bool _first):1,
 ///		2. unregisterAllComplementsToCB(const wxString & _oldTargetName, cbProject * _project, bool _first):1,
 
-bool qtPrebuild::removeComplementToDisk(const wxString & _filename, bool _first)
+//bool qtPrebuild::removeComplementToDisk(const wxString & _filename, bool _first)
+bool qtPrebuild::removeComplementToDisk(const wxString & _filename, bool _first, bool _withobject)
 {
 /// Debug
 //Mes = _T("qtPrebuild::removeComplementToDisk : _filename = ") + quote( _filename ); print(Mes);
@@ -1283,16 +1284,16 @@ bool qtPrebuild::removeComplementToDisk(const wxString & _filename, bool _first)
 			{
 				targethere  = _filename.Mid(pos).BeforeLast('\\').AfterLast('\\');
 			}
-	/// it is also necessary to delete the compiled file from the old complement
-	/// ATTENTION : the active target may be different of target used !!
-		wxString pathObjects, ofile = _filename.Before('.')  + _T(".o");
+/// it is also necessary to delete the compiled file from the old complement
+/// ATTENTION : the active target may be different of target used !!
+			wxString pathObjects, ofile = _filename.Before('.')  + _T(".o");
 //Mes = _T(" m_dirObjects  = ") + quote( m_dirObjects ) ; printWarn(Mes);
 			pathObjects = m_dirObjects + ofile;
 			m_pMam->ReplaceMacros(pathObjects);
 			if (!targethere.IsEmpty())
 				pathObjects.Replace(m_nameActiveTarget, targethere);
 //Mes = _T(" To delete => pathObjects  = ") + quote( pathObjects ) ; print(Mes);
-			// it's a compiled complement => true
+			// is there a compiled complement file ?
 				ok = ::wxFileExists(pathObjects);
 				if (ok) {
 					ok = ::wxRemoveFile(pathObjects);
@@ -1301,19 +1302,30 @@ bool qtPrebuild::removeComplementToDisk(const wxString & _filename, bool _first)
 						Mes += _T(", ") + quote( pathObjects );
 						print(Mes);
 					}
+					// error to removing :
 					else
 					{
 						Mes = Tab + Tab + _T("-> not removed ") + quote( pathObjects );
 						printError(Mes);
 					}
 				}
-			// it's not a compiled complement => false
+				// no compiled complement
 				else
 				{
-					//Mes = Tab + Tab + _T("-> not exists ") + quote( pathObjects );
-					//printError(Mes);
+				// the compiled complement file is missing
+					if (_withobject)
+					{
+						Mes = Tab + Tab + _T("-> not exists ") + quote( pathObjects );
+						printError(Mes);
+
+					}
+
+				// no complement has been compiled
+					else
+					{
 					/// TO REVIEW to an other method ...
-					print(Mes);
+						print(Mes);
+					}
 				}
 		/// <=
 		}
