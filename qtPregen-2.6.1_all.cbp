@@ -95,10 +95,6 @@
 				<Option type="4" />
 				<Option compiler="null" />
 			</Target>
-			<Target title="infos">
-				<Option type="4" />
-				<Option compiler="null" />
-			</Target>
 			<Target title="to_cb28">
 				<Option platforms="Windows;" />
 				<Option output="$(TARGET_NAME)/QtPregen" prefix_auto="0" extension_auto="1" />
@@ -301,13 +297,13 @@
 			<Add directory="$wx/contrib/include" />
 			<Add directory="$wx/lib/gcc_dll/mswu" />
 		</Compiler>
-		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/main.cpp">
-			<Option target="cbqt5" />
-		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/qtest.cpp">
 			<Option target="cbqt5" />
 		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/qtest.h">
+			<Option target="cbqt5" />
+		</Unit>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/main.cpp">
 			<Option target="cbqt5" />
 		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/logo.png">
@@ -318,40 +314,6 @@
 		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/wizard.script">
 			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="adding/cbqt5/moc_qtest.cpp">
-			<Option weight="1" />
-			<Option target="cbqt5" />
-		</Unit>
-		<Unit filename="infos/Concept.his">
-			<Option target="infos" />
-		</Unit>
-		<Unit filename="infos/LISMOI.md">
-			<Option target="infos" />
-		</Unit>
-		<Unit filename="infos/README.md">
-			<Option target="infos" />
-		</Unit>
-		<Unit filename="infos/Todo.his">
-			<Option target="infos" />
-		</Unit>
-		<Unit filename="infos/comtoPlugin.txt">
-			<Option target="infos" />
-		</Unit>
-		<Unit filename="infos/erreur.his">
-			<Option target="infos" />
-		</Unit>
-		<Unit filename="infos/qtpregen.his">
-			<Option target="infos" />
-		</Unit>
-		<Unit filename="infos/qtpregen_exp.en">
-			<Option target="infos" />
-		</Unit>
-		<Unit filename="infos/qtpregen_exp.fr">
-			<Option target="infos" />
-		</Unit>
-		<Unit filename="infos/sdk.his">
-			<Option target="infos" />
 		</Unit>
 		<Unit filename="manifest.xml">
 			<Option target="default28" />

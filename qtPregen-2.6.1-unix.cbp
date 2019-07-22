@@ -8,7 +8,7 @@
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[use cb11792 sdk 1.42.0]>
+				<![CDATA[with cb-11793-q, sdk-1.42.0]]>
 			</notes>
 		</Option>
 		<Build>
@@ -26,7 +26,6 @@
 					<Add directory="$cb/include/tinyxml" />
 					<Add directory="$cb/sdk/wxscintilla/include" />
 					<Add directory="$cb/plugins/codecompletion" />
-					<Add directory="$(#cb11656)/plugins/codecompletion" />
 				</Compiler>
 				<Linker>
 					<Add option="`wx-config --libs  --version=2.8`" />
