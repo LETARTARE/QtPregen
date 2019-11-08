@@ -189,7 +189,7 @@ class QtPregen : public cbPlugin
     * @param _event Contains the event which call this method
     */
    // void OnParserEnd(CodeBlocksEvent& _event);
-    void OnParserEnd(wxCommandEvent& _event);
+   // void OnParserEnd(wxCommandEvent& _event);
 
     /** \brief This method called by project activate allows detect project using the
       * Qt libraries

@@ -2283,6 +2283,7 @@ wxString qtPrebuild::createFileComplement(const wxString& _qexe,
 ///
 wxString qtPrebuild::createComplement(const wxString& _qexe, const uint16_t _index)
 {
+//Mes = "qtPrebuild::createComplement(...)" ; print(Mes);
 //1- name relative input file  "src\filecreator.xxx"
 	wxString inputfile = m_Filecreator.Item(_index) ;
 	// create directory for m_nameActiveTarget

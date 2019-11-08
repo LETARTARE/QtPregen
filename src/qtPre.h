@@ -331,7 +331,6 @@ class qtPre
 		 */
 		bool m_abort = false;
 
-	//private:
 	public:
 
 	    /** \brief Search Qt libraries in targets of m_pProject

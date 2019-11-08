@@ -14,8 +14,8 @@
 #include <projectmanager.h>
 // <-
 /// for Parser class
-#include <parser/parser_base.h>
-#include <parser/parser.h>
+//#include <parser/parser_base.h>
+//#include <parser/parser.h>
 /// for cbEditor class
 #include <cbeditor.h>
 #include <editormanager.h>
@@ -1329,7 +1329,7 @@ void QtPregen::OnSaveFileEditor(CodeBlocksEvent& _event)
 //* ******************************************************
 	Mes.Clear();
 }
-
+/*
 ///-----------------------------------------------------------------------------
 /// NOT USED ...
 /// Parser End
@@ -1361,7 +1361,7 @@ void QtPregen::OnParserEnd(wxCommandEvent& _event)
 /// The event processing system continues searching
 	_event.Skip();
 }
-
+*/
 ///-----------------------------------------------------------------------------
 /// Close a project
 ///

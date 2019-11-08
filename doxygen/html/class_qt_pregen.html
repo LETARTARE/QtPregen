@@ -167,11 +167,8 @@ Think of this method as the actual destructor...  <a href="#aab89031bb695f6ce292
 <tr class="memitem:a3ff43fd13f330d6f983c01b537ec86c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a3ff43fd13f330d6f983c01b537ec86c3">OnSaveFileEditor</a> (CodeBlocksEvent &amp;_event)</td></tr>
 <tr class="memdesc:a3ff43fd13f330d6f983c01b537ec86c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method called by 'cbEVT_EDITOR_SAVE' for notifie save file.  <a href="#a3ff43fd13f330d6f983c01b537ec86c3">More...</a><br /></td></tr>
 <tr class="separator:a3ff43fd13f330d6f983c01b537ec86c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c0165d378331cfe514006bf51752edf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a6c0165d378331cfe514006bf51752edf">OnParserEnd</a> (wxCommandEvent &amp;_event)</td></tr>
-<tr class="memdesc:a6c0165d378331cfe514006bf51752edf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method called by 'wxEVT_COMMAND_MENU_SELECTED' for notifie Parser End.  <a href="#a6c0165d378331cfe514006bf51752edf">More...</a><br /></td></tr>
-<tr class="separator:a6c0165d378331cfe514006bf51752edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9e98d5503badcdb9b3659ec6d311b64"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#ad9e98d5503badcdb9b3659ec6d311b64">OnActivateProject</a> (CodeBlocksEvent &amp;_event)</td></tr>
-<tr class="memdesc:ad9e98d5503badcdb9b3659ec6d311b64"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method called by project activate allows detect project using the Qt libraries.  <a href="#ad9e98d5503badcdb9b3659ec6d311b64">More...</a><br /></td></tr>
+<tr class="memdesc:ad9e98d5503badcdb9b3659ec6d311b64"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method called by 'wxEVT_COMMAND_MENU_SELECTED' for notifie Parser End.  <a href="#ad9e98d5503badcdb9b3659ec6d311b64">More...</a><br /></td></tr>
 <tr class="separator:ad9e98d5503badcdb9b3659ec6d311b64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b11f2e8345dc03e09a7d142bbc3a25b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_pregen.html#a1b11f2e8345dc03e09a7d142bbc3a25b">OnActivateTarget</a> (CodeBlocksEvent &amp;_event)</td></tr>
 <tr class="memdesc:a1b11f2e8345dc03e09a7d142bbc3a25b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method called by target activate allows detect target using the Qt libraries.  <a href="#a1b11f2e8345dc03e09a7d142bbc3a25b">More...</a><br /></td></tr>
@@ -765,9 +762,10 @@ It is a pure virtual method that needs to be implemented by all plugins. If the 
 </table>
 </div><div class="memdoc">
 
-<p>This method called by project activate allows detect project using the Qt libraries. </p>
+<p>This method called by 'wxEVT_COMMAND_MENU_SELECTED' for notifie Parser End. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">_event</td><td>Contains the event which call this methodThis method called by project activate allows detect project using the Qt libraries </td></tr>
     <tr><td class="paramname">_event</td><td>Contains the event which call this method</td></tr>
   </table>
   </dd>
@@ -1177,47 +1175,6 @@ Think of this method as the actual constructor... </p>
 <p>DEBUG</p>
 <p>The event processing system continues searching</p>
 <p>DEBUG </p>
-
-</div>
-</div>
-<a id="a6c0165d378331cfe514006bf51752edf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c0165d378331cfe514006bf51752edf">&#9670;&nbsp;</a></span>OnParserEnd()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void QtPregen::OnParserEnd </td>
-          <td>(</td>
-          <td class="paramtype">wxCommandEvent &amp;&#160;</td>
-          <td class="paramname"><em>_event</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This method called by 'wxEVT_COMMAND_MENU_SELECTED' for notifie Parser End. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">_event</td><td>Contains the event which call this method</td></tr>
-  </table>
-  </dd>
-</dl>
-<hr/>
-<p> NOT USED ... Parser End</p>
-<p>Called by :</p><ol type="1">
-<li>event 'wxEVT_COMMAND_MENU_SELECTED'</li>
-</ol>
-<p>Calls to : none </p>
-<p>The event processing system continues searching </p>
 
 </div>
 </div>
@@ -1969,7 +1926,7 @@ Think of this method as the actual destructor... </p>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_qt_pregen.html">QtPregen</a></li>
-    <li class="footer">Generated on Fri Jul 19 2019 15:16:39 for qtPregen for C::B by
+    <li class="footer">Generated on Fri Nov 8 2019 11:24:09 for qtPregen for C::B by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -2,27 +2,28 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregen-2.6.1-510-sdk142" />
+		<Option title="qtPregen-2.6.2-810-sdk146" />
 		<Option platforms="Windows;" />
 		<Option pch_mode="2" />
-		<Option compiler="gnu_gcc_compiler_5103" />
+		<Option compiler="gnu_gcc_compiler_mingw32-810" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[2.6.1-svn56 use cb11792-q sdk142
+				<![CDATA[2.6.1-svn56 use cb11798-q sdk143
+...
+2.6.2-svn56 use cb11865-q sdk145
 ]]>
 			</notes>
 		</Option>
 		<Build>
-			<Target title="default28">
+			<Target title="local_28">
 				<Option platforms="Windows;" />
 				<Option output="$(TARGET_NAME)/QtPregen" prefix_auto="0" extension_auto="1" />
 				<Option object_output="objs/$(TARGET_NAME)" />
 				<Option type="3" />
-				<Option compiler="gnu_gcc_compiler_5103" />
+				<Option compiler="gnu_gcc_compiler_mingw32-810" />
 				<Compiler>
-					<Add option="-std=c++11" />
-					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-pipe" />
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
@@ -46,16 +47,141 @@
 					<Add library="wxmsw28u" />
 					<Add directory="$cb/devel" />
 					<Add directory="$cb/devel/share/CodeBlocks/plugins/" />
-					<Add directory="$wx/lib/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="zip -j9 $(TARGET_NAME)\QtPregen.zip manifest.xml" />
-					<Add after="zip -j9 $(TARGET_NAME)\QtPregen.cbplugin $(TARGET_NAME)\QtPregen.dll  $(TARGET_NAME)\QtPregen.zip" />
+					<Add after="zip -j9 $(TARGET_NAME)\\QtPregen.zip manifest.xml" />
+					<Add after="zip -j9 $(TARGET_NAME)\QtPregen.cbplugin $(TARGET_NAME)\QtPregen.dll  $(TARGET_NAME)\\QtPregen.zip" />
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value="$(#sdk142)" />
-					<Variable name="wx" value="$(#wx28_510)" />
+					<Variable name="wx" value="$(#wx28_810)" />
+				</Environment>
+			</Target>
+			<Target title="local_30">
+				<Option platforms="Windows;" />
+				<Option output="$(TARGET_NAME)/QtPregen" prefix_auto="0" extension_auto="1" />
+				<Option object_output="objs/$(TARGET_NAME)" />
+				<Option type="3" />
+				<Option compiler="gnu_gcc_compiler_mingw32-810" />
+				<Compiler>
+					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-pipe" />
+					<Add option="-mthreads" />
+					<Add option="-fmessage-length=0" />
+					<Add option="-fexceptions" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-s" />
+					<Add option="-DBUILDING_PLUGIN" />
+					<Add option="-DHAVE_W32API_H" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DcbDEBUG" />
+					<Add option="-DCB_PRECOMP" />
+					<Add option="-DWX_PRECOMP" />
+					<Add option="-DwxUSE_UNICODE" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$wx/include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="codeblocks" />
+					<Add library="wxmsw30u" />
+					<Add directory="$cb/devel30" />
+					<Add directory="$cb/devel/share/CodeBlocks/plugins/" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="zip -j9  $(TARGET_NAME)\QtPregen.zip manifest.xml" />
+					<Add after="zip -j9  $(TARGET_NAME)\QtPregen.cbplugin $(TARGET_NAME)\QtPregen.dll $(TARGET_NAME)\\QtPregen.zip" />
+					<Mode after="always" />
+				</ExtraCommands>
+				<Environment>
+					<Variable name="wx" value="$(#wx30_810)" />
+				</Environment>
+			</Target>
+			<Target title="local_31">
+				<Option platforms="Windows;" />
+				<Option output="$(TARGET_NAME)/QtPregen" prefix_auto="0" extension_auto="1" />
+				<Option object_output="objs/$(TARGET_NAME)" />
+				<Option type="3" />
+				<Option compiler="gnu_gcc_compiler_mingw32-810" />
+				<Compiler>
+					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-pipe" />
+					<Add option="-mthreads" />
+					<Add option="-fmessage-length=0" />
+					<Add option="-fexceptions" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-s" />
+					<Add option="-DBUILDING_PLUGIN" />
+					<Add option="-DHAVE_W32API_H" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DcbDEBUG" />
+					<Add option="-DCB_PRECOMP" />
+					<Add option="-DWX_PRECOMP" />
+					<Add option="-DwxUSE_UNICODE" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$wx/include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="codeblocks" />
+					<Add library="wxmsw31u" />
+					<Add directory="$cb/devel31" />
+					<Add directory="$cb/output31" />
+					<Add directory="$cb/devel31/share/CodeBlocks/plugins/" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="zip -j9  $(TARGET_NAME)\QtPregen.zip manifest.xml" />
+					<Add after="zip -j9  $(TARGET_NAME)\QtPregen.cbplugin $(TARGET_NAME)\QtPregen.dll  $(TARGET_NAME)\QtPregen.zip" />
+					<Mode after="always" />
+				</ExtraCommands>
+				<Environment>
+					<Variable name="wx" value="$(#wx31_810)" />
+				</Environment>
+			</Target>
+			<Target title="local_312">
+				<Option platforms="Windows;" />
+				<Option output="$(TARGET_NAME)/QtPregen" prefix_auto="0" extension_auto="1" />
+				<Option object_output="objs/$(TARGET_NAME)" />
+				<Option type="3" />
+				<Option compiler="gnu_gcc_compiler_mingw32-810" />
+				<Compiler>
+					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-pipe" />
+					<Add option="-mthreads" />
+					<Add option="-fmessage-length=0" />
+					<Add option="-fexceptions" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-s" />
+					<Add option="-DBUILDING_PLUGIN" />
+					<Add option="-DHAVE_W32API_H" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DcbDEBUG" />
+					<Add option="-DCB_PRECOMP" />
+					<Add option="-DWX_PRECOMP" />
+					<Add option="-DwxUSE_UNICODE" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$wx/include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="codeblocks" />
+					<Add library="wxmsw31u" />
+					<Add directory="$cb/devel31" />
+					<Add directory="$cb/devel/share/CodeBlocks/plugins/" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="zip -j9  $(TARGET_NAME)\QtPregen.zip manifest.xml" />
+					<Add after="zip -j9  $(TARGET_NAME)\QtPregen.cbplugin $(TARGET_NAME)\QtPregen.dll  $(TARGET_NAME)\QtPregen.zip" />
+					<Mode after="always" />
+				</ExtraCommands>
+				<Environment>
+					<Variable name="wx" value="$(#wx312_810)" />
 				</Environment>
 			</Target>
 			<Target title="cbqt5">
@@ -65,6 +191,8 @@
 				<Option compiler="gnu_gcc_compiler_530_qt59x" />
 				<Option use_console_runner="0" />
 				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
@@ -88,10 +216,14 @@
 					<Add directory="$qt/lib" />
 				</Linker>
 				<Environment>
-					<Variable name="qt" value="$(#qt596)" />
+					<Variable name="qt" value="$(#qt597)" />
 				</Environment>
 			</Target>
 			<Target title="patchs">
+				<Option type="4" />
+				<Option compiler="null" />
+			</Target>
+			<Target title="infos">
 				<Option type="4" />
 				<Option compiler="null" />
 			</Target>
@@ -100,11 +232,10 @@
 				<Option output="$(TARGET_NAME)/QtPregen" prefix_auto="0" extension_auto="1" />
 				<Option object_output="objs/$(TARGET_NAME)" />
 				<Option type="3" />
-				<Option compiler="gnu_gcc_compiler_5103" />
+				<Option compiler="gnu_gcc_compiler_mingw32-810" />
 				<Compiler>
-					<Add option="-std=c++11" />
-					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-pipe" />
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
@@ -128,7 +259,6 @@
 					<Add library="wxmsw28u" />
 					<Add directory="$cb/devel" />
 					<Add directory="$cb/devel/share/CodeBlocks/plugins/" />
-					<Add directory="$wx/lib/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip -j9 $(TARGET_NAME)\\QtPregen.zip manifest.xml" />
@@ -136,8 +266,7 @@
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value="$(#sdk142)" />
-					<Variable name="wx" value="$(#wx28_510)" />
+					<Variable name="wx" value="$(#wx28_810)" />
 				</Environment>
 			</Target>
 			<Target title="to_cb30">
@@ -145,11 +274,10 @@
 				<Option output="$(TARGET_NAME)/QtPregen" prefix_auto="0" extension_auto="1" />
 				<Option object_output="objs/$(TARGET_NAME)" />
 				<Option type="3" />
-				<Option compiler="gnu_gcc_compiler_5103" />
+				<Option compiler="gnu_gcc_compiler_mingw32-810" />
 				<Compiler>
-					<Add option="-std=c++11" />
-					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-pipe" />
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
@@ -169,11 +297,10 @@
 					<Add directory="$wx/include" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="wxmsw30u" />
 					<Add library="codeblocks" />
+					<Add library="wxmsw30u" />
 					<Add directory="$cb/devel30" />
 					<Add directory="$cb/devel/share/CodeBlocks/plugins/" />
-					<Add directory="$wx/lib/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip -j9  $(TARGET_NAME)\QtPregen.zip manifest.xml" />
@@ -181,8 +308,7 @@
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value="$(#cb11703_510_30)" />
-					<Variable name="wx" value="$(#wx304_510)" />
+					<Variable name="wx" value="$(#wx30_810)" />
 				</Environment>
 			</Target>
 			<Target title="to_cb31">
@@ -190,11 +316,10 @@
 				<Option output="$(TARGET_NAME)/QtPregen" prefix_auto="0" extension_auto="1" />
 				<Option object_output="objs/$(TARGET_NAME)" />
 				<Option type="3" />
-				<Option compiler="gnu_gcc_compiler_5103" />
+				<Option compiler="gnu_gcc_compiler_mingw32-810" />
 				<Compiler>
-					<Add option="-std=c++11" />
-					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-pipe" />
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
@@ -217,8 +342,7 @@
 					<Add library="codeblocks" />
 					<Add library="wxmsw31u" />
 					<Add directory="$cb/devel31" />
-					<Add directory="$cb/devel/share/CodeBlocks/plugins/" />
-					<Add directory="$wx/lib/gcc_dll" />
+					<Add directory="$cb/devel31/share/CodeBlocks/plugins/" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip -j9  $(TARGET_NAME)\QtPregen.zip manifest.xml" />
@@ -226,8 +350,7 @@
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value="$(#cb11678_510_31)" />
-					<Variable name="wx" value="$(#wx31_510)" />
+					<Variable name="wx" value="$(#wx31_810)" />
 				</Environment>
 			</Target>
 			<Target title="to_cb312">
@@ -235,11 +358,10 @@
 				<Option output="$(TARGET_NAME)/QtPregen" prefix_auto="0" extension_auto="1" />
 				<Option object_output="objs/$(TARGET_NAME)" />
 				<Option type="3" />
-				<Option compiler="gnu_gcc_compiler_5103" />
+				<Option compiler="gnu_gcc_compiler_mingw32-810" />
 				<Compiler>
-					<Add option="-std=c++11" />
-					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-pipe" />
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
@@ -263,7 +385,6 @@
 					<Add library="wxmsw31u" />
 					<Add directory="$cb/devel31" />
 					<Add directory="$cb/devel/share/CodeBlocks/plugins/" />
-					<Add directory="$wx/lib/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip -j9  $(TARGET_NAME)\QtPregen.zip manifest.xml" />
@@ -271,39 +392,34 @@
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
-					<Variable name="cb" value="$(#cb11678_510_31)" />
-					<Variable name="wx" value="$(#wx312_510)" />
+					<Variable name="wx" value="$(#wx312_810)" />
 				</Environment>
 			</Target>
 			<Environment>
-				<Variable name="WX_CFG" value="" />
-				<Variable name="WX_SUFFIX" value="u" />
+				<Variable name="cb" value="$(#sdk146)" />
 			</Environment>
 		</Build>
-		<VirtualTargets>
-			<Add alias="28andQt" targets="default28;cbqt5;to_cb28;" />
-			<Add alias="All" targets="default28;cbqt5;patchs;to_cb28;to_cb30;to_cb31;to_cb312;" />
-			<Add alias="Two28" targets="default28;to_cb28;" />
-		</VirtualTargets>
 		<Compiler>
 			<Add option="-std=c++11" />
 			<Add directory="src" />
 			<Add directory="$cb/include" />
 			<Add directory="$cb/include/tinyxml" />
-			<Add directory="$cb/plugins/compilergcc" />
-			<Add directory="$cb/plugins/codecompletion" />
 			<Add directory="$cb/sdk/wxscintilla/include" />
+			<Add directory="$cb/plugins/codecompletion" />
 			<Add directory="$wx/include" />
 			<Add directory="$wx/contrib/include" />
 			<Add directory="$wx/lib/gcc_dll/mswu" />
 		</Compiler>
+		<Linker>
+			<Add directory="$wx/lib/gcc_dll" />
+		</Linker>
+		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/main.cpp">
+			<Option target="cbqt5" />
+		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/qtest.cpp">
 			<Option target="cbqt5" />
 		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/qtest.h">
-			<Option target="cbqt5" />
-		</Unit>
-		<Unit filename="CodeBlocks/templates/wizard/cbqt5/files/main.cpp">
 			<Option target="cbqt5" />
 		</Unit>
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/logo.png">
@@ -315,12 +431,49 @@
 		<Unit filename="CodeBlocks/templates/wizard/cbqt5/wizard.script">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="adding/cbqt5/moc_qtest.cpp">
+			<Option weight="1" />
+			<Option target="cbqt5" />
+		</Unit>
+		<Unit filename="infos/Concept.his">
+			<Option target="infos" />
+		</Unit>
+		<Unit filename="infos/LISMOI.md">
+			<Option target="infos" />
+		</Unit>
+		<Unit filename="infos/README.md">
+			<Option target="infos" />
+		</Unit>
+		<Unit filename="infos/Todo.his">
+			<Option target="infos" />
+		</Unit>
+		<Unit filename="infos/comtoPlugin.txt">
+			<Option target="infos" />
+		</Unit>
+		<Unit filename="infos/erreur.his">
+			<Option target="infos" />
+		</Unit>
+		<Unit filename="infos/qtpregen.his">
+			<Option target="infos" />
+		</Unit>
+		<Unit filename="infos/qtpregen_exp.en">
+			<Option target="infos" />
+		</Unit>
+		<Unit filename="infos/qtpregen_exp.fr">
+			<Option target="infos" />
+		</Unit>
+		<Unit filename="infos/sdk.his">
+			<Option target="infos" />
+		</Unit>
 		<Unit filename="manifest.xml">
-			<Option target="default28" />
 			<Option target="to_cb28" />
 			<Option target="to_cb30" />
 			<Option target="to_cb31" />
 			<Option target="to_cb312" />
+			<Option target="local_31" />
+			<Option target="local_28" />
+			<Option target="local_30" />
+			<Option target="local_312" />
 		</Unit>
 		<Unit filename="patch/cb-16-01-evPREGEN-0.8.5.patch">
 			<Option target="patchs" />
@@ -353,58 +506,77 @@
 			<Option target="patchs" />
 		</Unit>
 		<Unit filename="src/defines.h">
-			<Option target="default28" />
 			<Option target="to_cb28" />
 			<Option target="to_cb30" />
 			<Option target="to_cb31" />
 			<Option target="to_cb312" />
+			<Option target="local_31" />
+			<Option target="local_28" />
+			<Option target="local_30" />
+			<Option target="local_312" />
 		</Unit>
 		<Unit filename="src/qtpre.cpp">
-			<Option target="default28" />
 			<Option target="to_cb28" />
 			<Option target="to_cb30" />
 			<Option target="to_cb31" />
 			<Option target="to_cb312" />
+			<Option target="local_31" />
+			<Option target="local_28" />
+			<Option target="local_30" />
+			<Option target="local_312" />
 		</Unit>
 		<Unit filename="src/qtpre.h">
-			<Option target="default28" />
 			<Option target="to_cb28" />
 			<Option target="to_cb30" />
 			<Option target="to_cb31" />
 			<Option target="to_cb312" />
+			<Option target="local_31" />
+			<Option target="local_28" />
+			<Option target="local_30" />
+			<Option target="local_312" />
 		</Unit>
 		<Unit filename="src/qtprebuild.cpp">
-			<Option target="default28" />
 			<Option target="to_cb28" />
 			<Option target="to_cb30" />
 			<Option target="to_cb31" />
 			<Option target="to_cb312" />
+			<Option target="local_31" />
+			<Option target="local_28" />
+			<Option target="local_30" />
+			<Option target="local_312" />
 		</Unit>
 		<Unit filename="src/qtprebuild.h">
-			<Option target="default28" />
 			<Option target="to_cb28" />
 			<Option target="to_cb30" />
 			<Option target="to_cb31" />
 			<Option target="to_cb312" />
+			<Option target="local_31" />
+			<Option target="local_28" />
+			<Option target="local_30" />
+			<Option target="local_312" />
 		</Unit>
 		<Unit filename="src/qtpregen.cpp">
-			<Option target="default28" />
 			<Option target="to_cb28" />
 			<Option target="to_cb30" />
 			<Option target="to_cb31" />
 			<Option target="to_cb312" />
+			<Option target="local_31" />
+			<Option target="local_28" />
+			<Option target="local_30" />
+			<Option target="local_312" />
 		</Unit>
 		<Unit filename="src/qtpregen.h">
-			<Option target="default28" />
 			<Option target="to_cb28" />
 			<Option target="to_cb30" />
 			<Option target="to_cb31" />
 			<Option target="to_cb312" />
+			<Option target="local_31" />
+			<Option target="local_28" />
+			<Option target="local_30" />
+			<Option target="local_312" />
 		</Unit>
 		<Extensions>
 			<envvars set="default" />
-			<code_completion />
-			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

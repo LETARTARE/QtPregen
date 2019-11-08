@@ -23,7 +23,6 @@ var class_qt_pregen =
     [ "OnCloseProject", "class_qt_pregen.html#a854d4211fa3031a678e065d7000f080b", null ],
     [ "OnNewProject", "class_qt_pregen.html#ae65996bf8bf482a68e28c18b9d828c05", null ],
     [ "OnOpenProject", "class_qt_pregen.html#aa8bab7dba92d680b66fa6f02b63f6866", null ],
-    [ "OnParserEnd", "class_qt_pregen.html#a6c0165d378331cfe514006bf51752edf", null ],
     [ "OnPluginLoaded", "class_qt_pregen.html#ae1eb31a9e242f26bb451f0cb7de677c9", null ],
     [ "OnPluginLoadingComplete", "class_qt_pregen.html#a0d52426af893097e02deb8874e39b992", null ],
     [ "onProjectFileRemoved", "class_qt_pregen.html#aad96b8b5e16387b6f18ff4f73cfe716a", null ],

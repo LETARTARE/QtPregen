@@ -2,13 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregen-2.6-1-sdk142(Unix)" />
+		<Option title="qtPregen-2.6-1-sdk143(Unix)" />
 		<Option platforms="Unix;" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[with cb-11793-q, sdk-1.42.0]]>
+				<![CDATA[with cb-11798-q, sdk-1.43.0]]>
 			</notes>
 		</Option>
 		<Build>

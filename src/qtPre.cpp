@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-02-27
- * Modified:  2019-07-18
+ * Modified:  2019-11-08
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -506,8 +506,10 @@ wxArrayString qtPre::compileableProjectTargets()
 	wxArrayString compilTargets;
 	ProjectBuildTarget * pBuildTarget ;
 	uint16_t ntarget = m_pProject->GetBuildTargetsCount();
-	while (--ntarget)
+	while (ntarget)
 	{
+		ntarget--;
+//Mes = _T("indice ntarget : ") + strInt(ntarget); printWarn(Mes);
 		pBuildTarget = m_pProject->GetBuildTarget(ntarget);
 		// virtual target ?
 		if(!pBuildTarget) continue;
@@ -515,6 +517,7 @@ wxArrayString qtPre::compileableProjectTargets()
 		if (isCommandTarget(pBuildTarget) ) continue;
 		// a compileable target
 		compilTargets.Add(pBuildTarget->GetTitle());
+//Mes = _T("valid target : ") + strInt(ntarget); printWarn(Mes);
 	}
 
 	return compilTargets;
@@ -567,16 +570,25 @@ wxArrayString qtPre::compileableVirtualTargets(const wxString& _virtualtarget)
 ///
 bool qtPre::detectQtProject(cbProject * _pProject, bool _report)
 {
+//Mes = _T("qtPre::detectQtProject (...)"); print(Mes);
 	if (! _pProject)	return false;
 
 // libraries Qt in project and targets
 	m_pProject = _pProject;
 	bool isQtProject =  hasLibQt(m_pProject);
+//Mes = _T("isQtProject = ") + strBool(isQtProject); printWarn(Mes);
 	// search in compileable targets
 	if (!isQtProject)
+	{
+		wxArrayString compiletable = compileableProjectTargets();
+//Mes = allStrTable(_T("compiltable"), compiletable); printWarn(Mes);
 		for( wxString target: compileableProjectTargets())
-			if (isQtProject = hasLibQt(m_pProject->GetBuildTarget(target)))
+		{
+			isQtProject = hasLibQt(m_pProject->GetBuildTarget(target));
+			if (isQtProject)
 				break;
+		}
+	}
 
 	if (isQtProject)
 	{
@@ -705,15 +717,13 @@ bool qtPre::detectQtTarget(const wxString& _nametarget, bool _report)
 ///
 bool qtPre::hasLibQt(CompileTargetBase * _pContainer)
 {
-//Mes = _T("into 'qtPre::hasLibQt(...)'") ;
-//printWarn(Mes);
+//Mes = _T("into 'qtPre::hasLibQt(...)'") ; printWarn(Mes);
 	bool ok = false;
 	if (!_pContainer) 	return ok;
 
 	wxArrayString tablibs = _pContainer->GetLinkLibs() ;
 	uint16_t nlib = tablibs.GetCount() ;
-//Mes = _T("nlib = ") + strInt(nlib);
-//printWarn(Mes);
+//Mes = _T("nlib = ") + strInt(nlib); printWarn(Mes);
 	if (nlib > 0 )
 	{
 		wxString namelib ;
@@ -723,30 +733,26 @@ bool qtPre::hasLibQt(CompileTargetBase * _pContainer)
 		{
 			// lower, no extension
 			namelib = tablibs.Item(u++).Lower().BeforeFirst('.') ;
-//Mes = strInt(u) + _T(" -> ") + quote( namelib );
-//printWarn(Mes);
+//Mes = strInt(u) + _T(" -> ") + quote( namelib ); printWarn(Mes);
 			// no prefix "lib"
 			pos = namelib.Find(_T("lib")) ;
 			if (pos == 0)
 				namelib.Remove(0, 3) ;
 			// begin == "qt"
 			pos = namelib.Find(_T("qt")) ;
-//Mes = _T("pos 'qt' = ") + strInt(pos);
-//printWarn(Mes);
+//Mes = _T("pos 'qt' = ") + strInt(pos); printWarn(Mes);
 			if (pos != 0) 		continue ;
 			// find
 /// ATTENTION : the table should then contain all Qt libraries !!
 			index = m_TablibQt.Index(namelib);
-//Mes = _T("index = ") + strInt(index);
-//printWarn(Mes);
+//Mes = _T("index = ") + strInt(index); printWarn(Mes);
 			ok = index != -1 ;
 			// first finded
 			if (ok)
 				break;
 		}
 	}
-//Mes = _T("haslibQt(...) = ") + strBool(ok);
-//printWarn(Mes);
+//Mes = _T("haslibQt(...) = ") + strBool(ok); printWarn(Mes);
 
 	return ok;
 }
@@ -1007,9 +1013,9 @@ wxArrayString qtPre::wasCreatedToCreator()
 	wxString fullnameCreator;
 	for (wxString fcreated: m_Filewascreated)
 	{
-//Mes = _T("	fcreated = ") + quote(fcreated) ;
-//printWarn(Mes);
 		fullnameCreator = toFileCreator(fcreated)  ;
+//Mes = _T("	fcreated = ") + quote(fcreated) + _T(" => ") +  quote(fullnameCreator);
+//printWarn(Mes);
 	//add to array
 		tmp.Add(fullnameCreator);
 	}
