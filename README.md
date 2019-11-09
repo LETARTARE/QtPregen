@@ -47,9 +47,10 @@ It uses a log 'Prebuild log' for all posts plugin.
 	3- a directory 'CodeBlocks' containing wizards and files 'cbqt5'
 
 4- Installation to 'Code::Blocks 1883' (sdk-1.46.0)
-    1- first install wizards 'cbqt5',
 
-    2- then the patch 'qtPregenx.x.x-sdk146.patch' and recompile the modified 
+	1- first install wizards 'cbqt5',
+
+	2- then the patch 'qtPregenx.x.x-sdk146.patch' and recompile the modified 
 	source of the version 'Code::Blocks-11883',
 
 	3- then with 'C::B-11883' compile and install the plugin 'qtPregen' 
