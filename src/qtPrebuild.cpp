@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2019-07-18
+ * Modified:  2019-11-09
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -74,14 +74,14 @@ void qtPrebuild::beginMesBuildCreate()
 
 // display log
 	Mes = _T("-------------- ") ;
-	Mes += _T("PreBuild : ") ;
+	Mes += _T("PreBuild :") ;
 	Mes += quote( m_nameActiveTarget );
-	Mes += _(" in ");
+	Mes += _("in");
 	Mes += quote( m_nameProject );
 	Mes += _T("-------------- ") ;
 	printWarn(Mes);
 // date
-	Mes = _("started on : ") + date() ;
+	Mes = _("started on") + _T(" : ") + date() ;
 	print(Mes);
 // for duration
 	m_start = clock();
@@ -100,9 +100,9 @@ void qtPrebuild::beginMesBuildCreate()
 void qtPrebuild::endMesBuildCreate()
 {
 // date and duration
-	Mes = _("ended on : ") + date() ;
+	Mes = _("ended on") + _T(" : ") + date() ;
 	print(Mes) ;
-	Mes =  _("duration = ") + duration() ;
+	Mes =  _("duration") + _T(" = ") + duration() ;
 	printWarn(Mes);
 	Mes.Clear();
 }
@@ -141,7 +141,7 @@ bool qtPrebuild::buildAllFiles(cbProject * _pProject, bool _workspace, bool _all
 	///1- find good target with eligible files
 	///***************************************
 	// analyzing all project files
-	Mes = _("Search creator files ...") ;
+	Mes = _("Search creator file(s)") + _T(" ...") ;
 		printWarn(Mes);
 	int nelegible =  findGoodfiles() ;
 	if (nelegible > 0)
@@ -150,9 +150,9 @@ bool qtPrebuild::buildAllFiles(cbProject * _pProject, bool _workspace, bool _all
 		///2-  registered all files in 'm_Registered'
 		///******************************************
 		int nfiles = addAllFiles() ;
-		Mes = Tab + _T("-> ") + strInt(nfiles) ;
-		Mes += Space + _("creator(s) file(s) registered in the plugin") ;
-			print(Mes) ;
+		Mes = Tab + _T("-> ") + strInt(nfiles) + Space ;
+		Mes += _("creator(s) file(s) registered in the plugin") ;
+		print(Mes) ;
 		if (nfiles > 0)
 		{
 			///****************************************
@@ -172,7 +172,7 @@ bool qtPrebuild::buildAllFiles(cbProject * _pProject, bool _workspace, bool _all
 				/// 	1- adds files created in 'm_Createdfile'
 				/// 	2- create additional files as needed  by 'create(qexe, fileori)'
 				///***********************************************************
-				Mes = _("Creating complement files ...") ;
+				Mes = _("Creating complement file(s)") + _T(" ...") ;
 				printWarn(Mes);
 				bool good = createFiles() ;
 				if (good)
@@ -193,13 +193,13 @@ bool qtPrebuild::buildAllFiles(cbProject * _pProject, bool _workspace, bool _all
 				{
 					if (m_abort)
 					{
-						Mes = Tab + _("Abort complement files building ...")  ;
+						Mes = Tab + _("Abort complement file(s) building") + _T(" ...") ;
 						printWarn(Mes);
 						m_abort = false;
 					}
 					else
 					{
-						Mes = Tab + _("Complement file creation error !!") ;
+						Mes = Tab + _("Complement file creation error") + _T(" !!") ;
 						printError(Mes);
 					}
 				}
@@ -207,19 +207,19 @@ bool qtPrebuild::buildAllFiles(cbProject * _pProject, bool _workspace, bool _all
 			}	//end (ntocreate > 0)
 			else
 			{
-				Mes = Tab + _("File to create error !!") ;
+				Mes = Tab + _("File to create error") + _T(" !!") ;
 				printError(Mes);
 			}
 		} // end (nfiles > 0)
 		else
 		{
-			Mes = Tab + _("File registration error !!") ;
+			Mes = Tab + _("File registration error") + _T(" !!") ;
 			printError(Mes);
 		}
 	} // end (nelegible > 0)
 	else
 	{
-		Mes = Tab + _("No elegible file (with 'Q_OBJECT' or 'Q_GADGET' !!") ;
+		Mes = Tab + _("No elegible file (with 'Q_OBJECT' or 'Q_GADGET')") + _T(" !!") ;
 		printWarn(Mes);
 		ok = true;
 	}
@@ -251,11 +251,11 @@ void qtPrebuild::beginMesFileCreate()
 // banner
 	printLn;
 	Mes = _T("-------------- ") ;
-	Mes += _T("PreCompileFile : ") ;
+	Mes += _T("PreCompileFile :") ;
 	Mes += quote( m_pProject->GetActiveBuildTarget() );
-	Mes += _(" in ");
+	Mes += _("in");
 	Mes += quote( m_pProject->GetTitle() );
-	Mes += _T(" : ") + quote( m_filename );
+	Mes += _T(" :") + quote( m_filename );
 	Mes += _T("-------------- ") ;
 	printWarn(Mes);
 // date
@@ -555,11 +555,11 @@ bool qtPrebuild::findTargetQtexe(CompileTargetBase * _pBuildTarget)
 	Findqtexe = Findqtexe && ::wxFileExists(m_Rexe) && ::wxFileExists(m_Lexe) ;
 	if (!Findqtexe)
 	{
-		Mes = _("Could not query the executable Qt in : ") + quote( qtexe );
-		Mes +=  _T(" !") ;
-		Mes += Lf + _("Cannot continue,") + Space + _("Verify your installation Qt.");
+		Mes = _("Could not query the executable Qt in") + _T(" :") + quote( qtexe );
+		Mes +=  _T("!") ;
+		Mes += Lf + _("Cannot continue") + _T(", ") + _("Verify your installation Qt.");
 		printError(Mes);
-		cbMessageBox(Mes, _("Search executable Qt ..."), wxICON_ERROR) ;
+		cbMessageBox(Mes, _("Search executable Qt") + _T(" ..."), wxICON_ERROR) ;
 	}
 	m_IncPathQt = pathIncludeMoc(m_pProject) +  pathIncludeMoc(_pBuildTarget);
 	m_DefinesQt = definesMoc(m_pProject) + definesMoc(_pBuildTarget);
@@ -611,7 +611,7 @@ bool qtPrebuild::WriteFileContents(const wxString& _filename, const wxString& _c
 ///
 uint16_t qtPrebuild::findGoodfiles()
 {
-//	Mes = _("Search creator files ...") ; printWarn(Mes);
+//	Mes = _("Search creator file(s) ...") ; printWarn(Mes);
 	/// DEBUG
 //* ****************************************
 //	beginDuration(_T("findGoodFiles(...)"));
@@ -723,7 +723,7 @@ wxString qtPrebuild::refTargetQt(const ProjectBuildTarget * _pBuildTarget)
         nlib = tablibs.GetCount() ;
         if (!nlib)
         {
-            Mes =  _("This target has no linked library !!");
+            Mes =  _("This target has no linked library") + _T(" !!");
             printError(Mes);
             return refqt ;
         }
@@ -802,7 +802,7 @@ bool qtPrebuild::isGoodTargetQt(const ProjectBuildTarget * _pBuildTarget)
 	bool isqt = ! str.IsEmpty()  ;
 	if (!isqt)
 	{   // TODO ...
-		Mes = Tab + _("This target have nothing library Qt !") ;
+		Mes = Tab + _("This target have nothing library Qt") + _T(" !") ;
 		Mes += Lf + Tab + _("PreBuild cannot continue.") ;
 		printWarn(Mes);
 	}
@@ -862,7 +862,7 @@ int qtPrebuild::q_object(const wxString& _filename, const wxString& _qt_macro)
 	wxString namefile = m_dirProject + _filename ;
 	if (! ::wxFileExists(namefile))
 	{
-		Mes = quote( namefile ) + _(" NOT FOUND") + _T(" !!!") + Lf ;
+		Mes = quote( namefile ) + _("NOT FOUND") + _T(" !!!") + Lf ;
 		printError(Mes) ;
 		return -1  ;
 	}
@@ -870,7 +870,7 @@ int qtPrebuild::q_object(const wxString& _filename, const wxString& _qt_macro)
 	wxString source = ReadFileContents(namefile) ;
 	if (source.IsEmpty())
 	{
-		Mes = quote( namefile ) + _(" : file is empty") +  _T(" !!!") + Lf ;
+		Mes = quote( namefile ) + _T(": ") + _T("file is empty") +  _T(" !!!") + Lf ;
 		printError(Mes) ;
 		return -1 ;
 	}
@@ -1073,7 +1073,7 @@ bool qtPrebuild::unregisterCreatorFile(wxString & _file, bool _first)
 	wxString filename = _file, pathproject = m_pProject->GetCommonTopLevelPath();
 	// relative file path
 	filename.Replace(pathproject, _T("") ) ;
-//Mes = _T(" ==> creator filename to find = ") + quote( filename ); print(Mes);
+//Mes = _T(" ==> creator filename to find =") + quote( filename ); print(Mes);
 	int16_t index = m_Filecreator.Index (filename);
 	bool ok = index != wxNOT_FOUND;
 	if (!ok)
@@ -1082,10 +1082,10 @@ bool qtPrebuild::unregisterCreatorFile(wxString & _file, bool _first)
 	m_Filecreator.RemoveAt(index); m_Filecreator.Insert(m_Devoid, index);
 	if (_first)
 	{
-		Mes =  Lf +_("Creator file(s) was removed from project ...") ;
+		Mes =  Lf +_("Creator file(s) was removed from project") + _T(" ...") ;
 		printWarn(Mes);
 	}
-	Mes = Tab + _T("- ") + quote( filename );
+	Mes = Tab + _T("-") + quote( filename );
 	print(Mes);
 
 // print(allStrTable(_T("m_Filecreator"), m_Filecreator));
@@ -1123,7 +1123,7 @@ bool qtPrebuild::unregisterComplementFile(wxString & _file, bool _first)
 // we look for the number of 'complement' occurrences in 'm_Registered'
 	bool ok = false;
 	uint16_t nf = m_Registered.GetCount();
-//Mes =  _T(" from ") + quote( strInt(nf) )  + _T(" files ...") ; print(Mes);
+//Mes =  _T(" from ") + quote( strInt(nf) )  + _T(" file(s) ...") ; print(Mes);
 	wxString item;
 	while (nf--)
 	{
@@ -1141,7 +1141,7 @@ bool qtPrebuild::unregisterComplementFile(wxString & _file, bool _first)
 		ok = removeComplementToDisk(filename, _first);
 		if (!ok)
 		{
-			Mes = _T(" ==> errorfilename  = ") + quote( filename );
+			Mes = _T(" ==> ") + _("error filename") + _T(" =") + quote( filename );
 		//	printError(Mes);
 		//	break;
 		/// TO DO an other method ...
@@ -1172,8 +1172,8 @@ bool qtPrebuild::unregisterAllComplementsToCB(const wxString & _oldTargetName,
 											  cbProject * _pProject, bool _first)
 {
 /// Debug
-Mes = _T("=>") + Space + _("unregisterAllComplementsToCB( => An old name target =") ;
-Mes += Space + quote( _oldTargetName ) + _T(")"); printWarn(Mes);
+//Mes = _T("=> unregisterAllComplementsToCB( => An old name target =") ;
+//Mes += quote( _oldTargetName) + _T(")"); printWarn(Mes);
 /// <=
 	bool ok = false;
 	wxString filename ;
@@ -1199,8 +1199,8 @@ Mes += Space + quote( _oldTargetName ) + _T(")"); printWarn(Mes);
 			ok = _pProject->RemoveFile(prjfile);
 			if (!ok)
 			{
-				Mes = _T(" ==> RemoveFile() : error with file  = ");
-				Mes += quote( filename );
+				Mes = _T(" ==> RemoveFile() : ") ;
+				Mes += _("error with file") + _T(" =") + quote( filename );
 				printError(Mes);
 				break;
 			}
@@ -1219,8 +1219,8 @@ Mes += Space + quote( _oldTargetName ) + _T(")"); printWarn(Mes);
 					_first = false;
 				if (!ok)
 				{
-					Mes = _T(" ==> removeComplementToDisk( : error file  = ");
-					Mes += quote( filename );
+					Mes = _T(" ==> removeComplementToDisk() : ");
+					Mes += _("error with file") + _T(" =") + quote( filename );
 					printError(Mes);
 					break;
 				}
@@ -1264,10 +1264,11 @@ bool qtPrebuild::removeComplementToDisk(const wxString & _filename, bool _first,
 		{
 			if (_first)
 			{
-				Mes = Tab + _("Complement file(s) was removed from C::B and disk ...") ;
+				Mes = Tab + _("Complement file(s) was removed from C::B and disk");
+				Mes += _T(" ...") ;
 				print(Mes);
 			}
-			Mes = Tab +  _T("- ") + quote( _filename );
+			Mes = Tab +  _T("-") + quote( _filename );
 		// if 'ui_xxx.h' => no compiled file '*.o'
 			wxString beginfile = _filename.AfterLast('\\').BeforeFirst('_');
 			if (beginfile.Matches(_T("ui")) )
@@ -1287,25 +1288,25 @@ bool qtPrebuild::removeComplementToDisk(const wxString & _filename, bool _first,
 /// it is also necessary to delete the compiled file from the old complement
 /// ATTENTION : the active target may be different of target used !!
 			wxString pathObjects, ofile = _filename.Before('.')  + _T(".o");
-//Mes = _T(" m_dirObjects  = ") + quote( m_dirObjects ) ; printWarn(Mes);
+//Mes = _T(" m_dirObjects  =") + quote( m_dirObjects ) ; printWarn(Mes);
 			pathObjects = m_dirObjects + ofile;
 			m_pMam->ReplaceMacros(pathObjects);
 			if (!targethere.IsEmpty())
 				pathObjects.Replace(m_nameActiveTarget, targethere);
-//Mes = _T(" To delete => pathObjects  = ") + quote( pathObjects ) ; print(Mes);
+//Mes = _T(" To delete => pathObjects  =") + quote( pathObjects ) ; print(Mes);
 			// is there a compiled complement file ?
 				ok = ::wxFileExists(pathObjects);
 				if (ok) {
 					ok = ::wxRemoveFile(pathObjects);
 					if (ok)
 					{
-						Mes += _T(", ") + quote( pathObjects );
+						Mes += _T(",") + quote( pathObjects );
 						print(Mes);
 					}
 					// error to removing :
 					else
 					{
-						Mes = Tab + Tab + _T("-> not removed ") + quote( pathObjects );
+						Mes = Tab + Tab + _T("-> ") + _("not removed") + quote( pathObjects );
 						printError(Mes);
 					}
 				}
@@ -1315,7 +1316,7 @@ bool qtPrebuild::removeComplementToDisk(const wxString & _filename, bool _first,
 				// the compiled complement file is missing
 					if (_withobject)
 					{
-						Mes = Tab + Tab + _T("-> not exists ") + quote( pathObjects );
+						Mes = Tab + Tab + _T("-> ") + _("not exists") + quote( pathObjects );
 						printError(Mes);
 
 					}
@@ -1331,13 +1332,13 @@ bool qtPrebuild::removeComplementToDisk(const wxString & _filename, bool _first,
 		}
 		else
 		{
-			Mes = Tab + _("Can not delete") + Space + quote( _filename ) + _T(" !!");
+			Mes = Tab + _("Can not delete") + quote( _filename ) + _T(" !!");
 			printError(Mes) ;
 		}
 	}
 	else
 	{
-		Mes = Tab + _("File") + Space + quote( _filename ) + Space + _("not found !!");
+		Mes = Tab + _("File") + quote( _filename ) + _("not found") + _T(" !!");
 		printError(Mes) ;
 	}
 	Mes.Clear();
@@ -1377,11 +1378,11 @@ bool qtPrebuild::removeComplementDirToDisk(const wxString & _oldTargetName)
 	bool ok ;
 /// delete old complements directory : '"m_dirPreBuild"\_oldTargetName\*.*'
 	wxString file = m_dirPreBuild + _oldTargetName;
-	Mes = Tab + _T("Complement directory was removed from disk ...");
+	Mes = Tab + _("Complement directory was removed from disk") + _T(" ...");
 	printWarn(Mes);
 
 	ok = recursRmDir(file);
-	Mes = Tab + _T("- ") + quote( file + Slash + _T("*.*") ) ;
+	Mes = Tab + _T("- ") + quoteNS( file + Slash + _T("*.*") ) ;
 	if(ok)
 	{
 		Mes += Space + _("is deleted");
@@ -1400,7 +1401,7 @@ Mes = Tab + _T("Object complement directory was removed from disk");
 //	Mes +=  Space + quote( file );
 printWarn(Mes);
 	ok = recursRmDir(file);
-	Mes = Tab + _T("- ") + quote( file + _T("*.*") ) ;
+	Mes = Tab + _T("-") + quote( file + _T("*.*") ) ;
 	if (ok)
 	{
 		Mes += Space + _("is deleted");
@@ -1408,8 +1409,8 @@ printWarn(Mes);
 	}
 	if (!ok)
 	{
-		Mes += _T(" ==> ") ;
-		Mes +=  _(" cannot be deleted !!!");
+		Mes += _T(" ==>") ;
+		Mes += _(" cannot be deleted") + _T(" !!!");
 		printError(Mes);
 	}
 	Mes.Clear();
@@ -1439,16 +1440,16 @@ bool qtPrebuild::removeOldExecutable(ProjectBuildTarget* _pBuildTarget, const wx
 		// remove executable file
 			ok = ::wxRemoveFile(oldexename);
 			if (ok)
-			Mes = Tab + _T("Old executable") + Space + quote( oldexename ) ;
+			Mes = Tab + _("Old executable") + quote( oldexename ) ;
 			if(ok)
 			{
-				Mes += Space + _("is deleted");
+				Mes += _("is deleted");
 				print(Mes);
 			}
 			else
 			{
 				Mes += _T(" ==> ") ;
-				Mes +=  _(" cannot be deleted !!!");
+				Mes += _("cannot be deleted") + _T(" !!!");
 				printError(Mes);
 			}
 		}
@@ -1468,7 +1469,7 @@ bool qtPrebuild::removeOldExecutable(ProjectBuildTarget* _pBuildTarget, const wx
 
 bool qtPrebuild::removeOldPathtoCB(ProjectBuildTarget * _pContainer, const wxString & _oldTargetName)
 {
-//Mes = _T(" *** removeOldPathtoCB(...) from ") + quote( _oldTargetName ) ; printWarn(Mes);
+//Mes = _T(" *** removeOldPathtoCB(...) from") + quote( _oldTargetName ) ; printWarn(Mes);
 	bool ok = false;
 	// read target include path
 	wxArrayString tabincludedirs = _pContainer->GetIncludeDirs(), tabpath;
@@ -1478,7 +1479,7 @@ bool qtPrebuild::removeOldPathtoCB(ProjectBuildTarget * _pContainer, const wxStr
 		for (wxString& line : tabincludedirs)
 		{
 			m_pMam->ReplaceMacros(line) ;
-//Mes = _T("** line = ") + quote( line ); print(Mes);
+//Mes = _T("** line =") + quote(line); print(Mes);
 			// it's an old path
 			if (line.Contains(_oldTargetName))	continue;
 			// memorize the line
@@ -1537,7 +1538,7 @@ bool qtPrebuild::recursRmDir(wxString _rmDir)
 			if(!wxRemoveFile(_rmDir + item))
 			{
 				//Error during deletion (access rights ?)
-				Mes = _T("Could not remove item") + Space + quote(  _rmDir + item );
+				Mes = _T("Could not remove item") + quote(_rmDir + item);
 				printError(Mes);
 			}
         }
@@ -1551,7 +1552,7 @@ bool qtPrebuild::recursRmDir(wxString _rmDir)
     if (!ok)
     {
         //Error during deletion (access rights ?)
-		Mes = _T("Could not remove directory") + Space + quote(  _rmDir );
+		Mes = _("Could not remove directory") + quote(_rmDir);
 		printError(Mes);
     }
     Mes.Clear();
@@ -1663,8 +1664,8 @@ bool qtPrebuild::addOneFile(const wxString& _fcreator, const wxString& _fout)
 		nocompile = true;
 		weight = 40; // before all files
 	}
-//Mes = Tab + quote( _fcreator ) + _T(" -> ") +  quote( _fout ) ;
-//Mes += _T(" : include = ") +  quote( strBool(nocompile) ) ; printWarn(Mes);
+//Mes = Tab + quote(_fcreator) + _T("->") +  quote( _fout ) ;
+//Mes += _T(" : include =") +  quote( strBool(nocompile) ) ; printWarn(Mes);
 
 // find projectfile in project ?
 	ProjectFile * prjfile = m_pProject->GetFileByFilename(_fout);
@@ -1690,8 +1691,8 @@ bool qtPrebuild::addOneFile(const wxString& _fcreator, const wxString& _fout)
 		{
 		// display message
 			Mes  = _T("===> ") ;
-			Mes += _("can not add this file ");
-			Mes += quote( _fout ) + _(" to target ") + m_nameActiveTarget ;
+			Mes += _("can not add this file");
+			Mes += quote( _fout ) + _("to target") + Space + m_nameActiveTarget ;
 			printError (Mes) ;
 			cbMessageBox(Mes, _T("AddFile(...)"), wxICON_ERROR) ;
 		}
@@ -1826,8 +1827,8 @@ bool qtPrebuild::createDir (const wxString&  _dircomplement)
 		ok = wxMkdir(_dircomplement) ;
 		if (!ok)
 		{
-			Mes = _("Can't create directory ")  ;
-			Mes += quote( _dircomplement ) + _T(" !!") ;
+			Mes = _("Can't create directory")  ;
+			Mes += quote( _dircomplement ) + _T("!!") ;
 			printError(Mes);
 			cbMessageBox(Mes, _T("createDir()"), wxICON_ERROR) ;
 		}
@@ -1846,12 +1847,12 @@ bool qtPrebuild::removeDir(const wxString& _dirgen )
 	bool ok = ::wxDirExists(_dirgen) ;
 	if (ok)
 	{
-//Mes = quote( dirgen ) + _T(" !!") ; printWarn(Mes);
+//Mes = quote( dirgen ) + _T("!!") ; printWarn(Mes);
 		ok = ::wxRmdir(_dirgen)  ;
 		if (!ok)
 		{
-			Mes = _("Can't remove directory ") ;
-			Mes += quote( _dirgen ) + _T(" !!") ;
+			Mes = _("Can't remove directory") ;
+			Mes += quote( _dirgen) + _T("!!") ;
 			printError(Mes);
 			cbMessageBox(Mes, _T(""), wxICON_ERROR) ;
 		}
@@ -2032,7 +2033,7 @@ bool qtPrebuild::createFiles()
 	{
 	// already created
 		Mes = Tab + _("Nothing to do (") + strInt(nftodisk);
-		Mes += Space + _("correct complement files exist on disk)") ;
+		Mes += Space + _("correct complement file(s) exist on disk)") ;
 		print(Mes) ;
 
 		return emptiness  ;
@@ -2040,7 +2041,7 @@ bool qtPrebuild::createFiles()
 
 	Mes = Tab + _T("=> ") + _("There are");
 	Mes += Space + strInt(nftocreate) + Space ;
-	Mes += _("complement files to rebuild") ;
+	Mes += _("complement file(s) to rebuild") ;
 	Mes += _T("...");
 	printWarn(Mes);
 
@@ -2090,9 +2091,8 @@ bool qtPrebuild::createFiles()
 		// 'validCreated()' detect 'm_Devoid'  !!
 			m_Createdfile.Add(m_Devoid, 1)  ;
 		// error message
-			wxString title = _("Creating ") + quote( m_Registered.Item(i) ) ;
-			title += _(" failed") ;
-			title += _T(" ...");
+			wxString title = _("Creating") + quote( m_Registered.Item(i)) ;
+			title += _("failed") + _T(" ...");
 			// error create complement
 			Mes =  Tab +_T("=> ") ;
 			Mes += strerror.BeforeLast(Lf.GetChar(0)) ;
@@ -2104,13 +2104,13 @@ bool qtPrebuild::createFiles()
 			abandonment = choice == wxID_YES ;
 			if (abandonment)
 			{
-                Mes = Tab  + _("Abandonment of the pre-construction ...");
+                Mes = Tab  + _("Abandonment of the pre-construction") + _T(" ...");
 				printError (Mes) ;
 				break;
 			}
 			else
 			{
-				Mes = Tab  + _("Continue building ...");
+				Mes = Tab  + _("Continue building") + _T(" ...");;
 				printWarn (Mes) ;
 				created = true;
 			}
@@ -2130,7 +2130,7 @@ bool qtPrebuild::createFiles()
 		Mes += strInt(nfiles) + Space + _("file(s)");
 		print(Mes);
     // adversing
-		Mes = _("A stop was requested during the creation of the complement files !!");
+		Mes = _("A stop was requested during the creation of the complement file(s) !!");
 		printWarn(Mes) ;
 		cbMessageBox(Mes, _T("Create File(...)"), wxICON_WARNING ) ;
 	// adjust 'm_Createdfile'
@@ -2257,11 +2257,11 @@ wxString qtPrebuild::createFileComplement(const wxString& _qexe,
 		bool nocompile = ! prjfile->compile
 			,nolink = ! prjfile->link;
 
-		Mes = Tab + strInt(m_nfilesCreated) + _T("- ") + quote( _fcreator )  ;
-		Mes +=  _T(" ---> ") + quote( _fout ) ;
+		Mes = Tab + strInt(m_nfilesCreated) + _T("-") + quote(_fcreator)  ;
+		Mes +=  _T("--->") + quote(_fout) ;
 		if (nocompile && nolink)
 		{
-			Mes += Tab + _T("(") +  _("no compiled, no linked") + _T(")");
+			Mes += Tab + _T("(") + _("no compiled, no linked") + _T(")");
 			printWarn(Mes);
 		}
 		else
@@ -2292,14 +2292,14 @@ wxString qtPrebuild::createComplement(const wxString& _qexe, const uint16_t _ind
 
 	if (!createDir(dircomplement))
 	{
-		Mes = _("Unable to create directory ") + quote( dircomplement ) ;
+		Mes = _("Unable to create directory") + quote( dircomplement) ;
 		return Mes ;
 	}
 //2- add search path for compiler
 	ProjectBuildTarget * pBuildTarget = m_pProject->GetBuildTarget(m_nameActiveTarget) ;
 	if (!pBuildTarget)
 	{
-		Mes = quote(m_nameActiveTarget) + _(" does not exist !!") ;
+		Mes = quote(m_nameActiveTarget) + _("does not exist") + _T(" !!") ;
 		return Mes ;
 	}
 

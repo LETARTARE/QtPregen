@@ -12,5 +12,6 @@ var searchData=
   ['qtpregen',['QtPregen',['../class_qt_pregen.html',1,'QtPregen'],['../class_qt_pregen.html#ac1e3ec1ed91e7650df48aab085f057d3',1,'QtPregen::QtPregen()']]],
   ['qtpregen_2ecpp',['qtpregen.cpp',['../qtpregen_8cpp.html',1,'']]],
   ['qtpregen_2eh',['qtpregen.h',['../qtpregen_8h.html',1,'']]],
-  ['quote',['Quote',['../defines_8h.html#ad041c6cc7012e6455a9abe3d19c5d286',1,'Quote():&#160;defines.h'],['../defines_8h.html#a17b6c7c333d218bde06b744d9226cbb4',1,'quote():&#160;defines.h']]]
+  ['quote',['quote',['../defines_8h.html#a17b6c7c333d218bde06b744d9226cbb4',1,'quote():&#160;defines.h'],['../defines_8h.html#ad041c6cc7012e6455a9abe3d19c5d286',1,'Quote():&#160;defines.h']]],
+  ['quotens',['quoteNS',['../defines_8h.html#afc9c6dd597f8017697899a1304a04ec2',1,'defines.h']]]
 ];

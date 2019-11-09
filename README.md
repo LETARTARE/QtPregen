@@ -1,4 +1,4 @@
-# QtPregen-2.6.2 November 08, 2019 (Win-32, Linux-64)
+# QtPregen-2.7.0 November 09, 2019 (Win-32, Linux-64)
 
 Plugin to compile QT applications with 'Code::Blocks'
 
@@ -47,7 +47,13 @@ It uses a log 'Prebuild log' for all posts plugin.
 	3- a directory 'CodeBlocks' containing wizards and files 'cbqt5'
 
 
+<<<<<<< .mine
+4- Installation to 'Code::Blocks 1883' (sdk-1.46.0)
+||||||| .r57
+4- Installation to 'Code::Blocks 11798' (sdk-1.43.0)
+=======
 4- Installation to 'Code::Blocks 11883' (sdk-1.43.0)
+>>>>>>> .r58
 
     1- first install wizards 'cbqt5',
 

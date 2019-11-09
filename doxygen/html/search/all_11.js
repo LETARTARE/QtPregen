@@ -8,6 +8,7 @@ var searchData=
   ['setbuildtarget',['setBuildTarget',['../classqt_pre.html#a8044fca40781f0e43b0bf4a27a13d2c3',1,'qtPre']]],
   ['setpageindex',['SetPageIndex',['../classqt_pre.html#ae5eb08a1ed9837162ca5ab117d5dd025',1,'qtPre']]],
   ['setproject',['setProject',['../classqt_pre.html#a567ebe93c0d5f721eb8d48757d0c235b',1,'qtPre']]],
+  ['sizele',['SizeLe',['../defines_8h.html#a799696268f44d9dc34647a0208df5ba1',1,'defines.h']]],
   ['sizesep',['SizeSep',['../defines_8h.html#a109f64db69faa7a1c15094dd816269e2',1,'SizeSep():&#160;defines.h'],['../qtpre_8cpp.html#a109f64db69faa7a1c15094dd816269e2',1,'SizeSep():&#160;qtpre.cpp']]],
   ['slash',['Slash',['../defines_8h.html#a30ed96a93c11a71c1933ecf7d1f8091b',1,'defines.h']]],
   ['space',['Space',['../defines_8h.html#ab8efc174fd44ac155917e1f46ccb56aa',1,'defines.h']]],

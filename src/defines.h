@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2019-07-18
+ * Modified:  2019-11-09
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -27,14 +27,17 @@
 #define		Dquote  wxString(_T("\""))
 #define 	Tab		wxString(_T("\t"))
 #define 	Space	wxString(_T(" "))
+#define 	Point	wxString(_T("."))
 /** \brief text separator
  */
 #define 	SepD 	char(13) 	// 0xD, \n
 #define 	SepA 	char(10)	// 0xA, \r
 #define 	SizeSep 2
+#define		SizeLe	16
 /** @brief surrounded by 'Quote'
  */
-#define 	quote(a)	(Quote + wxString(a) + Quote)
+#define 	quote(a)	(Space + Quote + wxString(a) + Quote + Space)
+#define 	quoteNS(a)	(Quote + wxString(a) + Quote)
 /** \brief  for print an integer and a boolean
  */
 #define strInt(a)	(wxString()<<a)
