@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregen-2.6.2-810-sdk146" />
+		<Option title="qtPregen-2.7.0-810-sdk146" />
 		<Option platforms="Windows;" />
 		<Option pch_mode="2" />
 		<Option compiler="gnu_gcc_compiler_mingw32-810" />
@@ -11,6 +11,11 @@
 				<![CDATA[2.6.1-svn56 use cb11798-q sdk143
 ...
 2.6.2-svn56 use cb11865-q sdk145
+
+2.6.2-svn57 use cb11883-q sdk146
+...
+2.7.0-svn57 use cb11883-q sdk146
+
 ]]>
 			</notes>
 		</Option>

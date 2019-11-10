@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-02-27
- * Modified:  2019-11-09
+ * Modified:  2019-11-10
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -94,11 +94,14 @@ void qtPre::beginDuration(const wxString & _namefunction)
 {
 // target name
 	Mes = _T("--------------> ") ;
-	Mes += _("PreBuild") + _T(" :") ;
+	Mes += _("PreBuild");
+	Mes += _T(" :") ;
 	Mes += quote( m_nameActiveTarget );
 	printWarn(Mes);
 // date
-	Mes = Lf + _T("==> ") + _("Start of") + quote(_namefunction) + _T(": ") + date()  ;
+	Mes = Lf + _T("==> ");
+	Mes += _("Start of") + quote(_namefunction) ;
+	Mes += _T(": ") + date();
 	printWarn(Mes);
 	m_start = clock();
 	Mes.Clear();
@@ -109,7 +112,9 @@ void qtPre::beginDuration(const wxString & _namefunction)
 ///
 void qtPre::endDuration(const wxString & _namefunction)
 {
-	Mes = _T("<== ") + _("End of") + quote( _namefunction  ) + _T(" : ") + date();
+	Mes = _T("<== ") ;
+	Mes += _("End of") + quote( _namefunction  ) ;
+	Mes += _T(" : ") + date();
 	Mes += _T(" -> ") + duration();
 	//printError(Mes);
 	printWarn(Mes);
@@ -608,11 +613,15 @@ bool qtPre::detectQtProject(cbProject * _pProject, bool _report)
 		// usemake ?
 		if( m_pProject->IsMakefileCustom())
 		{
-			Mes = _T("... ") + _("but please, DISABLE using of custom makefile");
+			Mes = _T("... ") ;
+			Mes += _("but please, DISABLE using of custom makefile");
 			Mes += Lf + quote(m_namePlugin) + _("not use makefile.");
 			print(Mes);
-			Mes += Lf + _("CAN NOT CONTINUE") + _T(" !") ;
-			cbMessageBox(Mes, _("Used makefile") + _T(" !!"), wxICON_WARNING ) ;
+			Mes += Lf + _("CAN NOT CONTINUE") ;
+			Mes += _T(" !") ;
+			wxString title = _("Used makefile");
+			title += _T(" !!");
+			cbMessageBox(Mes, title, wxICON_WARNING ) ;
 
 			Mes = m_namePlugin + _T(" -> ") + _("end") + _T(" ...");
 			printWarn(Mes);
@@ -638,7 +647,8 @@ bool qtPre::virtualToFirstRealTarget(wxString& _virtualtarget, bool _warning)
 	_virtualtarget = compileableVirtualTargets(_virtualtarget).Item(0);
 	if (_warning) {
 			Mes = quote( _virtualtarget );
-			Mes += _("it is a virtual target") + _T(", ");
+			Mes += _("it is a virtual target");
+			Mes += _T(", ");
 			Mes += _("that is replaced by his first real target") ;
 			Mes += quote( _virtualtarget);
 			printWarn(Mes);
@@ -678,8 +688,8 @@ bool qtPre::detectQtTarget(const wxString& _nametarget, bool _report)
 		if (_report)
 		{
 			Mes = Tab + quote(_T("::") + _nametarget);
-			Mes += _("is a virtual 'Qt' target that drives") + _T(" ...");
-			printWarn(Mes);
+			Mes += _("is a virtual 'Qt' target that drives") ;
+			Mes += _T(" ..."); printWarn(Mes);
 		}
 	}
 	else
@@ -854,7 +864,8 @@ bool qtPre::detectComplementsOnDisk(cbProject * _pProject, const wxString & _nam
 						// advices
 						Mes += Tab +  _("is") + Space;
 						if(!ok)		Mes += _("NOT") + Space;
-						Mes += _("a Qt target") + _T(", ");
+						Mes += _("a Qt target") ;
+						Mes += _T(", ");
 						Mes +=  _("with") + Space;
 						if (n)
 						{
@@ -873,16 +884,19 @@ bool qtPre::detectComplementsOnDisk(cbProject * _pProject, const wxString & _nam
 				if (_report)
 				{
 					Mes =  _("The directory") + quote(diradding);
-					Mes += _(" no exists") + _T(".") + Space ;
-					Mes += _("You need to 'Rebuild' the target") + _T(" !!");
-					printWarn(Mes) ;
+					Mes += _(" no exists") ;
+					Mes += _T(".") + Space ;
+					Mes += _("You need to 'Rebuild' the target") ;
+					Mes += _T(" !!"); printWarn(Mes) ;
 				}
 			} // end for
 		}
 		else{
 			Mes =  Tab+ _T("=> ") + _("The directory") + quote(m_dirPreBuild);
-			Mes += _("is empty") + _T(".") + Space ;
-			Mes += _("You need to 'Rebuild' the project") + _T(" !!");
+			Mes += _("is empty") ;
+			Mes += _T(".") + Space ;
+			Mes += _("You need to 'Rebuild' the project") ;
+			Mes += _T(" !!");
 			printWarn(Mes) ;
 		}
 		if (strangers)
@@ -890,7 +904,8 @@ bool qtPre::detectComplementsOnDisk(cbProject * _pProject, const wxString & _nam
 			Mes = _T("	==>");
 			Mes += quote( _pProject->GetTitle()) + _("has stranger complement files in");
 			Mes += quote(m_dirPreBuild);
-			Mes += _T("==> ") + _("you can delete it from the disk");
+			Mes += _T("==> ") ;
+			Mes += _("you can delete it from the disk");
 			printError(Mes);
 		}
 	}
@@ -901,7 +916,8 @@ bool qtPre::detectComplementsOnDisk(cbProject * _pProject, const wxString & _nam
 		//Mes = _T("qtPre::detectComplementsOnDisk -> ");
 		Mes =  Tab+ _T("=> ") + _("The directory of complements does not exist") ;
 		Mes += _T(" ! ,");
-		Mes += _("you need to 'Rebuild' the project") + _T(" !!");
+		Mes += _("you need to 'Rebuild' the project") ;
+		Mes += _T(" !!");
 		printWarn(Mes);
 	}
 

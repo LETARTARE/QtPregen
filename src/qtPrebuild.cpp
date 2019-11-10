@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2019-11-09
+ * Modified:  2019-11-10
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -81,7 +81,8 @@ void qtPrebuild::beginMesBuildCreate()
 	Mes += _T("-------------- ") ;
 	printWarn(Mes);
 // date
-	Mes = _("started on") + _T(" : ") + date() ;
+	Mes = _("started on");
+	Mes += _T(" : ") + date() ;
 	print(Mes);
 // for duration
 	m_start = clock();
@@ -100,9 +101,11 @@ void qtPrebuild::beginMesBuildCreate()
 void qtPrebuild::endMesBuildCreate()
 {
 // date and duration
-	Mes = _("ended on") + _T(" : ") + date() ;
+	Mes = _("ended on") ;
+	Mes += _T(" : ") + date() ;
 	print(Mes) ;
-	Mes =  _("duration") + _T(" = ") + duration() ;
+	Mes =  _("duration") ;
+	Mes += _T(" = ") + duration() ;
 	printWarn(Mes);
 	Mes.Clear();
 }
@@ -141,8 +144,9 @@ bool qtPrebuild::buildAllFiles(cbProject * _pProject, bool _workspace, bool _all
 	///1- find good target with eligible files
 	///***************************************
 	// analyzing all project files
-	Mes = _("Search creator file(s)") + _T(" ...") ;
-		printWarn(Mes);
+	Mes = _("Search creator file(s)") ;
+	Mes += _T(" ...") ;
+	printWarn(Mes);
 	int nelegible =  findGoodfiles() ;
 	if (nelegible > 0)
 	{
@@ -172,7 +176,8 @@ bool qtPrebuild::buildAllFiles(cbProject * _pProject, bool _workspace, bool _all
 				/// 	1- adds files created in 'm_Createdfile'
 				/// 	2- create additional files as needed  by 'create(qexe, fileori)'
 				///***********************************************************
-				Mes = _("Creating complement file(s)") + _T(" ...") ;
+				Mes = _("Creating complement file(s)") ;
+				Mes += _T(" ...") ;
 				printWarn(Mes);
 				bool good = createFiles() ;
 				if (good)
@@ -555,11 +560,15 @@ bool qtPrebuild::findTargetQtexe(CompileTargetBase * _pBuildTarget)
 	Findqtexe = Findqtexe && ::wxFileExists(m_Rexe) && ::wxFileExists(m_Lexe) ;
 	if (!Findqtexe)
 	{
-		Mes = _("Could not query the executable Qt in") + _T(" :") + quote( qtexe );
-		Mes +=  _T("!") ;
-		Mes += Lf + _("Cannot continue") + _T(", ") + _("Verify your installation Qt.");
+		Mes = _("Could not query the executable Qt in") ;
+		Mes +=  _T(" :") + quote( qtexe ) + _T("!") ;
+		Mes += Lf + _("Cannot continue") ;
+		Mes += _T(", ") ;
+		Mes += _("Verify your installation Qt.");
 		printError(Mes);
-		cbMessageBox(Mes, _("Search executable Qt") + _T(" ..."), wxICON_ERROR) ;
+		wxString title = _("Search executable Qt") ;
+		title += _T(" ...") ;
+		cbMessageBox(Mes, title, wxICON_ERROR) ;
 	}
 	m_IncPathQt = pathIncludeMoc(m_pProject) +  pathIncludeMoc(_pBuildTarget);
 	m_DefinesQt = definesMoc(m_pProject) + definesMoc(_pBuildTarget);
@@ -723,7 +732,8 @@ wxString qtPrebuild::refTargetQt(const ProjectBuildTarget * _pBuildTarget)
         nlib = tablibs.GetCount() ;
         if (!nlib)
         {
-            Mes =  _("This target has no linked library") + _T(" !!");
+            Mes = _("This target has no linked library") ;
+            Mes += _T(" !!");
             printError(Mes);
             return refqt ;
         }
@@ -1141,7 +1151,9 @@ bool qtPrebuild::unregisterComplementFile(wxString & _file, bool _first)
 		ok = removeComplementToDisk(filename, _first);
 		if (!ok)
 		{
-			Mes = _T(" ==> ") + _("error filename") + _T(" =") + quote( filename );
+			Mes = _T(" ==> ");
+			Mes += _("error filename") ;
+			Mes += + _T(" =") + quote( filename );
 		//	printError(Mes);
 		//	break;
 		/// TO DO an other method ...
@@ -1200,7 +1212,8 @@ bool qtPrebuild::unregisterAllComplementsToCB(const wxString & _oldTargetName,
 			if (!ok)
 			{
 				Mes = _T(" ==> RemoveFile() : ") ;
-				Mes += _("error with file") + _T(" =") + quote( filename );
+				Mes += _("error with file") ;
+				Mes += _T(" =") + quote( filename );
 				printError(Mes);
 				break;
 			}
@@ -1220,7 +1233,8 @@ bool qtPrebuild::unregisterAllComplementsToCB(const wxString & _oldTargetName,
 				if (!ok)
 				{
 					Mes = _T(" ==> removeComplementToDisk() : ");
-					Mes += _("error with file") + _T(" =") + quote( filename );
+					Mes += _("error with file") ;
+					Mes += _T(" =") + quote( filename );
 					printError(Mes);
 					break;
 				}
@@ -1410,7 +1424,8 @@ printWarn(Mes);
 	if (!ok)
 	{
 		Mes += _T(" ==>") ;
-		Mes += _(" cannot be deleted") + _T(" !!!");
+		Mes += _(" cannot be deleted");
+		Mes += _T(" !!!");
 		printError(Mes);
 	}
 	Mes.Clear();
@@ -1449,7 +1464,8 @@ bool qtPrebuild::removeOldExecutable(ProjectBuildTarget* _pBuildTarget, const wx
 			else
 			{
 				Mes += _T(" ==> ") ;
-				Mes += _("cannot be deleted") + _T(" !!!");
+				Mes += _("cannot be deleted") ;
+				Mes += _T(" !!!");
 				printError(Mes);
 			}
 		}
@@ -2092,7 +2108,8 @@ bool qtPrebuild::createFiles()
 			m_Createdfile.Add(m_Devoid, 1)  ;
 		// error message
 			wxString title = _("Creating") + quote( m_Registered.Item(i)) ;
-			title += _("failed") + _T(" ...");
+			title += _("failed") ;
+			title += _T(" ...");
 			// error create complement
 			Mes =  Tab +_T("=> ") ;
 			Mes += strerror.BeforeLast(Lf.GetChar(0)) ;
