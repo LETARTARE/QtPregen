@@ -519,7 +519,7 @@ bool qtPrebuild::findTargetQtexe(CompileTargetBase * _pBuildTarget)
 		return false  ;
 
 	wxString qtpath = pathlibQt(_pBuildTarget) ;
-//	Mes = Lf + _("QT path for the target = ") + quote(qtpath); print(Mes);
+// Mes = Lf + _("QT path for the target = ") + quote(qtpath); print(Mes);
 	if(qtpath.IsEmpty() || qtpath == _T("\\") )
 	{
 		Mes = _("No library path QT 'in the target") + Lf + _("or nothing library !")  ;
@@ -531,6 +531,7 @@ bool qtPrebuild::findTargetQtexe(CompileTargetBase * _pBuildTarget)
 	}
 
 	wxString qtexe = qtpath + _T("bin") + wxFILE_SEP_PATH  ;
+//	Mes = _T("qtexe = ") + quote(qtexe) ;  printWarn(Mes);
 	if (m_Win)
 	{
 		m_Mexe = qtexe + _T("moc.exe") ;
@@ -555,17 +556,57 @@ bool qtPrebuild::findTargetQtexe(CompileTargetBase * _pBuildTarget)
 		m_Rexe = qtexe + _T("rcc") ;
 		m_Lexe = qtexe + _T("lrelease") ;
 	}
-
-	bool Findqtexe = ::wxFileExists(m_Mexe) && ::wxFileExists(m_Uexe) ;
-	Findqtexe = Findqtexe && ::wxFileExists(m_Rexe) && ::wxFileExists(m_Lexe) ;
-	if (!Findqtexe)
-	{
-		Mes = _("Could not query the executable Qt in") ;
-		Mes +=  _T(" :") + quote( qtexe ) + _T("!") ;
+//	Mes = _T("m_Mexe = ") + quote(m_Mexe) ;  printWarn(Mes);
+//	Mes = _T("m_Uexe = ") + quote(m_Uexe) ;  printWarn(Mes);
+//	Mes = _T("m_Rexe = ") + quote(m_Rexe) ;  printWarn(Mes);
+//	Mes = _T("m_Lexe = ") + quote(m_Lexe) ;  printWarn(Mes);
+    bool Findqtexe = true, dquote = false;
+	bool FindMexe  = ::wxFileExists(m_Mexe) ;
+	bool FindUexe  = ::wxFileExists(m_Uexe) ;
+	bool FindRexe  = ::wxFileExists(m_Rexe);
+	bool FindLexe  = ::wxFileExists(m_Lexe) ;
+	if (!FindMexe)
+    {
+		Mes = _("Could not query the executable Qt") +  quote(m_Mexe)  ;
+		Findqtexe = false;
+		dquote = m_Mexe.find(Dquote) != -1 ;
+    }
+    else
+    if (!FindUexe)
+    {
+        Mes = _("Could not query the executable Qt") +  quote(m_Uexe)  ;
+        dquote = m_Mexe.find(Dquote);
+        Findqtexe = false;
+    }
+    else
+    if (!FindRexe)
+    {
+        Mes = _("Could not query the executable Qt") +  quote(m_Rexe)  ;
+        dquote = m_Rexe.find(Dquote);
+        Findqtexe = false;
+    }
+    else
+    if (!FindLexe)
+    {
+        Mes = _("Could not query the executable Qt") +  quote(m_Lexe)  ;
+        dquote = m_Lexe.find(Dquote);
+        Findqtexe = false;
+    }
+// error on path ?
+    if (!Findqtexe )
+    {
 		Mes += Lf + _("Cannot continue") ;
 		Mes += _T(", ") ;
-		Mes += _("Verify your installation Qt.");
+		Mes += _("Verify your installation Qt");
+		if (dquote)
+		{
+            Mes += _T(" (") ;
+            Mes += _("!! you have a quote in path !!");
+            Mes += _T(")") ;
+		}
+		Mes += _T(".") ;
 		printError(Mes);
+
 		wxString title = _("Search executable Qt") ;
 		title += _T(" ...") ;
 		cbMessageBox(Mes, title, wxICON_ERROR) ;
@@ -574,6 +615,8 @@ bool qtPrebuild::findTargetQtexe(CompileTargetBase * _pBuildTarget)
 	m_DefinesQt = definesMoc(m_pProject) + definesMoc(_pBuildTarget);
 
 	Mes.Clear();
+
+
 
 	return Findqtexe ;
 }

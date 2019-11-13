@@ -3,7 +3,7 @@
     <SdkVersion major="1" minor="46" release="0" />
     <Plugin name="QtPregen">
         <Value title="Qt Prebuild generation " />
-        <Value version="2.7.1" />
+        <Value version="2.7.2" />
         <Value description="Compilling Qt software with this plugin (sdk 1.46.0)" />
         <Value author="LETARTARE" />
         <Value authorEmail="" />
