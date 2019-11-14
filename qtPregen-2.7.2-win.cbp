@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="qtPregen-2.7.0-810-sdk146" />
+		<Option title="qtPregen-2.7.1-810-sdk146" />
 		<Option platforms="Windows;" />
 		<Option pch_mode="2" />
 		<Option compiler="gnu_gcc_compiler_mingw32-810" />
