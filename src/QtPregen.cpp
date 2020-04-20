@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2019-11-10
+ * Modified:  2020-04-20
  * Copyright: LETARTARE
  * License:   GPL
  *************************************************************
@@ -265,7 +265,8 @@ void QtPregen::OnRelease(bool appShutDown)
     // which means you must not use any of the SDK Managers
     // NOTE: after this function, the inherited member variable
     // m_IsAttached will be FALSE...
-    Manager::Get()->RemoveAllEventSinksFor(this);
+    if(!appShutDown)
+		Manager::Get()->RemoveAllEventSinksFor(this);
 }
 
 ///-----------------------------------------------------------------------------
@@ -763,7 +764,7 @@ void QtPregen::OnAbortAdding(CodeBlocksEvent& _event)
 		return;
 	}
 // Abort complement files creating
-	m_pPrebuild->setAbort();
+	m_pPrebuild->setAbort(true);
 // cleaning plugin  : TODO
 	/// ...
 	Mes.Clear();
@@ -864,6 +865,7 @@ void QtPregen::OnAddComplements(CodeBlocksEvent& _event)
 //Mes +=  Space + _T("nametarget =") + quote(nametarget) ; printWarn(Mes);
 
 // detect Qt project, no report
+//Mes = _("Qt project detect") ; Mes += _T(" ..."); printWarn(Mes);
 	bool valid = m_pPrebuild->detectQtProject(prj, NO_REPORT);
 	// not Qt project
 	if (! valid)
@@ -873,7 +875,12 @@ void QtPregen::OnAddComplements(CodeBlocksEvent& _event)
 // allright !
 //Mes = _T("m_isNewProject is ") + strBool(m_isNewProject);
 	// verify if complements exists already
-	m_pPrebuild->detectComplementsOnDisk(prj, nametarget, !m_isNewProject);
+//Mes = _("Complement disk detect") ; Mes += _T(" ..."); printWarn(Mes);
+	// wirh report
+	//m_pPrebuild->detectComplementsOnDisk(prj, nametarget, !m_isNewProject);
+	// withless report
+	m_pPrebuild->detectComplementsOnDisk(prj, nametarget, NO_REPORT);
+//Mes = _("End disk detect"); printWarn(Mes);
 	// it' now an old project with complement files on disk
 	m_isNewProject = false;
 	// init
@@ -943,8 +950,7 @@ void QtPregen::OnAddComplements(CodeBlocksEvent& _event)
 		if (m_PregenLog && (prj != m_pProject) && ! WsBuild)
 			m_PregenLog->Clear();
 
-		Mes = _("Wait please") ;
-		Mes += _T(" ...");
+		Mes = _("Wait please") ;Mes += _T(" ...");
 		AppendToLog(Mes);
 		//printWarn(Mes);
 
@@ -979,8 +985,7 @@ void QtPregen::OnAddComplements(CodeBlocksEvent& _event)
             }
             else
             {
-                Mes = _("It's not a Qt target") ;
-                Mes += _T(" !!!");
+                Mes = _("It's not a Qt target") ; Mes += _T(" !!!");
                 printWarn(Mes);
             }
 

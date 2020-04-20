@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-02-27
- * Modified:  2019-11-10
+ * Modified:  2020-04-20
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -93,11 +93,13 @@ wxString qtPre::duration()
 void qtPre::beginDuration(const wxString & _namefunction)
 {
 // target name
-	Mes = _T("--------------> ") ;
+/*
+	Mes = Lf + _T("--------------> ") ;
 	Mes += _("PreBuild");
 	Mes += _T(" :") ;
 	Mes += quote( m_nameActiveTarget );
 	printWarn(Mes);
+	*/
 // date
 	Mes = Lf + _T("==> ");
 	Mes += _("Start of") + quote(_namefunction) ;
@@ -252,9 +254,9 @@ bool qtPre::isClean()
 /// Called by :
 ///		1. QtPregen::OnAbortAdding(CodeBlocksEvent& event):1,
 ///
-void qtPre::setAbort()
+void qtPre::setAbort(bool _abort)
 {
-	m_abort = true;
+	m_abort = _abort;
 }
 
 ///-----------------------------------------------------------------------------
@@ -886,7 +888,7 @@ bool qtPre::detectComplementsOnDisk(cbProject * _pProject, const wxString & _nam
 					Mes =  _("The directory") + quote(diradding);
 					Mes += _(" no exists") ;
 					Mes += _T(".") + Space ;
-					Mes += _("You need to 'Rebuild' the target") ;
+					Mes += _("It's mandatory to 'Rebuild' the target") ;
 					Mes += _T(" !!"); printWarn(Mes) ;
 				}
 			} // end for

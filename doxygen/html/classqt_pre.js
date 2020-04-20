@@ -28,7 +28,7 @@ var classqt_pre =
     [ "namePlugin", "classqt_pre.html#a3d5d6728c963da35fbd82ce36b9e9210", null ],
     [ "platForm", "classqt_pre.html#a0322ee541e371be1324fb24da2fc95e7", null ],
     [ "refreshTables", "classqt_pre.html#ab6c1ad6135e962423b3bc6c6c313c61a", null ],
-    [ "setAbort", "classqt_pre.html#a6788f3910afe9284f79349b9d4b36da4", null ],
+    [ "setAbort", "classqt_pre.html#a7c894278afdd399abad11044c5a00022", null ],
     [ "setBuildTarget", "classqt_pre.html#a8044fca40781f0e43b0bf4a27a13d2c3", null ],
     [ "SetPageIndex", "classqt_pre.html#ae5eb08a1ed9837162ca5ab117d5dd025", null ],
     [ "setProject", "classqt_pre.html#a567ebe93c0d5f721eb8d48757d0c235b", null ],

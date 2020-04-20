@@ -156,8 +156,9 @@ class qtPre
 		void SetPageIndex(int _logindex);
 
 		/** \brief setAbort complement file creating
+		  * @param _abort
 		 */
-		void setAbort() ;
+		void setAbort(bool _abort) ;
 
 		/** \brief Startup duration
 		 * @param _namefunction : used function name

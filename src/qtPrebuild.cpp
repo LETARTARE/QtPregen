@@ -3,7 +3,7 @@
  * Purpose:   Code::Blocks plugin
  * Author:    LETARTARE
  * Created:   2015-10-17
- * Modified:  2019-11-10
+ * Modified:  2020-04-20
  * Copyright: LETARTARE
  * License:   GPL
  **************************************************************/
@@ -200,7 +200,7 @@ bool qtPrebuild::buildAllFiles(cbProject * _pProject, bool _workspace, bool _all
 					{
 						Mes = Tab + _("Abort complement file(s) building") + _T(" ...") ;
 						printWarn(Mes);
-						m_abort = false;
+						setAbort(false);
 					}
 					else
 					{
@@ -2116,7 +2116,8 @@ bool qtPrebuild::createFiles()
 // analyze all eligible files/target
 	for (uint16_t i = 0; i < nfiles ; i++ )
 	{
-		if (m_abort) {
+		if (m_abort)
+		{
 		// if 'i==0' -> i-1 < 0 !!
 			created = false;
 			ncreated = i-1;
@@ -2190,7 +2191,7 @@ bool qtPrebuild::createFiles()
 		Mes += strInt(nfiles) + Space + _("file(s)");
 		print(Mes);
     // adversing
-		Mes = _("A stop was requested during the creation of the complement file(s) !!");
+		Mes = _("The 'abort' button was pressed during the creation of the complement files(s)") + _T(" !!!");
 		printWarn(Mes) ;
 		cbMessageBox(Mes, _T("Create File(...)"), wxICON_WARNING ) ;
 	// adjust 'm_Createdfile'
@@ -2208,6 +2209,8 @@ bool qtPrebuild::createFiles()
 //uint16_t nf = m_Createdfile.GetCount() ;
 //Mes =  Tab + _T("- ") + strInt(nf) + Space  ;
 //Mes += _("complement(s) file(s) are created in the target") ; printWarn(Mes)  ;
+		// demand cancelled
+		setAbort(false);
 	}
 	Mes.Clear();
 
@@ -2298,6 +2301,8 @@ wxString qtPrebuild::createFileComplement(const wxString& _qexe,
 	if (m_abort)
 	{
 		created = false;
+		// demand cancelled
+		setAbort(false);
 	}
 // create error
 	if (! created )
