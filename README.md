@@ -1,5 +1,7 @@
 # QtPregen-2.7.3 April 20, 2020 (Win, Linux-64)
 
+**Qtpregen is replaced by AddoForqt**
+
 Plugin to compile QT applications with 'Code::Blocks'
 
 **Versions for all 'Code::Block, sdk >= 1.25.0, svn >= 10127'**
