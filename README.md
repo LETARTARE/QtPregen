@@ -1,4 +1,4 @@
-#'__Qtpregen' is replaced by 'AddoForqt__' (since January 01, 2020)
+# '__Qtpregen' is replaced by 'AddoForqt__' (since January 01, 2020)
 
 # QtPregen-2.7.3 April 20, 2020 (Win, Linux-64)
 
